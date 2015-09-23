@@ -1,0 +1,72 @@
+---
+title: "Histograms"
+output:
+  html_document:
+    toc: true
+    fig_caption: true
+---
+
+
+````{r}
+
+library('ggplot2')
+library('lehmansociology')
+
+````
+
+In this template we are going to produce a lot of variations of histograms and some other visualizations of a single interval variable..
+For your analyses you should pick the one that produces the best information and communicates it most effectively.
+
+For this analysis we will use the `poverty.counties` data. You can see the raw data by clicking on the dataset name in the Environment window.
+
+For the example we will use `PCTPOVALL_2013` which we will refer to as `poverty.counties$PCTPOVALL_2013`.  It is very important that you spell the name correctly including capitalization.
+
+There are many options in making graphs with R. This template will just show a few very simple graphs for one variable, but you should explore these either in the help files or by searching the internet.
+
+#Introduction
+
+<--- This is where you should introduce your analysis --->
+
+
+#Graphs
+
+##Simple Histogram
+````{r echo=TRUE}
+
+hist(poverty.counties$PCTPOVALL_2013)
+hist(poverty.counties$PCTPOVALL_2013, breaks=c(0,5,10,15,20,25,30,35,40,50,60),
+     main="Distribution of Poverty Rate by Country, 2013", xlab="Percent in Poverty" )
+ggplot(poverty.counties, aes(x=poverty.counties$PCTPOVALL_2013)) + geom_histogram(binwidth=.5)
+
+ ggplot(poverty.counties, aes(x=poverty.counties$PCTPOVALL_2013)) + geom_histogram(binwidth=.5, aes(y = ..density..))  +
+    geom_density(color="blue")
+
+## Stem and leaf. These work better with less data so use states.
+stem(poverty.states$PCTPOVALL_2013, 1)
+
+## Cumulative
+ ggplot(poverty.counties, aes(x=poverty.counties$PCTPOVALL_2013)) +
+          geom_histogram(binwidth=2, aes(y=cumsum(..count..)))
+
+
+## These will often be better when you are comparing two or more groups. You can
+## do that by changing the options.
+## Boxplot
+boxplot(poverty.counties$PCTPOVALL_2013, horizontal=TRUE, col="blue")
+
+ggplot(poverty.counties, aes(factor(1),
+    poverty.counties$PCTPOVALL_2013))+
+  geom_boxplot(aes(color=factor(1))) +
+  labs(x = " ", y = "Percent", title = "Percent Poverty for Counties in 2013") +
+   theme(legend.position = "none")
+
+# Jitter
+ggplot(poverty.counties, aes(factor(1),
+    poverty.counties$PCTPOVALL_2013)) +
+  labs(x = " ", y = "Percent", title = "Percent Poverty for Counties in 2013") +
+  geom_jitter(alpha=I(1/4), aes(color=factor(1))) +
+  theme(legend.position = "none")
+
+````
+
+#Description in words

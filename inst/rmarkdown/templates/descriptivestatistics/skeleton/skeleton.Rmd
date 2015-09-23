@@ -1,0 +1,59 @@
+---
+title: "Descriptive Statistics"
+output:
+  html_document:
+    toc: true
+    fig_caption: true
+---
+
+
+````{r}
+library('devtools')
+library('lehmansociology')
+
+````
+This template shows you how to do descriptive statistics for interval variables.
+There are many ways to do each of these in R.
+This example is going to show one simple way using the poverty.states dataset.
+You can edit this template to use different data sets and different variables, as well as to select specific statistics. In real data analysis you would never run all of these statistics at once.
+
+You can see the actual poverty.states data set by clicking on its name in the Environment window (to the right).
+
+For this example we will use the variable `PCTPOVALL_2013`.
+We will refer to this variable as `poverty.states$PCTPOVALL_2013`.
+
+Think: Why are there 51 states in the data?
+
+## Introduction
+<!-- Write your introduction here: What is this about? What is the theory? -->
+
+
+## Data Analysis
+
+
+Our R code goes into the highlighted area below.
+In your document delete or comment statistics you do not want.
+
+<!-- Click the Knit HTML button to run the analysis. -->
+`````{r}
+# This gives us the number of observations.
+length(poverty.states$PCTPOVALL_2013)
+max(poverty.states$PCTPOVALL_2013)
+min(poverty.states$PCTPOVALL_2013)
+mean(poverty.states$PCTPOVALL_2013)
+median(poverty.states$PCTPOVALL_2013)
+sd(poverty.states$PCTPOVALL_2013)
+var(poverty.states$PCTPOVALL_2013)
+range(poverty.states$PCTPOVALL_2013)
+sum(poverty.states$PCTPOVALL_2013)
+summary(poverty.states$PCTPOVALL_2013)
+fivenum(poverty.states$PCTPOVALL_2013)
+### Calculates the numbers associated to defined percentiles
+quantile(poverty.states$PCTPOVALL_2013, c(.25, .5, .75, 1))
+IQR(poverty.states$PCTPOVALL_2013)
+
+
+````
+
+This summary is based on the work here:
+http://www.stats4stem.org/r-numerical-summaries---statistical.html

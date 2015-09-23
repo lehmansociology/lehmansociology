@@ -1,0 +1,31 @@
+---
+title: "About WebChip Style"
+output: html_document
+---
+
+WebChip style means that the data have already been preprocessed to a format that is, in essence, a crosstabulation of every variable in the data set. This is very efficient when you have large amounts of individual data such PUMS data. So for example you can create a data set that contains the results of sex by race by age by income, and this will allow you to run R to recreate any specific cross tab such as sex by income. This saves a lot of space and also runs much more quickly.
+
+Example
+
+Using immigrationxtab first we read the dataset.
+````{r echo=TRUE}
+immigration <- readRDS('~/data/webchipstyle/immigrationxtab.rds')
+names(immigration)
+````
+
+The variable called *Freq* represents the frequency for each of the cells.
+To recreate the cross tab of Region and Nativity we run
+````{r echo=TRUE}
+regionbynativity <- xtabs(formula= Freq ~  Region + Nativity, drop.unused.levels = TRUE, data=immigration)
+regionbynativity
+prop.table(regionbynativity, 1)
+round(prop.table(regionbynativity, 1)*100, 0)
+summary(regionbynativity)
+library(MASS)
+regionbynativityloglin <- loglm(Freq ~ Region + Nativity, data = immigration)
+print(regionbynativityloglin)
+coef(regionbynativityloglin)
+````
+
+Note that there are a lot of other ways to run crosstabs, but this is just to illustrate the use of WebChip style data sets that have the Freq variable.
+
