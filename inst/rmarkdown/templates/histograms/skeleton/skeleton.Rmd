@@ -1,72 +1,136 @@
 ---
-title: "Histograms"
-output:
-  html_document:
-    toc: true
-    fig_caption: true
+title: "Graph Practicing 1"
+output: html_document
 ---
 
+In this exercise we weill use the Add Health data to try some graphing. 
+ 
+```{r, echo=FALSE, message=FALSE}
+# This first part loads the programs we need.
+library("ggvis")
+library('lehmansociology')
+```
+
+
+First let's make a histogram of age in the addhealth data set. This show the number of observations with each age.
+The age variable is S3
 
 ````{r}
+addhealth %>% ggvis(~S3) %>% layer_histograms()
 
-library('ggplot2')
-library('lehmansociology')
 
 ````
 
-In this template we are going to produce a lot of variations of histograms and some other visualizations of a single interval variable..
-For your analyses you should pick the one that produces the best information and communicates it most effectively.
+Notice, we start with the name of the data set, then add information about what we want.
 
-For this analysis we will use the `poverty.counties` data. You can see the raw data by clicking on the dataset name in the Environment window.
+In this case we want one variable, S3. 
 
-For the example we will use `PCTPOVALL_2013` which we will refer to as `poverty.counties$PCTPOVALL_2013`.  It is very important that you spell the name correctly including capitalization.
+However there is much more we can do.
 
-There are many options in making graphs with R. This template will just show a few very simple graphs for one variable, but you should explore these either in the help files or by searching the internet.
-
-#Introduction
-
-<--- This is where you should introduce your analysis --->
-
-
-#Graphs
-
-##Simple Histogram
-````{r echo=TRUE}
-
-hist(poverty.counties$PCTPOVALL_2013)
-hist(poverty.counties$PCTPOVALL_2013, breaks=c(0,5,10,15,20,25,30,35,40,50,60),
-     main="Distribution of Poverty Rate by Country, 2013", xlab="Percent in Poverty" )
-ggplot(poverty.counties, aes(x=poverty.counties$PCTPOVALL_2013)) + geom_histogram(binwidth=.5)
-
- ggplot(poverty.counties, aes(x=poverty.counties$PCTPOVALL_2013)) + geom_histogram(binwidth=.5, aes(y = ..density..))  +
-    geom_density(color="blue")
-
-## Stem and leaf. These work better with less data so use states.
-stem(poverty.states$PCTPOVALL_2013, 1)
-
-## Cumulative
- ggplot(poverty.counties, aes(x=poverty.counties$PCTPOVALL_2013)) +
-          geom_histogram(binwidth=2, aes(y=cumsum(..count..)))
+### You can add labels
+Put these next
+ %>% add_axis("x", title = "Age") 
+ %>% add_axis("y", title = "Count")
+```{r}
+ addhealth %>% ggvis(~S3) %>% layer_histograms()  %>% add_axis("x", title = "Age") %>% 
+  add_axis("y", title = "Count") 
 
 
-## These will often be better when you are comparing two or more groups. You can
-## do that by changing the options.
-## Boxplot
-boxplot(poverty.counties$PCTPOVALL_2013, horizontal=TRUE, col="blue")
+```
 
-ggplot(poverty.counties, aes(factor(1),
-    poverty.counties$PCTPOVALL_2013))+
-  geom_boxplot(aes(color=factor(1))) +
-  labs(x = " ", y = "Percent", title = "Percent Poverty for Counties in 2013") +
-   theme(legend.position = "none")
+### Add a little space between the labels and the axes
 
-# Jitter
-ggplot(poverty.counties, aes(factor(1),
-    poverty.counties$PCTPOVALL_2013)) +
-  labs(x = " ", y = "Percent", title = "Percent Poverty for Counties in 2013") +
-  geom_jitter(alpha=I(1/4), aes(color=factor(1))) +
-  theme(legend.position = "none")
+```{r}
+ addhealth %>% ggvis(~S3) %>% layer_histograms()  %>%
+   add_axis("x", title = "Age", title_offset="50") %>% 
+   add_axis("y", title = "Count", title_offset="50") 
 
-````
 
-#Description in words
+```
+
+##   You can add options inside the layer_histogram parentheses
+### You can change the colors of the bars
+stroke :=    (This is the outline. Put the name of a color or number of a color in quotation marks)
+fill :=   (This is what goes in the middle)
+
+
+```{r}
+
+ addhealth %>% ggvis(~S3) %>% layer_histograms(fill := "pink", stroke="blue")
+ 
+```
+
+##   You can change the location and widths of the bars
+   width    (changes how wide the bars are, based on the values of your variable)
+   center   (usually 0 or .5)
+
+```{r}
+ addhealth %>% ggvis(~S3) %>% layer_histograms(width=5, center = 0)
+ addhealth %>% ggvis(~S3) %>% layer_histograms(width=1, center = .5)
+```
+
+You can combine these together.
+(You can break up the lines, makes sure to put the %>%  at the end of each line. Never start a line with %>%)
+
+```{r}
+addhealth %>% 
+      ggvis(~S3) %>% 
+      layer_histograms(fill := "pink", stroke :="blue", width = 1, center = .5)    %>%
+      add_axis("x", title = "Age", title_offset = "50", properties = axis_props(labels = list(fill = "blue"))) %>% 
+      add_axis("y", title = "Count", title_offset = "60") 
+
+```
+
+You can get more ideas for making changes of the axes on this page:
+http://ggvis.rstudio.com/axes-legends.html
+
+
+
+Below make 5 different versions of the histogram for age.
+
+```{r}
+
+
+```
+
+
+
+### Which do you think is the best one? Why? 
+Type your answer below:
+
+
+
+### Look at the histogram you picked.  What does the distribution of age look like in your histogram?
+Type answer below:
+
+## Make a new histogram
+The variable name for grade is S1.
+
+Make a histogram for grade.
+
+Choose the options that you think make sense and look good.
+
+
+```{r}
+
+
+```
+### Look at your histogram.  What does the distribution of grade look like in your histogram?
+
+
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+

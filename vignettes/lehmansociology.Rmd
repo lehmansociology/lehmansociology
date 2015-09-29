@@ -1,11 +1,10 @@
 ---
 title: "Lehman Sociology"
 author: "Elin Waring"
-date: "27 Sept 2015"
-output: rmarkdown::html_vignette:
-  fig_caption: yes
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Lehman Sociology}
+  %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
