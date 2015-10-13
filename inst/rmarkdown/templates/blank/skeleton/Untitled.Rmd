@@ -1,0 +1,21 @@
+---
+title: ""
+output: html_document
+---
+
+
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+
+```
+
+Type your text here.
+
+````{r}
+#type your code here
+
+````
+

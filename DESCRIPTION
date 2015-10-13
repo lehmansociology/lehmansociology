@@ -1,10 +1,17 @@
 Package: lehmansociology
 Title: Tools for Sociology Students Using R
-Version: 0.0.0.9000
+Version: 0.0.0.9005
 Authors@R: person("Elin", "Waring", , "elin.waring@gmail.com", role = c("aut", "cre"))
 Description: This package contains useful things for students in sociology classes at Lehman.
 Depends: R (>= 3.1.0)
 License: GPLv3
 LazyData: true
-Suggests: knitr
+Imports:
+    dplyr,
+    ggvis,
+    ggplot2,
+    lsr,
+    mosaic
+Suggests: knitr,
+          xtable
 VignetteBuilder: knitr

@@ -1,0 +1,110 @@
+---
+title: 'Analyzing Histograms'
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    fig_caption: yes
+    toc: yes
+  word_document: default
+---
+
+Notice the echo=FALSE, message=FALSE here.  If you want to hide your R code you can do that by adding those inside the {}.
+We are going to load some packages we need for making nice looking histograms.
+````{r echo=FALSE, message=FALSE}
+
+library('lehmansociology')
+library('ggplot2')
+library(scales)
+library(grid)
+````
+
+We are going to be working with the addhealth data so let's attach it.
+````{r}
+attach(addhealth)
+````
+
+
+The first thing we are going to do is to create some new variables where the hours over 50 are rounded down to 50. If you want to round to a different number change the 50 to that number.   
+In English the first line of code means:
+If tvhrs is greater than 50, set the new variable to 50, otherwise set it to tvhrs.
+````{r}
+tvhrs_rounded<-ifelse (tvhrs > 50, 50, tvhrs)
+radiohrs_rounded<-ifelse (radiohrs > 50, 50, radiohrs)
+compgamehrs_rounded<-ifelse (compgamehrs > 50, 50, compgamehrs)
+
+````
+
+Let's get summary statistics for the original variables and for the new variables.
+
+````{r}
+summary(tvhrs)
+summary(tvhrs_rounded)
+
+````
+
+
+
+Now let's get the distribution by race and ethnicity as coded by addhealth
+````{r}
+aggregate(tvhrs, by=list(raceeth), summary)
+
+````
+
+
+Now what if we create separate histograms for each race/ethnic group as coded by addhealth
+````{r}
+ggplot(addhealth, aes(tvhrs)) + 
+  geom_histogram(binwidth=1, fill="black") + 
+  facet_wrap(~raceeth) +
+  xlab("") +
+  ylab("") + 
+  ggtitle("Figure #")
+````
+
+Now we will get proportion distributions (known as density) for each group.
+Notice two changes. First, the addition of the aes(y=..density..)  inside the geom_histogram.
+Second we use the scale_y_continuous with the option of percent to change the display proportions into percents.
+You can try the same graph without the scale option to see the difference.
+
+There are many ways you can customize appearance of the graph. If you are interested in exploring you can search for information on ggplot.
+
+````{r}
+
+ggplot(addhealth, aes(tvhrs)) + 
+  geom_histogram(aes(y=..density..),binwidth=1, fill="black") +   
+  facet_wrap(~raceeth) +
+  scale_y_continuous(labels=percent) +
+  xlab("") + 
+  ylab("") + 
+  ggtitle("Figure #") 
+
+````
+
+We can also plot the rounded data.
+````{r}
+
+ggplot(addhealth, aes(tvhrs_rounded)) + 
+  geom_histogram(aes(y=..density..),binwidth=1, fill="black") +   
+  facet_wrap(~raceeth) +
+  scale_y_continuous(labels=percent) +
+  xlab("") + 
+  ylab("") + 
+  ggtitle("Figure #") 
+
+````
+
+Summarize the results here.
+
+Now do the same kind of analysis but focused on radiohrs and compgamehrs.
+
+````{r}
+
+
+````
+
+
+a. Comparing Figures 2-4, please describe 2-3 MOST interesting and/or important differences in how members of these racial/ethnic groups spend their leisure time consuming media. (Note: consider what makes the most coherent and interesting story)
+b. Why did you choose those 2-3 differences? (Note: your reasons should be based on the empirical information, not personal preferences.)
+
+

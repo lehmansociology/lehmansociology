@@ -1,11 +1,11 @@
 
-#' Read My Data Function
+#' Layer Percent
 #'
-#' This function reads a stored rds dataset, harcoded to the data folder
-#' @keywords read data
+#' This function uses ggvis to create a histogram with percents
+#' @keywords ggvis percent histogram
 #' @export
 #' @examples
-#' readMyDatas_function()
+#' layer_percent_function()
 
 readMyData <- function(datasetname)
 {

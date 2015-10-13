@@ -77,27 +77,27 @@ img {
 <p>First let’s make a histogram of age in the addhealth data set. This show the number of observations with each age. The age variable is age</p>
 <pre class="r"><code>addhealth %&gt;% ggvis(~age) %&gt;% layer_histograms()</code></pre>
 <pre><code>## Guessing width = 0.5 # range / 18</code></pre>
-<p><div id="plot_id213766564-container" class="ggvis-output-container">
-<div id="plot_id213766564" class="ggvis-output"></div>
+<p><div id="plot_id121148101-container" class="ggvis-output-container">
+<div id="plot_id121148101" class="ggvis-output"></div>
 <div class="plot-gear-icon">
 <nav class="ggvis-control">
 <a class="ggvis-dropdown-toggle" title="Controls" onclick="return false;"></a>
 <ul class="ggvis-dropdown">
 <li>
 Renderer: 
-<a id="plot_id213766564_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id213766564" data-renderer="svg">SVG</a>
+<a id="plot_id121148101_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id121148101" data-renderer="svg">SVG</a>
  | 
-<a id="plot_id213766564_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id213766564" data-renderer="canvas">Canvas</a>
+<a id="plot_id121148101_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id121148101" data-renderer="canvas">Canvas</a>
 </li>
 <li>
-<a id="plot_id213766564_download" class="ggvis-download" data-plot-id="plot_id213766564">Download</a>
+<a id="plot_id121148101_download" class="ggvis-download" data-plot-id="plot_id121148101">Download</a>
 </li>
 </ul>
 </nav>
 </div>
 </div>
 <script type="text/javascript">
-var plot_id213766564_spec = {
+var plot_id121148101_spec = {
   "data": [
     {
       "name": ".0/bin1/stack2",
@@ -228,42 +228,197 @@ var plot_id213766564_spec = {
   },
   "handlers": null
 };
-ggvis.getPlot("plot_id213766564").parseSpec(plot_id213766564_spec);
+ggvis.getPlot("plot_id121148101").parseSpec(plot_id121148101_spec);
 </script></p>
 <p>Notice, we start with the name of the data set, then add information about what we want.</p>
 <p>In this case we want one variable, age. This variable comes from the dataset addhealth.</p>
-<p>Notice that this is using the count of age</p>
+<p>Notice that this is using the count of age. We want percents, so we will use a shortcut.</p>
+<pre class="r"><code>ggvis_percent(addhealth, 'age') %&gt;% layer_bars()</code></pre>
+<p><div id="plot_id546691461-container" class="ggvis-output-container">
+<div id="plot_id546691461" class="ggvis-output"></div>
+<div class="plot-gear-icon">
+<nav class="ggvis-control">
+<a class="ggvis-dropdown-toggle" title="Controls" onclick="return false;"></a>
+<ul class="ggvis-dropdown">
+<li>
+Renderer: 
+<a id="plot_id546691461_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id546691461" data-renderer="svg">SVG</a>
+ | 
+<a id="plot_id546691461_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id546691461" data-renderer="canvas">Canvas</a>
+</li>
+<li>
+<a id="plot_id546691461_download" class="ggvis-download" data-plot-id="plot_id546691461">Download</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<script type="text/javascript">
+var plot_id546691461_spec = {
+  "data": [
+    {
+      "name": ".0/count1/align2/stack3",
+      "format": {
+        "type": "csv",
+        "parse": {
+          "xmin_": "number",
+          "xmax_": "number",
+          "stack_upr_": "number",
+          "stack_lwr_": "number"
+        }
+      },
+      "values": "\"xmin_\",\"xmax_\",\"stack_upr_\",\"stack_lwr_\"\n9.5,10.5,0.021128248468202,0\n10.5,11.5,0.274667230086626,0\n11.5,12.5,9.84576378618213,0\n12.5,13.5,14.5784914430594,0\n13.5,14.5,18.1491654341855,0\n14.5,15.5,18.3181914219311,0\n15.5,16.5,18.1702936826537,0\n16.5,17.5,15.6982886118741,0\n17.5,18.5,4.20452144517219,0\n18.5,19.5,0.739488696387069,0"
+    },
+    {
+      "name": "scale/x",
+      "format": {
+        "type": "csv",
+        "parse": {
+          "domain": "number"
+        }
+      },
+      "values": "\"domain\"\n9\n20"
+    },
+    {
+      "name": "scale/y",
+      "format": {
+        "type": "csv",
+        "parse": {
+          "domain": "number"
+        }
+      },
+      "values": "\"domain\"\n0\n19.2341009930277"
+    }
+  ],
+  "scales": [
+    {
+      "name": "x",
+      "domain": {
+        "data": "scale/x",
+        "field": "data.domain"
+      },
+      "zero": false,
+      "nice": false,
+      "clamp": false,
+      "range": "width"
+    },
+    {
+      "name": "y",
+      "domain": {
+        "data": "scale/y",
+        "field": "data.domain"
+      },
+      "zero": false,
+      "nice": false,
+      "clamp": false,
+      "range": "height"
+    }
+  ],
+  "marks": [
+    {
+      "type": "rect",
+      "properties": {
+        "update": {
+          "stroke": {
+            "value": "#000000"
+          },
+          "fill": {
+            "value": "#333333"
+          },
+          "x": {
+            "scale": "x",
+            "field": "data.xmin_"
+          },
+          "x2": {
+            "scale": "x",
+            "field": "data.xmax_"
+          },
+          "y": {
+            "scale": "y",
+            "field": "data.stack_upr_"
+          },
+          "y2": {
+            "scale": "y",
+            "field": "data.stack_lwr_"
+          }
+        },
+        "ggvis": {
+          "data": {
+            "value": ".0/count1/align2/stack3"
+          }
+        }
+      },
+      "from": {
+        "data": ".0/count1/align2/stack3"
+      }
+    }
+  ],
+  "legends": [],
+  "axes": [
+    {
+      "type": "x",
+      "scale": "x",
+      "orient": "bottom",
+      "layer": "back",
+      "grid": true,
+      "title": "x_"
+    },
+    {
+      "type": "y",
+      "scale": "y",
+      "orient": "left",
+      "layer": "back",
+      "grid": true,
+      "title": "count_/sum(count_) * 100"
+    }
+  ],
+  "padding": null,
+  "ggvis_opts": {
+    "keep_aspect": false,
+    "resizable": true,
+    "padding": {},
+    "duration": 250,
+    "renderer": "svg",
+    "hover_duration": 0,
+    "width": 672,
+    "height": 480
+  },
+  "handlers": null
+};
+ggvis.getPlot("plot_id546691461").parseSpec(plot_id546691461_spec);
+</script></p>
 <p>However there is much more we can do.</p>
 <div id="you-can-add-nicer-labels" class="section level3">
 <h3>You can add nicer labels</h3>
 <p>Put these next %&gt;% add_axis(“x”, title = “Age”) %&gt;% add_axis(“y”, title = “Count”)</p>
-<pre class="r"><code> addhealth %&gt;% ggvis(~age) %&gt;% layer_histograms()  %&gt;% add_axis(&quot;x&quot;, title = &quot;Age&quot;) %&gt;% 
+<pre class="r"><code> ggvis_percent(addhealth, 'age') %&gt;% 
+  layer_bars()  %&gt;% 
+  add_axis(&quot;x&quot;, title = &quot;Age&quot;) %&gt;% 
   add_axis(&quot;y&quot;, title = &quot;Count&quot;) </code></pre>
-<pre><code>## Guessing width = 0.5 # range / 18</code></pre>
-<p><div id="plot_id524169944-container" class="ggvis-output-container">
-<div id="plot_id524169944" class="ggvis-output"></div>
+<p><div id="plot_id825595492-container" class="ggvis-output-container">
+<div id="plot_id825595492" class="ggvis-output"></div>
 <div class="plot-gear-icon">
 <nav class="ggvis-control">
 <a class="ggvis-dropdown-toggle" title="Controls" onclick="return false;"></a>
 <ul class="ggvis-dropdown">
 <li>
 Renderer: 
-<a id="plot_id524169944_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id524169944" data-renderer="svg">SVG</a>
+<a id="plot_id825595492_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id825595492" data-renderer="svg">SVG</a>
  | 
-<a id="plot_id524169944_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id524169944" data-renderer="canvas">Canvas</a>
+<a id="plot_id825595492_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id825595492" data-renderer="canvas">Canvas</a>
 </li>
 <li>
-<a id="plot_id524169944_download" class="ggvis-download" data-plot-id="plot_id524169944">Download</a>
+<a id="plot_id825595492_download" class="ggvis-download" data-plot-id="plot_id825595492">Download</a>
 </li>
 </ul>
 </nav>
 </div>
 </div>
 <script type="text/javascript">
-var plot_id524169944_spec = {
+var plot_id825595492_spec = {
   "data": [
     {
-      "name": ".0/bin1/stack2",
+      "name": ".0/count1/align2/stack3",
       "format": {
         "type": "csv",
         "parse": {
@@ -273,7 +428,7 @@ var plot_id524169944_spec = {
           "stack_lwr_": "number"
         }
       },
-      "values": "\"xmin_\",\"xmax_\",\"stack_upr_\",\"stack_lwr_\"\n9.75,10.25,1,0\n10.25,10.75,0,0\n10.75,11.25,13,0\n11.25,11.75,0,0\n11.75,12.25,466,0\n12.25,12.75,0,0\n12.75,13.25,690,0\n13.25,13.75,0,0\n13.75,14.25,859,0\n14.25,14.75,0,0\n14.75,15.25,867,0\n15.25,15.75,0,0\n15.75,16.25,860,0\n16.25,16.75,0,0\n16.75,17.25,743,0\n17.25,17.75,0,0\n17.75,18.25,199,0\n18.25,18.75,0,0\n18.75,19.25,35,0\nNA,NA,1771,0"
+      "values": "\"xmin_\",\"xmax_\",\"stack_upr_\",\"stack_lwr_\"\n9.5,10.5,0.021128248468202,0\n10.5,11.5,0.274667230086626,0\n11.5,12.5,9.84576378618213,0\n12.5,13.5,14.5784914430594,0\n13.5,14.5,18.1491654341855,0\n14.5,15.5,18.3181914219311,0\n15.5,16.5,18.1702936826537,0\n16.5,17.5,15.6982886118741,0\n17.5,18.5,4.20452144517219,0\n18.5,19.5,0.739488696387069,0"
     },
     {
       "name": "scale/x",
@@ -283,7 +438,7 @@ var plot_id524169944_spec = {
           "domain": "number"
         }
       },
-      "values": "\"domain\"\n9.275\n19.725"
+      "values": "\"domain\"\n9\n20"
     },
     {
       "name": "scale/y",
@@ -293,7 +448,7 @@ var plot_id524169944_spec = {
           "domain": "number"
         }
       },
-      "values": "\"domain\"\n0\n1859.55"
+      "values": "\"domain\"\n0\n19.2341009930277"
     }
   ],
   "scales": [
@@ -350,12 +505,12 @@ var plot_id524169944_spec = {
         },
         "ggvis": {
           "data": {
-            "value": ".0/bin1/stack2"
+            "value": ".0/count1/align2/stack3"
           }
         }
       },
       "from": {
-        "data": ".0/bin1/stack2"
+        "data": ".0/count1/align2/stack3"
       }
     }
   ],
@@ -391,39 +546,39 @@ var plot_id524169944_spec = {
   },
   "handlers": null
 };
-ggvis.getPlot("plot_id524169944").parseSpec(plot_id524169944_spec);
+ggvis.getPlot("plot_id825595492").parseSpec(plot_id825595492_spec);
 </script></p>
 </div>
 <div id="add-a-little-space-between-the-labels-and-the-axes" class="section level3">
 <h3>Add a little space between the labels and the axes</h3>
-<pre class="r"><code> addhealth %&gt;% ggvis(~age) %&gt;% layer_histograms()  %&gt;%
+<pre class="r"><code> ggvis_percent(addhealth, 'age') %&gt;% 
+  layer_bars()  %&gt;%
    add_axis(&quot;x&quot;, title = &quot;Age&quot;, title_offset=&quot;50&quot;) %&gt;% 
    add_axis(&quot;y&quot;, title = &quot;Count&quot;, title_offset=&quot;50&quot;) </code></pre>
-<pre><code>## Guessing width = 0.5 # range / 18</code></pre>
-<p><div id="plot_id581329644-container" class="ggvis-output-container">
-<div id="plot_id581329644" class="ggvis-output"></div>
+<p><div id="plot_id707950910-container" class="ggvis-output-container">
+<div id="plot_id707950910" class="ggvis-output"></div>
 <div class="plot-gear-icon">
 <nav class="ggvis-control">
 <a class="ggvis-dropdown-toggle" title="Controls" onclick="return false;"></a>
 <ul class="ggvis-dropdown">
 <li>
 Renderer: 
-<a id="plot_id581329644_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id581329644" data-renderer="svg">SVG</a>
+<a id="plot_id707950910_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id707950910" data-renderer="svg">SVG</a>
  | 
-<a id="plot_id581329644_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id581329644" data-renderer="canvas">Canvas</a>
+<a id="plot_id707950910_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id707950910" data-renderer="canvas">Canvas</a>
 </li>
 <li>
-<a id="plot_id581329644_download" class="ggvis-download" data-plot-id="plot_id581329644">Download</a>
+<a id="plot_id707950910_download" class="ggvis-download" data-plot-id="plot_id707950910">Download</a>
 </li>
 </ul>
 </nav>
 </div>
 </div>
 <script type="text/javascript">
-var plot_id581329644_spec = {
+var plot_id707950910_spec = {
   "data": [
     {
-      "name": ".0/bin1/stack2",
+      "name": ".0/count1/align2/stack3",
       "format": {
         "type": "csv",
         "parse": {
@@ -433,7 +588,7 @@ var plot_id581329644_spec = {
           "stack_lwr_": "number"
         }
       },
-      "values": "\"xmin_\",\"xmax_\",\"stack_upr_\",\"stack_lwr_\"\n9.75,10.25,1,0\n10.25,10.75,0,0\n10.75,11.25,13,0\n11.25,11.75,0,0\n11.75,12.25,466,0\n12.25,12.75,0,0\n12.75,13.25,690,0\n13.25,13.75,0,0\n13.75,14.25,859,0\n14.25,14.75,0,0\n14.75,15.25,867,0\n15.25,15.75,0,0\n15.75,16.25,860,0\n16.25,16.75,0,0\n16.75,17.25,743,0\n17.25,17.75,0,0\n17.75,18.25,199,0\n18.25,18.75,0,0\n18.75,19.25,35,0\nNA,NA,1771,0"
+      "values": "\"xmin_\",\"xmax_\",\"stack_upr_\",\"stack_lwr_\"\n9.5,10.5,0.021128248468202,0\n10.5,11.5,0.274667230086626,0\n11.5,12.5,9.84576378618213,0\n12.5,13.5,14.5784914430594,0\n13.5,14.5,18.1491654341855,0\n14.5,15.5,18.3181914219311,0\n15.5,16.5,18.1702936826537,0\n16.5,17.5,15.6982886118741,0\n17.5,18.5,4.20452144517219,0\n18.5,19.5,0.739488696387069,0"
     },
     {
       "name": "scale/x",
@@ -443,7 +598,7 @@ var plot_id581329644_spec = {
           "domain": "number"
         }
       },
-      "values": "\"domain\"\n9.275\n19.725"
+      "values": "\"domain\"\n9\n20"
     },
     {
       "name": "scale/y",
@@ -453,7 +608,7 @@ var plot_id581329644_spec = {
           "domain": "number"
         }
       },
-      "values": "\"domain\"\n0\n1859.55"
+      "values": "\"domain\"\n0\n19.2341009930277"
     }
   ],
   "scales": [
@@ -510,12 +665,12 @@ var plot_id581329644_spec = {
         },
         "ggvis": {
           "data": {
-            "value": ".0/bin1/stack2"
+            "value": ".0/count1/align2/stack3"
           }
         }
       },
       "from": {
-        "data": ".0/bin1/stack2"
+        "data": ".0/count1/align2/stack3"
       }
     }
   ],
@@ -553,7 +708,7 @@ var plot_id581329644_spec = {
   },
   "handlers": null
 };
-ggvis.getPlot("plot_id581329644").parseSpec(plot_id581329644_spec);
+ggvis.getPlot("plot_id707950910").parseSpec(plot_id707950910_spec);
 </script></p>
 </div>
 <div id="you-can-add-options-inside-the-layer_histogram-parentheses" class="section level2">
@@ -561,32 +716,32 @@ ggvis.getPlot("plot_id581329644").parseSpec(plot_id581329644_spec);
 <div id="you-can-change-the-colors-of-the-bars" class="section level3">
 <h3>You can change the colors of the bars</h3>
 <p>stroke := (This is the outline. Put the name of a color or number of a color in quotation marks) fill := (This is what goes in the middle)</p>
-<pre class="r"><code> addhealth %&gt;% ggvis(~age) %&gt;% layer_histograms(fill := &quot;pink&quot;, stroke=&quot;blue&quot;)</code></pre>
-<pre><code>## Guessing width = 0.5 # range / 18</code></pre>
-<p><div id="plot_id775644030-container" class="ggvis-output-container">
-<div id="plot_id775644030" class="ggvis-output"></div>
+<pre class="r"><code> ggvis_percent(addhealth, 'age') %&gt;% 
+  layer_bars(fill := &quot;pink&quot;, stroke=&quot;blue&quot;)</code></pre>
+<p><div id="plot_id998617062-container" class="ggvis-output-container">
+<div id="plot_id998617062" class="ggvis-output"></div>
 <div class="plot-gear-icon">
 <nav class="ggvis-control">
 <a class="ggvis-dropdown-toggle" title="Controls" onclick="return false;"></a>
 <ul class="ggvis-dropdown">
 <li>
 Renderer: 
-<a id="plot_id775644030_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id775644030" data-renderer="svg">SVG</a>
+<a id="plot_id998617062_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id998617062" data-renderer="svg">SVG</a>
  | 
-<a id="plot_id775644030_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id775644030" data-renderer="canvas">Canvas</a>
+<a id="plot_id998617062_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id998617062" data-renderer="canvas">Canvas</a>
 </li>
 <li>
-<a id="plot_id775644030_download" class="ggvis-download" data-plot-id="plot_id775644030">Download</a>
+<a id="plot_id998617062_download" class="ggvis-download" data-plot-id="plot_id998617062">Download</a>
 </li>
 </ul>
 </nav>
 </div>
 </div>
 <script type="text/javascript">
-var plot_id775644030_spec = {
+var plot_id998617062_spec = {
   "data": [
     {
-      "name": ".0/bin1/stack2",
+      "name": ".0/count1/align2/stack3",
       "format": {
         "type": "csv",
         "parse": {
@@ -596,7 +751,7 @@ var plot_id775644030_spec = {
           "stack_lwr_": "number"
         }
       },
-      "values": "\"xmin_\",\"xmax_\",\"stack_upr_\",\"stack_lwr_\"\n9.75,10.25,1,0\n10.25,10.75,0,0\n10.75,11.25,13,0\n11.25,11.75,0,0\n11.75,12.25,466,0\n12.25,12.75,0,0\n12.75,13.25,690,0\n13.25,13.75,0,0\n13.75,14.25,859,0\n14.25,14.75,0,0\n14.75,15.25,867,0\n15.25,15.75,0,0\n15.75,16.25,860,0\n16.25,16.75,0,0\n16.75,17.25,743,0\n17.25,17.75,0,0\n17.75,18.25,199,0\n18.25,18.75,0,0\n18.75,19.25,35,0\nNA,NA,1771,0"
+      "values": "\"xmin_\",\"xmax_\",\"stack_upr_\",\"stack_lwr_\"\n9.5,10.5,0.021128248468202,0\n10.5,11.5,0.274667230086626,0\n11.5,12.5,9.84576378618213,0\n12.5,13.5,14.5784914430594,0\n13.5,14.5,18.1491654341855,0\n14.5,15.5,18.3181914219311,0\n15.5,16.5,18.1702936826537,0\n16.5,17.5,15.6982886118741,0\n17.5,18.5,4.20452144517219,0\n18.5,19.5,0.739488696387069,0"
     },
     {
       "name": "scale/stroke",
@@ -614,7 +769,7 @@ var plot_id775644030_spec = {
           "domain": "number"
         }
       },
-      "values": "\"domain\"\n9.275\n19.725"
+      "values": "\"domain\"\n9\n20"
     },
     {
       "name": "scale/y",
@@ -624,7 +779,7 @@ var plot_id775644030_spec = {
           "domain": "number"
         }
       },
-      "values": "\"domain\"\n0\n1859.55"
+      "values": "\"domain\"\n0\n19.2341009930277"
     }
   ],
   "scales": [
@@ -693,12 +848,12 @@ var plot_id775644030_spec = {
         },
         "ggvis": {
           "data": {
-            "value": ".0/bin1/stack2"
+            "value": ".0/count1/align2/stack3"
           }
         }
       },
       "from": {
-        "data": ".0/bin1/stack2"
+        "data": ".0/count1/align2/stack3"
       }
     }
   ],
@@ -715,7 +870,7 @@ var plot_id775644030_spec = {
       "orient": "bottom",
       "layer": "back",
       "grid": true,
-      "title": "age"
+      "title": "x_"
     },
     {
       "type": "y",
@@ -723,7 +878,7 @@ var plot_id775644030_spec = {
       "orient": "left",
       "layer": "back",
       "grid": true,
-      "title": "count"
+      "title": "count_/sum(count_) * 100"
     }
   ],
   "padding": null,
@@ -739,38 +894,39 @@ var plot_id775644030_spec = {
   },
   "handlers": null
 };
-ggvis.getPlot("plot_id775644030").parseSpec(plot_id775644030_spec);
+ggvis.getPlot("plot_id998617062").parseSpec(plot_id998617062_spec);
 </script></p>
 </div>
 </div>
 <div id="you-can-change-the-location-and-widths-of-the-bars" class="section level2">
 <h2>You can change the location and widths of the bars</h2>
 <p>width (changes how wide the bars are, based on the values of your variable) center (usually 0 or .5)</p>
-<pre class="r"><code> addhealth %&gt;% ggvis(~age) %&gt;% layer_histograms(width=5, center = 0)</code></pre>
-<p><div id="plot_id610790085-container" class="ggvis-output-container">
-<div id="plot_id610790085" class="ggvis-output"></div>
+<pre class="r"><code>  ggvis_percent(addhealth, 'age') %&gt;% 
+    layer_bars(width=5)</code></pre>
+<p><div id="plot_id391703780-container" class="ggvis-output-container">
+<div id="plot_id391703780" class="ggvis-output"></div>
 <div class="plot-gear-icon">
 <nav class="ggvis-control">
 <a class="ggvis-dropdown-toggle" title="Controls" onclick="return false;"></a>
 <ul class="ggvis-dropdown">
 <li>
 Renderer: 
-<a id="plot_id610790085_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id610790085" data-renderer="svg">SVG</a>
+<a id="plot_id391703780_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id391703780" data-renderer="svg">SVG</a>
  | 
-<a id="plot_id610790085_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id610790085" data-renderer="canvas">Canvas</a>
+<a id="plot_id391703780_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id391703780" data-renderer="canvas">Canvas</a>
 </li>
 <li>
-<a id="plot_id610790085_download" class="ggvis-download" data-plot-id="plot_id610790085">Download</a>
+<a id="plot_id391703780_download" class="ggvis-download" data-plot-id="plot_id391703780">Download</a>
 </li>
 </ul>
 </nav>
 </div>
 </div>
 <script type="text/javascript">
-var plot_id610790085_spec = {
+var plot_id391703780_spec = {
   "data": [
     {
-      "name": ".0/bin1/stack2",
+      "name": ".0/count1/align2/stack3",
       "format": {
         "type": "csv",
         "parse": {
@@ -780,7 +936,7 @@ var plot_id610790085_spec = {
           "stack_lwr_": "number"
         }
       },
-      "values": "\"xmin_\",\"xmax_\",\"stack_upr_\",\"stack_lwr_\"\n7.5,12.5,480,0\n12.5,17.5,4019,0\n17.5,22.5,234,0\nNA,NA,1771,0"
+      "values": "\"xmin_\",\"xmax_\",\"stack_upr_\",\"stack_lwr_\"\n7.5,12.5,0.021128248468202,0\n8.5,13.5,0.274667230086626,0\n9.5,14.5,9.84576378618213,0\n10.5,15.5,14.5784914430594,0\n11.5,16.5,18.1491654341855,0\n12.5,17.5,18.3181914219311,0\n13.5,18.5,18.1702936826537,0\n14.5,19.5,15.6982886118741,0\n15.5,20.5,4.20452144517219,0\n16.5,21.5,0.739488696387069,0"
     },
     {
       "name": "scale/x",
@@ -790,7 +946,7 @@ var plot_id610790085_spec = {
           "domain": "number"
         }
       },
-      "values": "\"domain\"\n6.75\n23.25"
+      "values": "\"domain\"\n6.8\n22.2"
     },
     {
       "name": "scale/y",
@@ -800,7 +956,7 @@ var plot_id610790085_spec = {
           "domain": "number"
         }
       },
-      "values": "\"domain\"\n0\n4219.95"
+      "values": "\"domain\"\n0\n19.2341009930277"
     }
   ],
   "scales": [
@@ -857,12 +1013,12 @@ var plot_id610790085_spec = {
         },
         "ggvis": {
           "data": {
-            "value": ".0/bin1/stack2"
+            "value": ".0/count1/align2/stack3"
           }
         }
       },
       "from": {
-        "data": ".0/bin1/stack2"
+        "data": ".0/count1/align2/stack3"
       }
     }
   ],
@@ -874,7 +1030,7 @@ var plot_id610790085_spec = {
       "orient": "bottom",
       "layer": "back",
       "grid": true,
-      "title": "age"
+      "title": "x_"
     },
     {
       "type": "y",
@@ -882,7 +1038,7 @@ var plot_id610790085_spec = {
       "orient": "left",
       "layer": "back",
       "grid": true,
-      "title": "count"
+      "title": "count_/sum(count_) * 100"
     }
   ],
   "padding": null,
@@ -898,33 +1054,34 @@ var plot_id610790085_spec = {
   },
   "handlers": null
 };
-ggvis.getPlot("plot_id610790085").parseSpec(plot_id610790085_spec);
+ggvis.getPlot("plot_id391703780").parseSpec(plot_id391703780_spec);
 </script></p>
-<pre class="r"><code> addhealth %&gt;% ggvis(~age) %&gt;% layer_histograms(width=1, center = .5)</code></pre>
-<p><div id="plot_id867134444-container" class="ggvis-output-container">
-<div id="plot_id867134444" class="ggvis-output"></div>
+<pre class="r"><code>  ggvis_percent(addhealth, 'age') %&gt;% 
+    layer_bars(width=1)</code></pre>
+<p><div id="plot_id512270182-container" class="ggvis-output-container">
+<div id="plot_id512270182" class="ggvis-output"></div>
 <div class="plot-gear-icon">
 <nav class="ggvis-control">
 <a class="ggvis-dropdown-toggle" title="Controls" onclick="return false;"></a>
 <ul class="ggvis-dropdown">
 <li>
 Renderer: 
-<a id="plot_id867134444_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id867134444" data-renderer="svg">SVG</a>
+<a id="plot_id512270182_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id512270182" data-renderer="svg">SVG</a>
  | 
-<a id="plot_id867134444_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id867134444" data-renderer="canvas">Canvas</a>
+<a id="plot_id512270182_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id512270182" data-renderer="canvas">Canvas</a>
 </li>
 <li>
-<a id="plot_id867134444_download" class="ggvis-download" data-plot-id="plot_id867134444">Download</a>
+<a id="plot_id512270182_download" class="ggvis-download" data-plot-id="plot_id512270182">Download</a>
 </li>
 </ul>
 </nav>
 </div>
 </div>
 <script type="text/javascript">
-var plot_id867134444_spec = {
+var plot_id512270182_spec = {
   "data": [
     {
-      "name": ".0/bin1/stack2",
+      "name": ".0/count1/align2/stack3",
       "format": {
         "type": "csv",
         "parse": {
@@ -934,7 +1091,7 @@ var plot_id867134444_spec = {
           "stack_lwr_": "number"
         }
       },
-      "values": "\"xmin_\",\"xmax_\",\"stack_upr_\",\"stack_lwr_\"\n10,11,14,0\n11,12,466,0\n12,13,690,0\n13,14,859,0\n14,15,867,0\n15,16,860,0\n16,17,743,0\n17,18,199,0\n18,19,35,0\nNA,NA,1771,0"
+      "values": "\"xmin_\",\"xmax_\",\"stack_upr_\",\"stack_lwr_\"\n9.5,10.5,0.021128248468202,0\n10.5,11.5,0.274667230086626,0\n11.5,12.5,9.84576378618213,0\n12.5,13.5,14.5784914430594,0\n13.5,14.5,18.1491654341855,0\n14.5,15.5,18.3181914219311,0\n15.5,16.5,18.1702936826537,0\n16.5,17.5,15.6982886118741,0\n17.5,18.5,4.20452144517219,0\n18.5,19.5,0.739488696387069,0"
     },
     {
       "name": "scale/x",
@@ -944,7 +1101,7 @@ var plot_id867134444_spec = {
           "domain": "number"
         }
       },
-      "values": "\"domain\"\n9.55\n19.45"
+      "values": "\"domain\"\n9\n20"
     },
     {
       "name": "scale/y",
@@ -954,7 +1111,7 @@ var plot_id867134444_spec = {
           "domain": "number"
         }
       },
-      "values": "\"domain\"\n0\n1859.55"
+      "values": "\"domain\"\n0\n19.2341009930277"
     }
   ],
   "scales": [
@@ -1011,12 +1168,12 @@ var plot_id867134444_spec = {
         },
         "ggvis": {
           "data": {
-            "value": ".0/bin1/stack2"
+            "value": ".0/count1/align2/stack3"
           }
         }
       },
       "from": {
-        "data": ".0/bin1/stack2"
+        "data": ".0/count1/align2/stack3"
       }
     }
   ],
@@ -1028,7 +1185,7 @@ var plot_id867134444_spec = {
       "orient": "bottom",
       "layer": "back",
       "grid": true,
-      "title": "age"
+      "title": "x_"
     },
     {
       "type": "y",
@@ -1036,7 +1193,7 @@ var plot_id867134444_spec = {
       "orient": "left",
       "layer": "back",
       "grid": true,
-      "title": "count"
+      "title": "count_/sum(count_) * 100"
     }
   ],
   "padding": null,
@@ -1052,38 +1209,37 @@ var plot_id867134444_spec = {
   },
   "handlers": null
 };
-ggvis.getPlot("plot_id867134444").parseSpec(plot_id867134444_spec);
+ggvis.getPlot("plot_id512270182").parseSpec(plot_id512270182_spec);
 </script></p>
 <p>You can combine these together. (You can break up the lines, makes sure to put the %&gt;% at the end of each line. Never start a line with %&gt;%)</p>
-<pre class="r"><code>addhealth %&gt;% 
-      ggvis(~age) %&gt;% 
-      layer_histograms(fill := &quot;pink&quot;, stroke :=&quot;blue&quot;, width = 1, center = .5)    %&gt;%
+<pre class="r"><code>ggvis_percent(addhealth, 'age') %&gt;% 
+      layer_bars(fill := &quot;pink&quot;, stroke :=&quot;blue&quot;, width = 1)    %&gt;%
       add_axis(&quot;x&quot;, title = &quot;Age&quot;, title_offset = &quot;50&quot;, properties = axis_props(labels = list(fill = &quot;blue&quot;))) %&gt;% 
       add_axis(&quot;y&quot;, title = &quot;Count&quot;, title_offset = &quot;60&quot;) </code></pre>
-<p><div id="plot_id360456894-container" class="ggvis-output-container">
-<div id="plot_id360456894" class="ggvis-output"></div>
+<p><div id="plot_id839036212-container" class="ggvis-output-container">
+<div id="plot_id839036212" class="ggvis-output"></div>
 <div class="plot-gear-icon">
 <nav class="ggvis-control">
 <a class="ggvis-dropdown-toggle" title="Controls" onclick="return false;"></a>
 <ul class="ggvis-dropdown">
 <li>
 Renderer: 
-<a id="plot_id360456894_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id360456894" data-renderer="svg">SVG</a>
+<a id="plot_id839036212_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id839036212" data-renderer="svg">SVG</a>
  | 
-<a id="plot_id360456894_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id360456894" data-renderer="canvas">Canvas</a>
+<a id="plot_id839036212_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id839036212" data-renderer="canvas">Canvas</a>
 </li>
 <li>
-<a id="plot_id360456894_download" class="ggvis-download" data-plot-id="plot_id360456894">Download</a>
+<a id="plot_id839036212_download" class="ggvis-download" data-plot-id="plot_id839036212">Download</a>
 </li>
 </ul>
 </nav>
 </div>
 </div>
 <script type="text/javascript">
-var plot_id360456894_spec = {
+var plot_id839036212_spec = {
   "data": [
     {
-      "name": ".0/bin1/stack2",
+      "name": ".0/count1/align2/stack3",
       "format": {
         "type": "csv",
         "parse": {
@@ -1093,7 +1249,7 @@ var plot_id360456894_spec = {
           "stack_lwr_": "number"
         }
       },
-      "values": "\"xmin_\",\"xmax_\",\"stack_upr_\",\"stack_lwr_\"\n10,11,14,0\n11,12,466,0\n12,13,690,0\n13,14,859,0\n14,15,867,0\n15,16,860,0\n16,17,743,0\n17,18,199,0\n18,19,35,0\nNA,NA,1771,0"
+      "values": "\"xmin_\",\"xmax_\",\"stack_upr_\",\"stack_lwr_\"\n9.5,10.5,0.021128248468202,0\n10.5,11.5,0.274667230086626,0\n11.5,12.5,9.84576378618213,0\n12.5,13.5,14.5784914430594,0\n13.5,14.5,18.1491654341855,0\n14.5,15.5,18.3181914219311,0\n15.5,16.5,18.1702936826537,0\n16.5,17.5,15.6982886118741,0\n17.5,18.5,4.20452144517219,0\n18.5,19.5,0.739488696387069,0"
     },
     {
       "name": "scale/x",
@@ -1103,7 +1259,7 @@ var plot_id360456894_spec = {
           "domain": "number"
         }
       },
-      "values": "\"domain\"\n9.55\n19.45"
+      "values": "\"domain\"\n9\n20"
     },
     {
       "name": "scale/y",
@@ -1113,7 +1269,7 @@ var plot_id360456894_spec = {
           "domain": "number"
         }
       },
-      "values": "\"domain\"\n0\n1859.55"
+      "values": "\"domain\"\n0\n19.2341009930277"
     }
   ],
   "scales": [
@@ -1170,12 +1326,12 @@ var plot_id360456894_spec = {
         },
         "ggvis": {
           "data": {
-            "value": ".0/bin1/stack2"
+            "value": ".0/count1/align2/stack3"
           }
         }
       },
       "from": {
-        "data": ".0/bin1/stack2"
+        "data": ".0/count1/align2/stack3"
       }
     }
   ],
@@ -1220,7 +1376,7 @@ var plot_id360456894_spec = {
   },
   "handlers": null
 };
-ggvis.getPlot("plot_id360456894").parseSpec(plot_id360456894_spec);
+ggvis.getPlot("plot_id839036212").parseSpec(plot_id839036212_spec);
 </script></p>
 <p>You can get more ideas for making changes of the axes on this page: <a href="http://ggvis.rstudio.com/axes-legends.html" class="uri">http://ggvis.rstudio.com/axes-legends.html</a></p>
 <p>Below make 5 different versions of the histogram for age.</p>

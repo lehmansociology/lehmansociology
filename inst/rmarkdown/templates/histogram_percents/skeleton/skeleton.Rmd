@@ -9,34 +9,36 @@ In this exercise we weill use the Add Health data to try some graphing.
 # This first part loads the programs we need.
 library("ggvis")
 library('lehmansociology')
+
 ```
 
 
-First let's make a histogram of age in the addhealth data set. This show the number of observations with each age.
-The age variable is age
-
-````{r}
-addhealth %>% ggvis(~age) %>% layer_histograms()
-
-
-````
+First let's make a histogram of age in the addhealth data set. 
 
 Notice, we start with the name of the data set, then add information about what we want.
 
 In this case we want one variable, age. 
 This variable comes from the dataset addhealth.
 
-Notice that this is using the count of age
+We want percents, so we will use a shortcut.  
+Notice that the name of the variable is in quotation marks but the name of the dataset is not.
+
+````{r}
+ggvis_percent(addhealth, 'age') %>% layer_bars()
+
+````
 
 However there is much more we can do.
 
 ### You can add nicer labels
 Put these next
  %>% add_axis("x", title = "Age") 
- %>% add_axis("y", title = "Count")
+ %>% add_axis("y", title = "Percent")
 ```{r}
- addhealth %>% ggvis(~age) %>% layer_histograms()  %>% add_axis("x", title = "Age") %>% 
-  add_axis("y", title = "Count") 
+ ggvis_percent(addhealth, 'age') %>% 
+  layer_bars()  %>% 
+  add_axis("x", title = "Age") %>% 
+  add_axis("y", title = "Percent") 
 
 
 ```
@@ -44,9 +46,10 @@ Put these next
 ### Add a little space between the labels and the axes
 
 ```{r}
- addhealth %>% ggvis(~age) %>% layer_histograms()  %>%
+ ggvis_percent(addhealth, 'age') %>% 
+  layer_bars()  %>%
    add_axis("x", title = "Age", title_offset="50") %>% 
-   add_axis("y", title = "Count", title_offset="50") 
+   add_axis("y", title = "Percent", title_offset="50") 
 
 
 ```
@@ -59,7 +62,8 @@ fill :=   (This is what goes in the middle)
 
 ```{r}
 
- addhealth %>% ggvis(~age) %>% layer_histograms(fill := "pink", stroke="blue")
+ ggvis_percent(addhealth, 'age') %>% 
+  layer_bars(fill := "pink", stroke="blue")
  
 ```
 
@@ -68,17 +72,18 @@ fill :=   (This is what goes in the middle)
    center   (usually 0 or .5)
 
 ```{r}
- addhealth %>% ggvis(~age) %>% layer_histograms(width=5, center = 0)
- addhealth %>% ggvis(~age) %>% layer_histograms(width=1, center = .5)
+  ggvis_percent(addhealth, 'age') %>% 
+    layer_bars(width=5)
+  ggvis_percent(addhealth, 'age') %>% 
+    layer_bars(width=1)
 ```
 
 You can combine these together.
 (You can break up the lines, makes sure to put the %>%  at the end of each line. Never start a line with %>%)
 
 ```{r}
-addhealth %>% 
-      ggvis(~age) %>% 
-      layer_histograms(fill := "pink", stroke :="blue", width = 1, center = .5)    %>%
+ggvis_percent(addhealth, 'age') %>% 
+      layer_bars(fill := "pink", stroke :="blue", width = 1)    %>%
       add_axis("x", title = "Age", title_offset = "50", properties = axis_props(labels = list(fill = "blue"))) %>% 
       add_axis("y", title = "Count", title_offset = "60") 
 
