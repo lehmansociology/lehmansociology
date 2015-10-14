@@ -2,3 +2,6 @@
 
 export(assignCommasClass)
 export(readMyData)
+export(ggvis_percent)
+export(MODE)
+export(variation)

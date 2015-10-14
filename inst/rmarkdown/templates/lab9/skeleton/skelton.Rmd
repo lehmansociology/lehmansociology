@@ -1,0 +1,124 @@
+---
+title: 'Lab 9'
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    fig_caption: yes
+    toc: yes
+  word_document: default
+---
+#Lab 9
+
+Notice the echo=FALSE, message=FALSE here.  If you want to hide your R code you can do that by adding those inside the {}.
+We are going to load some packages we need for making nice looking histograms.
+````{r echo=FALSE, message=FALSE}
+
+library('lehmansociology')
+library('ggplot2')
+library(scales)
+library(grid)
+````
+
+We are going to be working with the addhealth data so let's attach it.
+````{r}
+attach(addhealth)
+````
+
+
+The first thing we are going to do is to create some new variables where the hours over 50 are rounded down to 50. If you want to round to a different number change the 50 to that number.
+In English the first line of code means:
+If tvhrs is greater than 50, set the new variable to 50, otherwise set it to tvhrs.
+````{r}
+tvhrs_rounded50<-ifelse (tvhrs > 50, 50, tvhrs)
+
+````
+
+Let's get descriptive statistics for the original variables and for the new variables.
+
+````{r}
+summary(tvhrs)
+summary(tvhrs_rounded50)
+
+````
+
+Let's get a histogram for the original and for the new variables.
+Be sure to add appropriate and descriptive title and labels for the axes.
+````{r}
+ggplot(addhealth, aes(tvhrs)) +
+  geom_histogram(binwidth=1, fill="black") +
+  xlab("") +
+  ylab("") +
+  ggtitle("Figure #")
+
+
+
+ggplot(addhealth, aes(tvhrs_rounded50)) +
+  geom_histogram(binwidth=1, fill="black") +
+  xlab("") +
+  ylab("") +
+  ggtitle("Figure #")
+````
+
+Looking at the histograms for tvhrs and tvhrs_rounded50, do you see another point at which you think it would be interesting to round off the right side of the distribution? Create a new variable below and then get the summary statistics and histogram for your new variable. Note: be sure to change your variable name to something that helps us know what the variable represents.
+
+````{r}
+
+tvhrs_roundednew<-ifelse (tvhrs > 50, 50, tvhrs)
+summary(tvhrs_roundednew)
+ggplot(addhealth, aes(tvhrs_roundednew)) +
+  geom_histogram(binwidth=1, fill="black") +
+  xlab("") +
+  ylab("") +
+  ggtitle("Figure #")
+
+````
+
+Now let's get the distribution by race and ethnicity as coded by addhealth
+````{r}
+aggregate(tvhrs, by=list(raceeth), summary)
+
+````
+
+
+Now what if we create separate histograms for each race/ethnic group as coded by addhealth
+````{r}
+ggplot(addhealth, aes(tvhrs)) +
+  geom_histogram(binwidth=1, fill="black") +
+  facet_wrap(~raceeth) +
+  xlab("") +
+  ylab("") +
+  ggtitle("Figure #")
+````
+
+Now we will get proportion distributions (known as density) for each group.
+Notice two changes. First, the addition of the aes(y=..density..)  inside the geom_histogram.
+Second we use the scale_y_continuous with the option of percent to change the display proportions into percents.
+You can try the same graph without the scale option to see the difference.
+
+There are many ways you can customize appearance of the graph. If you are interested in exploring you can search for information on ggplot.
+
+````{r}
+
+ggplot(addhealth, aes(tvhrs)) +
+  geom_histogram(aes(y=..density..),binwidth=1, fill="black") +
+  facet_wrap(~raceeth) +
+  scale_y_continuous(labels=percent) +
+  xlab("") +
+  ylab("") +
+  ggtitle("Figure #")
+
+````
+
+We can also plot the rounded data.
+````{r}
+
+ggplot(addhealth, aes(tvhrs_rounded50)) +
+  geom_histogram(aes(y=..density..),binwidth=1, fill="black") +
+  facet_wrap(~raceeth) +
+  scale_y_continuous(labels=percent) +
+  xlab("") +
+  ylab("") +
+  ggtitle("Figure #")
+
+````
