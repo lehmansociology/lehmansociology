@@ -1,0 +1,240 @@
+---
+title: "Z scores"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    fig_caption: yes
+    toc: yes
+  word_document: default
+---
+#Lab z-scores
+
+Notice the echo=FALSE, message=FALSE here.  If you want to hide your R code you can do that by adding those inside the {}.
+We are going to load some packages we need for making nice looking histograms.
+````{r echo=FALSE, message=FALSE}
+
+library('lehmansociology')
+library('ggplot2')
+library(scales)
+library(grid)
+````
+
+We are going to be working with the addhealth data so let's attach it.
+````{r}
+attach(addhealth)
+````
+We are going to start by working with the variable tvhrs.
+
+Remember that we have looked at tvhrs before. Let's look at the mean and standard deviation and a histogram.
+
+````{r}
+mean(tvhrs)
+sd(tvhrs)
+ggplot(addhealth, aes(tvhrs)) +
+  geom_histogram( binwidth=1, fill="black") +
+  xlab("") +
+  ylab("") +
+  ggtitle("Figure #")
+
+
+````
+
+The first thing we are going to do is to create some new variables that changes the UNITs that the variable is measured in.  
+Instead of using hours, we would like to use minutes and days.  
+
+1 hour has 60 minutes.  
+1 day has 24 hours.  
+
+*Key facts from math*  
+Multiply any amount by 1 give you the same amount.  
+60 minutes/1 hour  = 1  
+1 hour/60 minutes = 1  
+24 hours/1 day = 1  
+1 day/24 hours = 1  
+
+To convert 2 hours to minutes we would do:  
+
+2 hours * (60 minutes/1 hour) = (2 hours * 60 minutes)/ 1 hour = 120 minutes/1  = 120 minutes.
+
+1 day has 24 hours. 
+To convert 2 hours to 1 day we would do:
+
+2 hours * (1 day/24 hours) = (2 hours * 1 day)/24 hours  = 2 days/24 = .0833 days (rounded)
+
+Now we can do the same thing with code. 
+
+````{r}
+tvmins<-tvhrs * (60/1)
+tvdays<-tvhrs * (1/24)
+
+````
+
+We can also change the units to standard deviations.
+
+We saw above that the standard deviation of tvhrs is 14.90126.
+
+2 hours * (1 standard deviation/ 14.90126 hours)  
+= (2 hours * 1 standard deviation)/ 14.90126   
+= (2/14.90126) standard deviations  
+= .134 standard deviations (rounded)
+
+````{r}
+tvsd<-tvhrs * (1/sd(tvhrs))
+
+
+````
+
+Now let's get the mean for each of our new variables along with the original one.
+
+````{r}
+mean(tvhrs)
+mean(tvmins)
+mean(tvdays)
+mean(tvsd)
+````
+How do the new means relate to the original mean of tvhrs?
+
+
+Now Let's get the standard deviation for each of our new variables along with the original one.
+
+````{r}
+sd(tvhrs)
+sd(tvmins)
+sd(tvdays)
+sd(tvsd)
+````
+
+What is special about the standard deviation of tvsd?
+
+
+Now let's make histograms of the new variables. Notice that we are changing the binwidth. 
+Think about why we are changing the binwidth to 60 for minutes, 1/24 for hours and 1/sd(tvhrs) for standard deviations.  
+If you want, after your run them this way, you can change the binwidth back to 1 and see what happens.  
+Also notice that we are adding a vertical line to show the mean using geom_vline().
+````{r}
+ggplot(addhealth, aes(tvmins)) +
+  geom_histogram(binwidth=60, fill="black") +
+  xlab("") +
+  ylab("") +
+  ggtitle("Figure # , TV Minutes per Week") +
+  geom_vline(xintercept=mean(tvmins),  color="blue", linetype="dashed", size=1) 
+
+
+ggplot(addhealth, aes(tvdays)) +
+  geom_histogram(binwidth=1/24, fill="black") +
+  xlab("") +
+  ylab("") +
+  geom_vline(xintercept=mean(tvdays),  colour="blue", linetype="dashed", size=1) +
+  ggtitle("Figure # TV Days Per Week")
+
+ggplot(addhealth, aes(tvsd)) +
+  geom_histogram(binwidth=1/sd(tvhrs), fill="black") +
+  xlab("") +
+  ylab("") +
+  geom_vline(xintercept=mean(tvsd),  colour="blue", linetype="dashed", size=1) +
+  ggtitle("Figure TV Standard Deviations")
+
+
+````
+
+Now let's create some new variables where instead of the actual values we have the difference from the value to the mean. And then we will get the standard deviation for each new variable.
+
+````{r}
+tvhrs0<-tvhrs - mean(tvhrs)
+tvmins0<-tvmins - mean(tvmins)
+tvdays0<-tvdays - mean(tvdays)
+tvsd0<-tvsd - mean(tvsd)
+
+sd(tvhrs0)
+
+sd(tvmins0)
+
+sd(tvdays0)
+
+sd(tvsd0)
+````
+
+How do the new standard deviations compare to the previous ones?
+
+Now let's make histograms of the new variables
+
+````{r}
+ggplot(addhealth, aes(tvhrs0)) +
+  geom_histogram(binwidth=1, fill="black") +
+  xlab("") +
+  ylab("") +
+  ggtitle("Figure TV Days") + 
+  geom_vline(xintercept=mean(tvhrs0),  color="blue", linetype="dashed", size=1) +
+  scale_x_continuous(breaks=c(-24, 0, 24, 48, 72, 96, 120))
+
+
+ggplot(addhealth, aes(tvdays0)) +
+  geom_histogram(binwidth=1/24, fill="black") +
+  xlab("") +
+  ylab("") +
+  ggtitle("Figure TV Days") + 
+  geom_vline(xintercept=mean(tvdays0),  color="blue", linetype="dashed", size=1) +
+  scale_x_continuous(breaks=c(-1, 0, 1, 2, 3, 4, 5))
+
+ggplot(addhealth, aes(tvsd0)) +
+  geom_histogram(binwidth=1/sd(tvhrs), fill="black") +
+  xlab("") +
+  ylab("") +
+  ggtitle("Figure TV Standard Deviations") + 
+  geom_vline(xintercept=mean(tvsd0),  color="blue", linetype="dashed", size=1) +
+  scale_x_continuous(breaks=c( -2, -1, 0, 1, 2, 3, 4, 5))
+````
+
+What does a negative value on these variables mean?  
+
+
+Why is subtracting the mean from each value sometimes called "recentering"?  
+
+
+We can also look at the values for individuals. 
+There are 4016 people in the addhealth data. For each one of them we can get the calculated values. 
+Change 4000 to some other value between 1 and 4016
+
+````{r}
+observation <- 4000
+tvhrs[observation]
+tvhrs0[observation]
+tvdays[observation]
+tvdays0[observation]
+tvsd[observation]
+tvsd0[observation]
+
+````
+
+
+
+Summary about your observation
+Observation ____ reported hours of tv watched per week as _____.  
+(observation number, value)
+
+Tvhours for observation ____ was ___ hours _____ the mean.  
+(observation number, value, above or below)
+
+Tvdays for observation ____ was ___ days _____ the mean.  
+(observation number, value, above or below)
+
+Tvmins for observation ____ was ___ minutes _____ the mean.  
+(observation number, value, above or below)
+
+Tvsd for observation ____ was ___ standard deviations _____ the mean.  
+(observation number, value, above or below)
+
+Did the observation ever switch whether it was above or below the mean?
+
+Why is that?
+
+When we convert the value of an observation into units of "standard deviations above the mean" or "standard deviations below the mean" those new scores are called _z scores_.
+When we do this to all of the observations the new variable created will have
+ mean of __  
+ standard deviation of __.   
+ (Use your earlier results to find the answer to this.)
+ 
+ The fomula for doing this conversion is:
+ 
+ (Use your earlier work to find this.)
