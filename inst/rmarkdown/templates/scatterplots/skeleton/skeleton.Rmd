@@ -1,0 +1,80 @@
+---
+title: "Scatterplots"
+output: html_document
+---
+
+In this exercise we will use the Add Health data to make scatter plots. 
+ 
+```{r, echo=FALSE, message=FALSE}
+# This first part loads the programs we need.
+library(ggplot2)
+library(lehmansociology)
+library(grid)
+library(scales)
+library(magrittr)
+library("dplyr")
+
+
+# Attache the data
+attach(addhealth)
+```
+
+Let's look at the relationship of age and tvhrs. 
+
+Dont forget that you should add labels and other details we have learned.
+ xlab("") +
+  ylab("") +
+  ggtitle("")
+Remember that the + signs should go at the end of the lines.
+(You can change colors or the point shapes if you want)
+
+The (method="lm") stands for use a "linear model" to create the line.  That is, use a straight line based on standard linear regression as shown in the text book.
+
+```{r}
+ggplot(addhealth, aes(age, tvhrs)) + geom_point() + stat_smooth(method="lm")
+
+
+
+```
+Overall, how would you describe the relationship between age and tvhours based on this graph?
+
+We can also look at the plots for different race/ethnicity groups
+How would you describe those relationships?
+```{r}
+ggplot(addhealth, aes(age, tvhrs)) + geom_point() +
+	stat_smooth(method="lm")+
+	facet_wrap(~raceeth)
+
+
+```
+
+We can also describe the plot numerically using a regression equation.
+
+```{r}
+reg1 <- lm(tvhrs~age)
+coef(summary(reg1))
+
+
+```
+What sign is the estimate for age?
+The estimate is a slope. Does the sign indicate that hours spent watching television increase or decrease as children get older?
+
+Does the direction of the Estimate match the direction shown in the graph?
+
+
+Now let's do separate regressions by race/ethnicity.
+This is a little complicated by the code says to use the addhealth data, broken down by the raceeth variable using the tbhrs ~age model
+```{r}
+regbygroup <- addhealth %>% group_by(raceeth) %>% do(model = lm(tvhrs ~ age, data = .))
+
+names(regbygroup$model)<-regbygroup$raceeth
+regbygroup$model
+
+```
+Are all of the coefficients the same sign?
+
+If not, which are positive and which are negative?
+
+How do the coefficients for age by race/ethnicity relate to the graphs?
+
+Summarize what the data show about the relationship of age and hours spent watching television by race and ethnicity?
