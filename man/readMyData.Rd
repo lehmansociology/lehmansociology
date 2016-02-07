@@ -2,16 +2,17 @@
 % Please edit documentation in R/readmydata.R
 \name{readMyData}
 \alias{readMyData}
-\title{Read My Data Function}
+\title{Layer Percent}
 \usage{
 readMyData(datasetname)
 }
 \description{
-This function reads a stored rds dataset, harcoded to the data folder
+This function uses ggvis to create a histogram with percents
 }
 \examples{
-readMyDatas_function()
+layer_percent_function()
 }
-\keyword{data}
-\keyword{read}
+\keyword{ggvis}
+\keyword{histogram}
+\keyword{percent}
 

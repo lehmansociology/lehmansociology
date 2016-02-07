@@ -7,7 +7,7 @@ In this exercise we weill use the Add Health data to try some graphing.
  
 ```{r, echo=FALSE, message=FALSE}
 # This first part loads the programs we need.
-library("ggvis")
+library("ggplot2")
 library('lehmansociology')
 ```
 
@@ -17,7 +17,9 @@ The age variable is age
 
 ````{r}
 addhealth %>% ggvis(~age) %>% layer_histograms()
-
+ggplot(addhealth, aes(age)) + 
+  geom_histogram(binwidth = 1, aes(  y=(..count..)/sum(..count..))) + 
+  labs(y="Percent",     x="Age")
 
 ````
 
