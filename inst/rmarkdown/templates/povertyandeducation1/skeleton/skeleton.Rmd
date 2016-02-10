@@ -65,6 +65,8 @@ ggplot(education_and_poverty,
   ggtitle("Fig # : Poverty Rate and High School Completion (for States)")
 
 ```
+
+
 If you want to get fancy you can change:
     geom_point() 
     to 
