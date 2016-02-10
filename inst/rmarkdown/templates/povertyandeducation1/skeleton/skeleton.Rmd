@@ -73,7 +73,12 @@ If you want to get fancy you can change:
 What is the relationship between the percent with less than a high school diploma 
 and the level of poverty in a state?
 
+This code added a straight line to the plot. stat_smooth(method = lm) +
+
 What is the slope (approximately)?
+
+
+Write a sentence summarizing the relationship using the slope.
 
 
 
