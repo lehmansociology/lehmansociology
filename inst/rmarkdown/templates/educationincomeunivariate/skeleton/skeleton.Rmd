@@ -1,0 +1,124 @@
+---
+title: 'Univariate Graphs'
+output: pdf_document
+---
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+
+library("ggplot2")
+library(dplyr)
+
+```
+This document examines different ways of representing a single variable visually.
+Univariate is the adjective meaning single variable.
+
+Sometimes we are really interested in describing a single variable, and that description by itself may be an important result or part of a document.
+At other times, we may want to examine the relationship between two variables (bivariate analysis) or many variables at the same time (multivariate analysis), but before moving to examining the relationship between variables, it is always a good idea to look at the univariate distributions of the variables and make sure you understand them. 
+
+We can explore data with numerical summaries of various kinds, but often a visual summary is
+even more effective.
+
+```{r}
+# Set up some data
+poverty13<-select (poverty.states, FIPStxt, Area_Name, PCTPOVALL_2013)
+poverty13$FIPS.Code<-as.integer(poverty13$FIPStxt)
+
+lessthanhighschool13 <- select(education.states, Area.name, FIPS.Code, Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)
+
+education_and_poverty<-merge(poverty13, lessthanhighschool13, by.x='FIPS.Code', by.y='FIPS.Code')
+```
+
+ 
+
+
+
+## Interval variables
+
+Let's start by looking at interval and ratio variables variables. 
+These are variables with numerical meanings.
+These variables can be either discrete or continuous.
+
+Is the percent of population in a state who lives in poverty a discrete variable or a continuous variable?
+
+
+We are going to start with three related graphs:
+-stem and leaf
+-dot plot, and
+-histogram.
+
+Make sure you add a title and labels. You can also change colors and other details.
+
+````{r}
+# Stem and leaf
+stem(education_and_poverty$PCTPOVALL_2013, scale = 2)
+
+# Dot plot
+ggplot(education_and_poverty,
+       aes(x=PCTPOVALL_2013),
+       scale_y_continuous(breaks=NULL)) +
+     geom_dotplot(binwidth=1 ) +
+     geom_rug() +
+  labs( x="Percent in Poverty") +
+  scale_y_continuous(breaks=NULL) +
+  ggtitle("Fig # :")
+
+# Histogram
+
+ggplot(education_and_poverty, aes(PCTPOVALL_2013)) +
+  geom_histogram(binwidth=1) +
+  labs(y = "Count",     x="Percent in Poverty") +
+  ggtitle("Fig # :")
+
+````
+
+We'll also do a bar chart that technically has two variables, state and poverty rate.
+```{r}
+
+ggplot(education_and_poverty, 
+       aes(x= reorder(Area_Name, PCTPOVALL_2013), y = PCTPOVALL_2013)) +
+  geom_bar(stat="identity") +
+  labs(y = "Percent in Poverty",     x="State") +
+     # This line is going to rotate the state names by 90 degrees)
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  ggtitle("Fig # :")
+
+```
+
+
+
+Working with a partner or group, try to figure out how the four representations of PCTPOVALL_2013 related to each other. 
+
+Some things you may want to do to make the interpretation of the dotplot and histogram a bit easier are:
+ make the x axis have the same tick marks (numbers and lines)
+ change the binwidth to match (try .5 or 1 for example, but others too)
+ add some vertical lines, such as for the mean, median and quartiles
+ 
+Layers you might want to add (which will add vertical lines).  
+Make sure you have a + sign at the end of lines before new lines you add.
+
+geom_vline(aes ( xintercept  = median(education_and_poverty$PCTPOVALL_2013)))
+geom_vline(aes ( xintercept  = mean(education_and_poverty$PCTPOVALL_2013)))
+
+Note that using these quartiles will create a warning message, but it is because of
+a bug so don't worry about it.
+Put the calculation of the quartiles before the creation of the graphs.
+
+quartile1 <- quantile(education_and_poverty$PCTPOVALL_2013, probs=c(.25))
+quartile3 <- quantile(education_and_poverty$PCTPOVALL_2013, probs=c(.75))
+geom_vline(aes ( xintercept  = quartile1, color="red"))
+geom_vline(aes ( xintercept  = quartile3, color="blue"))
+
+ Also you can change colors and fonts.
+
+ -How are they similar?
+ -How are they different?
+ -Which gives you the most detailed information?
+ -Which (in your opinion) does best at showing you the distribution of the variable?
+ 
+ 
+
+
+geom_vline(aes ( xintercept  = mean(education_and_poverty$PCTPOVALL_2013)))
+  geom_histogram(binwidth = 1, aes(  y=(..count..)/sum(..count..))) + 

@@ -29,9 +29,9 @@ par(xpd=TRUE)
 
 
 # Make some empty maps (just to show how to do it)
-map("usa")
-map("state")
-map("county")
+#map("usa")
+#map("state")
+#map("county")
 
 # This loads the fips information from the county map data. Only includes the lower 48 states.
 data(county.fips)
@@ -63,7 +63,7 @@ map("state", col = "black", fill = FALSE, add = TRUE,
 
 # Add a title and legend. There are many other options for text and customization.
 title("Poverty Percent by County, 2013")
-par(xpd=TRUE)
+
 leg.txt <- c("<10%", "11-20%", "21-30%", "31-40%", "41-50%", ">50%")
 legend("right", leg.txt, horiz = FALSE, fill = colors, inset=c(-.08,0))
 ````

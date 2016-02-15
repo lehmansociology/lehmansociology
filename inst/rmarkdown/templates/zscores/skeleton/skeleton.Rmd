@@ -58,7 +58,7 @@ To convert 2 hours to minutes we would do:
 2 hours * (60 minutes/1 hour) = (2 hours * 60 minutes)/ 1 hour = 120 minutes/1  = 120 minutes.
 
 1 day has 24 hours. 
-To convert 2 hours to 1 day we would do:
+To convert 2 hours to number of days we would do:
 
 2 hours * (1 day/24 hours) = (2 hours * 1 day)/24 hours  = 2 days/24 = .0833 days (rounded)
 

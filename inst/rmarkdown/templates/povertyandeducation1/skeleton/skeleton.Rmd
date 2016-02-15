@@ -18,10 +18,11 @@ We're going to get the state level percent poverty and percent less than high sc
 ````{r}
 #type your code here
 poverty13<-select (poverty.states, FIPStxt, Area_Name, PCTPOVALL_2013)
+poverty13$FIPS.Code<-as.integer(poverty13$FIPStxt)
 
 lessthanhighschool13 <- select(education.states, Area.name, FIPS.Code, Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)
 
-education_and_poverty<-merge(poverty13, lessthanhighschool13, by.x='Area_Name', by.y='Area.name')
+education_and_poverty<-merge(poverty13, lessthanhighschool13, by.x='FIPS.Code', by.y='FIPS.Code')
 
 ````
 

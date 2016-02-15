@@ -16,7 +16,9 @@ First let's make a histogram of age in the addhealth data set. This show the num
 The age variable is age
 
 ````{r}
-addhealth %>% ggvis(~age) %>% layer_histograms()
+ggplot(addhealth, aes( x=age)) + 
+  geom_histogram() 
+
 ggplot(addhealth, aes(age)) + 
   geom_histogram(binwidth = 1, aes(  y=(..count..)/sum(..count..))) + 
   labs(y="Percent",     x="Age")
@@ -32,26 +34,18 @@ Notice that this is using the count of age
 
 However there is much more we can do.
 
-### You can add nicer labels
-Put these next
- %>% add_axis("x", title = "Age") 
- %>% add_axis("y", title = "Count")
+
 ```{r}
- addhealth %>% ggvis(~age) %>% layer_histograms()  %>% add_axis("x", title = "Age") %>% 
-  add_axis("y", title = "Count") 
+ggplot(addhealth, aes( x=age)) + 
+  geom_histogram() +
+
+  labs(y="Count", x="Age") 
 
 
 ```
 
 ### Add a little space between the labels and the axes
 
-```{r}
- addhealth %>% ggvis(~age) %>% layer_histograms()  %>%
-   add_axis("x", title = "Age", title_offset="50") %>% 
-   add_axis("y", title = "Count", title_offset="50") 
-
-
-```
 
 ##   You can add options inside the layer_histogram parentheses
 ### You can change the colors of the bars
@@ -61,18 +55,15 @@ fill :=   (This is what goes in the middle)
 
 ```{r}
 
- addhealth %>% ggvis(~age) %>% layer_histograms(fill := "pink", stroke="blue")
  
+ ggplot(addhealth, aes( x=age)) + 
+  geom_histogram(fill="pink", color="blue") +
+
+  labs(y="Count", x="Age") 
 ```
 
 ##   You can change the location and widths of the bars
-   width    (changes how wide the bars are, based on the values of your variable)
-   center   (usually 0 or .5)
 
-```{r}
- addhealth %>% ggvis(~age) %>% layer_histograms(width=5, center = 0)
- addhealth %>% ggvis(~age) %>% layer_histograms(width=1, center = .5)
-```
 
 You can combine these together.
 (You can break up the lines, makes sure to put the %>%  at the end of each line. Never start a line with %>%)
@@ -121,21 +112,4 @@ Choose the options that you think make sense and look good.
 
 ```
 ### Look at your histogram.  What does the distribution of grade look like in your histogram?
-
-
-
-```{r}
-
-
-```
-
-```{r}
-
-
-```
-
-```{r}
-
-
-```
 
