@@ -3,7 +3,7 @@ title: 'Univariate Graphs'
 output: pdf_document
 author: 
 ---
-```{r, echo=FALSE, message=FALSE}
+```{r, echo=FALSE, message=FALSE, label="libraries"}
 # Load your libraries here
 
 library('lehmansociology')
@@ -21,14 +21,14 @@ At other times, we may want to examine the relationship between two variables (b
 We can explore data with numerical summaries of various kinds, but often a visual summary is
 even more effective.
 
-```{r}
+```{r label="makedata"}
 # Set up some data
-poverty13<-select (poverty.states, FIPStxt, Area_Name, PCTPOVALL_2013)
-poverty13$FIPS.Code<-as.integer(poverty13$FIPStxt)
+poverty13 <- select (poverty.states, FIPStxt, Area_Name, PCTPOVALL_2013)
+poverty13$FIPS.Code <- as.integer(poverty13$FIPStxt)
 
 lessthanhighschool13 <- select(education.states, Area.name, FIPS.Code, Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)
 
-education_and_poverty<-merge(poverty13, lessthanhighschool13, by.x='FIPS.Code', by.y='FIPS.Code')
+education_and_poverty <- merge(poverty13, lessthanhighschool13, by.x='FIPS.Code', by.y='FIPS.Code')
 ```
 
 ## Interval variables
@@ -47,20 +47,26 @@ We are going to start with three related graphs:
 
 Make sure you add a title and labels. You can also change colors and other details.
 
-````{r}
+````{r label="stem"}
 # Stem and leaf
 stem(education_and_poverty$PCTPOVALL_2013, scale = 2)
 
+````
+
+````{r label="dotplot"}
 # Dot plot
 ggplot(education_and_poverty,
        aes(x=PCTPOVALL_2013),
        scale_y_continuous(breaks=NULL)) +
-     geom_dotplot(binwidth=1) +
-     geom_rug() +
+  geom_dotplot(binwidth=1) +
+  geom_rug() +
   labs( x="Percent in Poverty") +
   scale_y_continuous(breaks=NULL) +
   ggtitle("Fig # :")
 
+````
+
+````{r label="histogram"}
 # Histogram
 
 ggplot(education_and_poverty, aes(PCTPOVALL_2013)) +
@@ -93,7 +99,7 @@ a harmless bug so don't worry about it.
 
 We'll also do a bar chart that technically has two variables, state and poverty rate.
 In bar charts the x variable is discrete, so notice that there is a space between the bars.
-```{r}
+```{r label="barplot"}
 
 ggplot(education_and_poverty, 
        aes(x= reorder(Area_Name, PCTPOVALL_2013), y = PCTPOVALL_2013)) +
@@ -120,29 +126,30 @@ Working with a partner or group, try to figure out how the four representations 
  
 Now we are going to look at one more way to show the state level data that is only possible because the data are geographic: a map.
 
-```{r}
+```{r label="setupmaps"}
 # First we need to load an extra library
 library(maps)
 states_map <- map_data("state")
 
 # We'll use this library if we want to play with colors in the maps
 library("RColorBrewer")
+
 ```
 If you look at the states_map data you will see that the state names are in lower case.
 Unfortunately our Area_Name variable is in upper case so ... it won't match.  So first we have to deal with that and then we can merge the map data and our education_and_poverty data together.
 
-```{r}
-education_and_poverty$state = tolower(education_and_poverty$Area_Name)
+```{r label="mapdata"}
 
-education_and_poverty_map<-merge(states_map, education_and_poverty, 
+education_and_poverty$state <- tolower(education_and_poverty$Area_Name)
+
+education_and_poverty_map <- merge(states_map, education_and_poverty, 
                                  by.x = "region", by.y="state")
-
 
 ```
 
 
 Next we make the map
-```{r}
+```{r label="createemap""}
 # If you want to try colors uncomment the next line and change to the color you want.
 # Also uncomment the scale_fill_gradientn line.
 # You can change the color and the number of colors.
@@ -154,9 +161,6 @@ ggplot(education_and_poverty_map, aes(x=long, y = lat, group = group,
   #scale_fill_gradientn(colors=colors) +
   coord_map("polyconic") +
   ggtitle("Fig #: ")
-
-  
-
 
 ```
 
