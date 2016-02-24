@@ -1,0 +1,73 @@
+---
+title: ''
+output: pdf_document
+---
+
+
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library('googlesheets')
+library("ggplot2")
+
+
+```
+
+First we are going to read the Google spreadsheet into an R data set.
+
+````{r read_sheet}
+
+gs<-gs_url('https://docs.google.com/spreadsheets/d/12D6k6Xji94pK4HdfgUNjPEJqM_sYIBigN_7pZuJ_Kug/pubhtml')
+data<-gs_read(gs)
+
+
+````
+
+Now create the proportions
+
+```{r create_proportions}
+# Finish these commands 
+data$n<-sum()
+
+data$p.lt_hs<-    
+data$p.hs_degree<-
+data$p.some_college<-
+data$p.college<-
+  
+
+```
+
+Now create the cumulative proportions
+
+```{r create_cum_percents}
+
+data$p.hs_degree_or_less<-
+data$p.some_college_or_less<-
+data$p.college_or_less<-
+
+
+```
+
+
+Now let's look at the distribution of cumulative percents.
+
+Fill in the missing information.  Make copies of this so you can make histograms 
+for all three of the cumulative variables plus the less than high school variable.
+WHy don't we have to make a cumulative variable for the less than high school variable?
+
+You need to make sure to put the variable name in the aes()  layer.
+
+```{r}
+
+ggplot(data, aes(, fill="red")) +
+  geom_histogram(binwidth=1) +
+  labs(y = "Count",     x="") +
+  ggtitle("Fig # : ")
+
+
+
+```
+
+Write a paragraph about your results.
