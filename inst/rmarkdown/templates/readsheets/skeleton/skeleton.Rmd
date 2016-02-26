@@ -29,8 +29,10 @@ Now create the proportions
 
 ```{r create_proportions}
 # Finish these commands 
-mydata$n<-sum(mydata$)
+# First calculate the total n
+mydata$n<-
 
+# Now use the n to calculation the proportions for each education level.
 mydata$p.lt_hs<-    
 mydata$p.hs_degree<-
 mydata$p.some_college<-
@@ -64,6 +66,7 @@ You need to make sure to put the variable name in the aes()  layer.
 ggplot(mydata, aes(, fill="red")) +
   geom_histogram(binwidth=1) +
   labs(y = "Count",     x="") +
+  xlim(0,1.05)+
   ggtitle("Fig # : ")
 
 

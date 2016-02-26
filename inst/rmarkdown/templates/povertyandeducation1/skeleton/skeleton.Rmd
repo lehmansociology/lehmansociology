@@ -1,34 +1,39 @@
+---
+output: pdf_document
+---
 --
 title: 'Poverty and Education at the State Level'
-output: html_document
+output: pdf_document
 ---
-
-
  
-```{r, echo=FALSE, message=FALSE}
+ 
+```{r, echo=FALSE, message=FALSE, label="libraries"}
 # Load your libraries here
 
 library('lehmansociology')
 library(dplyr)
 library(ggplot2)
+
 ```
 
 We're going to get the state level percent poverty and percent less than high school.
 
-````{r}
+````{r label="createdata"}
 #type your code here
 poverty13<-select (poverty.states, FIPStxt, Area_Name, PCTPOVALL_2013)
 poverty13$FIPS.Code<-as.integer(poverty13$FIPStxt)
 
-lessthanhighschool13 <- select(education.states, Area.name, FIPS.Code, Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)
+lessthanhighschool13 <- select(education.states, Area.name, FIPS.Code,                                Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)
 
-education_and_poverty<-merge(poverty13, lessthanhighschool13, by.x='FIPS.Code', by.y='FIPS.Code')
+education_and_poverty<-merge(poverty13, lessthanhighschool13, 
+                             by.x='FIPS.Code', by.y='FIPS.Code')
 
 ````
 
 Now let's make a dotplot to show the distribution of the data for percent of the adult population that has less than a high school degree.
 
-```{r}
+```{r label="dotplotEducation"}
+
 ggplot(education_and_poverty,
        aes(x=Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013),
        scale_y_continuous(breaks=NULL)) +
@@ -36,17 +41,27 @@ ggplot(education_and_poverty,
      geom_rug() +
   theme(axis.title.y = element_blank()) +
   scale_y_continuous(breaks=NULL) +
-  ggtitle("Fig # : Distribution of Percent of Adults with Less Than a High School Diploma (for States)")
+  ggtitle("Fig # : Distribution of Percent of Adults with 
+          Less Than a High School Diploma (for States)")
+
 ```
 
 Now make a dot plot for percent of the population living in poverty. 
-Copy the code chunk and make appropriate changes.
+Copy the code inside the chunk and make appropriate changes.
+
+```{r label="dotplotPoverty"}
+
+
+
+```
+
 
 
 Now let's get the summary data for both variables. (Use the example as a model for the second variable.) 
 
-```{r}
-# summary(education_and_poverty$PCTPOVALL_2013)
+```{r label="summary"}
+
+summary(education_and_poverty$PCTPOVALL_2013)
 
 
 ```
@@ -56,7 +71,7 @@ Write your summary of the two distributions here.
 Last but not least, let's look at the relationship between the two variables by making a scatter plot.
 
 
-```{r}
+```{r scatterplot = "scatterplot"}
 
 ggplot(education_and_poverty,
        aes(x=Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013,
