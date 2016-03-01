@@ -1,0 +1,113 @@
+---
+title: ''
+output: html_document
+author: ''
+---
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library('googlesheets')
+library(dplyr)
+library(ggplot2)
+```
+# Title
+
+Write an introduction here.
+Describe the variables you are using.
+
+```{r}
+# Recreate our basic education_and_poverty data
+poverty13 <- select (poverty.states, FIPStxt, Area_Name, PCTPOVALL_2013)
+poverty13$FIPS.Code <- as.integer(poverty13$FIPStxt)
+
+lessthanhighschool13 <- select(education.states, Area.name, FIPS.Code, Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)
+
+education_and_poverty <- merge(poverty13, lessthanhighschool13, by.x='FIPS.Code', by.y='FIPS.Code')
+
+```
+
+
+
+
+````{r read_regions, message=FALSE }
+#type your code here
+# First let's create the region data set
+gs_region<-gs_url('https://docs.google.com/spreadsheets/d/1h_jY4A44WoSLkrqhwZZ9oJh51N2GybwVvGgEaY3n2gc/pubhtml')
+region_data<-gs_read(gs_region)
+
+````
+
+```{r merge_data}
+
+# Add the region variable to education_and_poverty by matching the FIPS code
+education_and_poverty <- merge(education_and_poverty, region_data, by.x='FIPS.Code', by.y='FIPS.Code')
+
+```
+
+Now let's confirm our distributions of regions and divisions by making tables
+
+```{r regions_table}
+
+table(region_data$region)
+prop.table(table(region_data$region))
+
+# Add your table for division here
+
+
+```
+
+What is the mode for region?
+
+What is the mode for division?
+
+
+## Analysis
+Next we will compare poverty and education within the different regions using a box plot. 
+When you are happy with your poverty box plots, make boxplots for 
+Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013
+
+```{r boxplots}
+
+# In R, the term factor is used for nominal variables.
+ggplot(education_and_poverty, aes(x=factor(region), y=PCTPOVALL_2013)) +
+ geom_boxplot(aes(fill = "white")) +
+ #Uncomment the line below to add the mean to your plot
+ #stat_summary(fun.y = 'mean', geom = "point", shape = 23, size = 3, fill = "white") +
+ guides(fill=FALSE) +
+  ggtitle("") +
+  labs(y = "",   x="")
+
+
+```
+
+A box plot shows: 
+*The median (50th percentile, second quartile) (dark line in the middle)
+*The first quartile (25th percentile) (low value of box)
+*The third quartile (75th percentile) (high value of box of box)
+*The interquartile range is the distance from the high edge to the low edge
+*Lines showing how far 1.5 * the Interquartile range would extend above and below the boxes.
+*Points for individual outliers that are beyond the lines.
+
+Now we will do the same comparison (of means and medians) with a table of values.
+
+```{r}
+
+
+# You can add any othe statistics you want, such as max() or min()
+education_and_poverty %>% group_by(region) %>% summarize(mean(PCTPOVALL_2013), median(PCTPOVALL_2013), IQR(PCTPOVALL_2013))
+
+# Now do the same thing for the percent with less than high school degree.
+
+
+```
+
+## Conclusion
+Write a paragraph summarizing what you learned about the differences between (or lack of differences) in poverty and education in the regions.
+
+
+
+Write a paragraph comparing the presentation of the results in the table and the presentation of the results in the graphs.
+Which do you think is more effective? Why?
+
