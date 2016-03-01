@@ -1,16 +1,17 @@
 ---
 title: ''
-output: html_document
 author: ''
+output: pdf_document
 ---
  
 ```{r, echo=FALSE, message=FALSE}
 # Load your libraries here
 
-library('lehmansociology')
-library('googlesheets')
+library(lehmansociology)
+library(googlesheets)
 library(dplyr)
 library(ggplot2)
+library(xtable)
 ```
 # Title
 
@@ -22,9 +23,11 @@ Describe the variables you are using.
 poverty13 <- select (poverty.states, FIPStxt, Area_Name, PCTPOVALL_2013)
 poverty13$FIPS.Code <- as.integer(poverty13$FIPStxt)
 
-lessthanhighschool13 <- select(education.states, Area.name, FIPS.Code, Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)
+lessthanhighschool13 <- select(education.states, Area.name, FIPS.Code,
+                        Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)
 
-education_and_poverty <- merge(poverty13, lessthanhighschool13, by.x='FIPS.Code', by.y='FIPS.Code')
+education_and_poverty <- merge(poverty13, lessthanhighschool13,
+                               by.x='FIPS.Code', by.y='FIPS.Code')
 
 ```
 
@@ -42,7 +45,8 @@ region_data<-gs_read(gs_region)
 ```{r merge_data}
 
 # Add the region variable to education_and_poverty by matching the FIPS code
-education_and_poverty <- merge(education_and_poverty, region_data, by.x='FIPS.Code', by.y='FIPS.Code')
+education_and_poverty <- merge(education_and_poverty, region_data, 
+                               by.x='FIPS.Code', by.y='FIPS.Code')
 
 ```
 
@@ -52,6 +56,18 @@ Now let's confirm our distributions of regions and divisions by making tables
 
 table(region_data$region)
 prop.table(table(region_data$region))
+
+# Add your table for division here
+
+
+```
+
+
+```{r regions_tablex, results="asis"}
+# More complicated, but nicer looking ... pick which version you want to keep.
+options(xtable.comment = FALSE)
+xtable(table(region_data$region))
+xtable(prop.table(table(region_data$region)))
 
 # Add your table for division here
 
@@ -92,7 +108,7 @@ A box plot shows:
 
 Now we will do the same comparison (of means and medians) with a table of values.
 
-```{r}
+```{r comparison_table}
 
 
 # You can add any othe statistics you want, such as max() or min()
@@ -102,6 +118,21 @@ education_and_poverty %>% group_by(region) %>% summarize(mean(PCTPOVALL_2013), m
 
 
 ```
+
+More complicated but nicer looking, choose one and delete the one you don't want.
+
+
+```{r comaprison_tablesx,  results="asis"}
+
+# You can add any othe statistics you want, such as max() or min()
+comparison_poverty<-education_and_poverty %>% group_by(region) %>% summarize(mean(PCTPOVALL_2013), median(PCTPOVALL_2013), IQR(PCTPOVALL_2013))
+xtable(comparison_poverty)
+
+# Now do the same thing for the percent with less than high school degree.
+
+
+```
+
 
 ## Conclusion
 Write a paragraph summarizing what you learned about the differences between (or lack of differences) in poverty and education in the regions.
