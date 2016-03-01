@@ -10,7 +10,6 @@ Imports:
     dplyr,
     ggvis,
     ggplot2,
-    scales,
     grid,
     lsr,
     mosaic,
