@@ -47,13 +47,13 @@ We are going to start with three related graphs:
 
 Make sure you add a title and labels. You can also change colors and other details.
 
-````{r label="stem"}
+````{r stem}
 # Stem and leaf
 stem(education_and_poverty$PCTPOVALL_2013, scale = 2)
 
 ````
 
-````{r label="dotplot"}
+````{r dotplot}
 # Dot plot
 ggplot(education_and_poverty,
        aes(x=PCTPOVALL_2013),
@@ -66,7 +66,7 @@ ggplot(education_and_poverty,
 
 ````
 
-````{r label="histogram"}
+````{r histogram}
 # Histogram
 
 ggplot(education_and_poverty, aes(PCTPOVALL_2013)) +
@@ -83,14 +83,14 @@ Some things you may want to do to make the interpretation of the dotplot and his
 Layers you might want to add (which will add vertical lines).  
 Make sure you have a + sign at the end of lines before new lines you add.
 
- geom_vline(aes ( xintercept  = median(education_and_poverty$PCTPOVALL_2013)))
- geom_vline(aes ( xintercept  = mean(education_and_poverty$PCTPOVALL_2013)))
+ geom_vline(aes ( xintercept  = median(education_and_poverty$PCTPOVALL_2013)))  
+ geom_vline(aes ( xintercept  = mean(education_and_poverty$PCTPOVALL_2013)))  
 
 
- quartile1 <- quantile(education_and_poverty$PCTPOVALL_2013, probs=c(.25))
- quartile3 <- quantile(education_and_poverty$PCTPOVALL_2013, probs=c(.75))
- geom_vline(aes ( xintercept  = quartile1, color="red"))
- geom_vline(aes ( xintercept  = quartile3, color="blue"))
+ quartile1 <- quantile(education_and_poverty$PCTPOVALL_2013, probs=c(.25))  
+ quartile3 <- quantile(education_and_poverty$PCTPOVALL_2013, probs=c(.75))  
+ geom_vline(aes ( xintercept  = quartile1, color="red"))  
+ geom_vline(aes ( xintercept  = quartile3, color="blue"))  
 
  Note that using these quartiles will create a warning message, but it is because of
 a harmless bug so don't worry about it.
@@ -126,7 +126,7 @@ Working with a partner or group, try to figure out how the four representations 
  
 Now we are going to look at one more way to show the state level data that is only possible because the data are geographic: a map.
 
-```{r label="setupmaps"}
+```{r setupmaps}
 # First we need to load an extra library
 library(maps)
 states_map <- map_data("state")
@@ -138,7 +138,7 @@ library("RColorBrewer")
 If you look at the states_map data you will see that the state names are in lower case.
 Unfortunately our Area_Name variable is in upper case so ... it won't match.  So first we have to deal with that and then we can merge the map data and our education_and_poverty data together.
 
-```{r label="mapdata"}
+```{r mapdata}
 
 education_and_poverty$state <- tolower(education_and_poverty$Area_Name)
 
@@ -149,7 +149,7 @@ education_and_poverty_map <- merge(states_map, education_and_poverty,
 
 
 Next we make the map
-```{r label="createemap""}
+```{r createemap}
 # If you want to try colors uncomment the next line and change to the color you want.
 # Also uncomment the scale_fill_gradientn line.
 # You can change the color and the number of colors.
