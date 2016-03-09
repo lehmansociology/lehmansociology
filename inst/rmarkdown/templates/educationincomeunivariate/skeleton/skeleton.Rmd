@@ -1,7 +1,7 @@
 ---
 title: 'Univariate Graphs'
 output: pdf_document
-author: 
+author: ''
 ---
 ```{r, echo=FALSE, message=FALSE, label="libraries"}
 # Load your libraries here

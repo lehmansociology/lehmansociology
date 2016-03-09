@@ -99,12 +99,13 @@ ggplot(education_and_poverty, aes(x=factor(region), y=PCTPOVALL_2013)) +
 ```
 
 A box plot shows: 
-*The median (50th percentile, second quartile) (dark line in the middle)
-*The first quartile (25th percentile) (low value of box)
-*The third quartile (75th percentile) (high value of box of box)
-*The interquartile range is the distance from the high edge to the low edge
-*Lines showing how far 1.5 * the Interquartile range would extend above and below the boxes.
-*Points for individual outliers that are beyond the lines.
+ * The median (50th percentile, second quartile) (dark line in the middle)  
+ * The first quartile (25th percentile) (low value of box)  
+ * The third quartile (75th percentile) (high value of box of box)  
+ * The interquartile range is the distance from the high edge to the low edge  
+ * Lines showing how far 1.5 * the Interquartile range would extend above and 
+below the boxes.
+ * Points for individual outliers that are beyond the lines.  
 
 Now we will do the same comparison (of means and medians) with a table of values.
 
@@ -125,8 +126,10 @@ More complicated but nicer looking, choose one and delete the one you don't want
 ```{r comaprison_tablesx,  results="asis"}
 
 # You can add any othe statistics you want, such as max() or min()
-comparison_poverty<-education_and_poverty %>% group_by(region) %>% summarize(mean(PCTPOVALL_2013), median(PCTPOVALL_2013), IQR(PCTPOVALL_2013))
-xtable(comparison_poverty)
+comparison_poverty<-education_and_poverty %>% 
+  group_by(region) %>%  
+     summarize('Mean' = mean(PCTPOVALL_2013), median(PCTPOVALL_2013), IQR(PCTPOVALL_2013))
+xtable(comparison_poverty, caption = 'Percent in Poverty by Region')
 
 # Now do the same thing for the percent with less than high school degree.
 
