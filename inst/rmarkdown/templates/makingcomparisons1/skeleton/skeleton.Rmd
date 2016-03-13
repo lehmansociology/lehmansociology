@@ -132,7 +132,7 @@ More complicated but nicer looking, choose one and delete the one you don't want
 # You can add any othe statistics you want, such as max() or min()
 comparison_poverty<-education_and_poverty %>% 
     group_by(region) %>%  
-    summarize('Mean' = mean(PCTPOVALL_2013), median(PCTPOVALL_2013), IQR(PCTPOVALL_2013))
+    summarize(mean(PCTPOVALL_2013), median(PCTPOVALL_2013), IQR(PCTPOVALL_2013))
 
 xtable(comparison_poverty, caption = 'Percent in Poverty by Region')
 
