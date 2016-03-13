@@ -66,8 +66,8 @@ prop.table(table(region_data$region))
 ```{r regions_tablex, results="asis"}
 # More complicated, but nicer looking ... pick which version you want to keep.
 options(xtable.comment = FALSE)
-xtable(table(region_data$region))
-xtable(prop.table(table(region_data$region)))
+xtable(table('Number' = region_data$region))
+xtable(prop.table(table('Proportion' = region_data$region)))
 
 # Add your table for division here
 
@@ -92,29 +92,33 @@ ggplot(education_and_poverty, aes(x=factor(region), y=PCTPOVALL_2013)) +
  #Uncomment the line below to add the mean to your plot
  #stat_summary(fun.y = 'mean', geom = "point", shape = 23, size = 3, fill = "white") +
  guides(fill=FALSE) +
-  ggtitle("") +
-  labs(y = "",   x="")
+ ggtitle("") +
+ labs(y = "",   x="")
 
 
 ```
 
 A box plot shows: 
- * The median (50th percentile, second quartile) (dark line in the middle)  
- * The first quartile (25th percentile) (low value of box)  
- * The third quartile (75th percentile) (high value of box of box)  
- * The interquartile range is the distance from the high edge to the low edge  
+
+ * The median (50th percentile, second quartile) (dark line in the middle)
+ * The first quartile (25th percentile) (low value of box)
+ * The third quartile (75th percentile) (high value of box of box)
+ * The interquartile range is the distance from the high edge to the low edge
  * Lines showing how far 1.5 * the Interquartile range would extend above and 
 below the boxes.
- * Points for individual outliers that are beyond the lines.  
+ * Points for individual outliers that are beyond the lines.
 
 Now we will do the same comparison (of means and medians) with a table of values.
 
 ```{r comparison_table}
 
-
 # You can add any othe statistics you want, such as max() or min()
-education_and_poverty %>% group_by(region) %>% summarize(mean(PCTPOVALL_2013), median(PCTPOVALL_2013), IQR(PCTPOVALL_2013))
+# Add the new statistics to the list inside the parentheses.
+comparison_poverty <- education_and_poverty %>% 
+  group_by(region) %>% 
+  summarize(mean(PCTPOVALL_2013), median(PCTPOVALL_2013), IQR(PCTPOVALL_2013))
 
+ comparison_poverty
 # Now do the same thing for the percent with less than high school degree.
 
 
@@ -123,12 +127,13 @@ education_and_poverty %>% group_by(region) %>% summarize(mean(PCTPOVALL_2013), m
 More complicated but nicer looking, choose one and delete the one you don't want.
 
 
-```{r comaprison_tablesx,  results="asis"}
+```{r comparison_tablesx,  results="asis"}
 
 # You can add any othe statistics you want, such as max() or min()
 comparison_poverty<-education_and_poverty %>% 
-  group_by(region) %>%  
-     summarize('Mean' = mean(PCTPOVALL_2013), median(PCTPOVALL_2013), IQR(PCTPOVALL_2013))
+    group_by(region) %>%  
+    summarize('Mean' = mean(PCTPOVALL_2013), median(PCTPOVALL_2013), IQR(PCTPOVALL_2013))
+
 xtable(comparison_poverty, caption = 'Percent in Poverty by Region')
 
 # Now do the same thing for the percent with less than high school degree.
