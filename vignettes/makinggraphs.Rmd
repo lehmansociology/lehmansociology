@@ -1,0 +1,102 @@
+---
+title: "Making Graphs"
+output: html_document
+vignette: >
+  %\VignetteIndexEntry{Making graphs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(ggplot2)
+```
+
+```{r startupcode}
+
+library(lehmansociology)
+education_and_poverty<-create_educ_poverty_data()
+library(ggplot2)
+
+```
+In SOC 345 we are using the graphing system known as ggplot2.
+
+Ggplot is a system in which you start a plot and then layer additional features by adding 
+commands using a +.
+
+Here are some examples.  Note that right now they will not run because the data set is not created.
+
+
+##Dotplot
+Creating a plot always starts with a  ggplot()  command.
+A dotplot has only one variable, the x. 
+We are using the education_and_poverty dataset.
+The scale_y_continuous helps to make the dotplot look better.
+
+Every ggplot has a geom_  that says what kind of graph we are making.  In this case it is a dot plot.
+
+````{r dotplot}
+# Dot plot
+# This makes the basic plot
+ggplot(education_and_poverty,
+       aes(x=PCTPOVALL_2013),
+       scale_y_continuous(breaks=NULL)) +
+  geom_dotplot(binwidth=1) 
+
+````
+
+But then we can add more features like labels and a title using the +
+
+````{r dotplot2}
+# Dot plot
+ggplot(education_and_poverty,
+       aes(x=PCTPOVALL_2013),
+       scale_y_continuous(breaks=NULL)) +
+  geom_dotplot(binwidth=1) +
+  geom_rug() +
+  labs( x="Percent in Poverty") +
+  scale_y_continuous(breaks=NULL) +
+  ggtitle("Fig # :")
+
+````
+
+## Histogram
+
+Another basic plot type is the histogram. 
+
+````{r histogram}
+# Histogram
+
+ggplot(education_and_poverty, aes(x=PCTPOVALL_2013)) +
+  geom_histogram(binwidth=1) +
+  labs(y = "Count",     x="Percent in Poverty") +
+  ggtitle("Fig # :")
+
+````
+
+## Bar plots
+Bar plots have two variables, the  variable defines the bars, and the y variable determines how tall the bars are.
+In bar charts the x variable is discrete, so notice that there is a space between the bars.
+```{r label="barplot"}
+
+ggplot(education_and_poverty, 
+       aes(x= reorder(Area_Name, PCTPOVALL_2013), y = PCTPOVALL_2013)) +
+  geom_bar(stat="identity") +
+    #Extras
+  labs(y = "Percent in Poverty",     x="State") +
+     # This line is going to rotate the state names by 90 degrees. You can try other values.
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  ggtitle("Fig # :")
+
+```
+
+
+## Additions
+
+ggplot will let us add lots of features. 
+For example you can add vertical and horizontal lines to your plots to help make the more understandable.
+Adding the lines below will add a vertical line (vline) at the mean and median.
+
+   geom_vline(aes ( xintercept  = median(education_and_poverty$PCTPOVALL_2013)))
+ 
+   geom_vline(aes ( xintercept  = mean(education_and_poverty$PCTPOVALL_2013)))  
+
