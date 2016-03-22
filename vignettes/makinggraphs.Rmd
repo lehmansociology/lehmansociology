@@ -80,7 +80,7 @@ In bar charts the x variable is discrete, so notice that there is a space betwee
 
 ggplot(education_and_poverty, 
        aes(x= reorder(Area_Name, PCTPOVALL_2013), y = PCTPOVALL_2013)) +
-  geom_bar(stat="identity") +
+  geom_bar() +
     #Extras
   labs(y = "Percent in Poverty",     x="State") +
      # This line is going to rotate the state names by 90 degrees. You can try other values.
@@ -99,4 +99,50 @@ Adding the lines below will add a vertical line (vline) at the mean and median.
    geom_vline(aes ( xintercept  = median(education_and_poverty$PCTPOVALL_2013)))
  
    geom_vline(aes ( xintercept  = mean(education_and_poverty$PCTPOVALL_2013)))  
+
+
+## Maps
+
+Here is the basic ggplot code for making a map.
+
+This is a little more complex because you need to set up the data first.
+```{r setupmaps}
+# First we need to load an extra library
+library(maps)
+states_map <- map_data("state")
+
+# We'll use this library if we want to play with colors in the maps
+library("RColorBrewer")
+
+```
+If you look at the states_map data you will see that the state names are in lower case.
+Unfortunately our Area_Name variable is in upper case so ... it won't match.  So first we have to deal with that and then we can merge the map data and our education_and_poverty data together.
+
+```{r mapdata}
+
+education_and_poverty$state <- tolower(education_and_poverty$Area_Name)
+
+education_and_poverty_map <- merge(states_map, education_and_poverty, 
+                                 by.x = "region", by.y="state")
+
+```
+
+
+This actually makes the map, and you an see that this part is very similar to every other ggplot.
+
+```{r createemap}
+# If you want to try colors uncomment the next line and change to the color you want.
+# Also uncomment the scale_fill_gradientn line.
+# You can change the color and the number of colors.
+
+#colors<-brewer.pal(7,"Greens")
+ggplot(education_and_poverty_map, aes(x=long, y = lat, group = group, 
+                                      map_id = region, fill = PCTPOVALL_2013)) +
+  geom_map(map = education_and_poverty_map, color = "black" ) +
+  #scale_fill_gradientn(colors=colors) +
+  coord_map("polyconic") +
+  ggtitle("Fig #: ")
+
+```
+
 
