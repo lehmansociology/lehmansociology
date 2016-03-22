@@ -5,3 +5,5 @@ export(assignCommasClass)
 export(ggvis_percent)
 export(readMyData)
 export(variation)
+export(create_educ_poverty_data)
+

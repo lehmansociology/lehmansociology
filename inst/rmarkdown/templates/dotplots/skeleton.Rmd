@@ -1,0 +1,39 @@
+---
+title: "Making Dot Plots"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    fig_caption: yes
+    toc: yes
+---
+
+This is going to show some dotplots for education and poverty at the state level.
+
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library('ggplot2')
+```
+
+```{r}
+# Dot plots
+ggplot(poverty.states, aes(x = PCTPOVALL_2013)) + geom_dotplot(binwidth = 1, method="histodot") +
+      scale_y_continuous(NULL, breaks = NULL)
+
+ggplot(education.states, aes(x = Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)) +
+    geom_dotplot(binwidth = 1, method="histodot") +
+    scale_y_continuous(NULL, breaks = NULL)
+
+ggplot(education.states, aes(x = Percent.of.adults.with.a.bachelor.s.degree.or.higher..2009.2013)) +
+  geom_dotplot(binwidth = 1, method="histodot") +
+  scale_y_continuous(NULL, breaks = NULL)
+
+states<-merge(education.states, poverty.states, by.x = 'FIPS.Code', by.y = 'FIPStxt')
+
+```
+
+
+

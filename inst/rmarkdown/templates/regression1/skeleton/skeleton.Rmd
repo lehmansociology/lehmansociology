@@ -1,0 +1,174 @@
+---
+title: "Untitled"
+output: pdf_document
+---
+```{r startupcode}
+#suppressPackageStartupMessages()
+library(lehmansociology)
+education_and_poverty<-create_educ_poverty_data()
+library(ggplot2)
+
+```
+
+# Making even smaller sums of squares
+
+Previously we saw that there is no statistic that will give you a total squared deviation (total sum of squared) that is smaller than the mean.
+
+That is  
+
+ Sum(x - mean(x))^2   
+
+will be at least as small as   
+
+ Sum(x - something(x))^2
+
+The only time they will be equal is when something(x) = mean(x) such as when the mean and median are the same value or the mean and the mode are the same value.
+
+Let's do some calculations with our variable PCTPOVALL_2013 
+
+```{r variance_review}
+
+n <- length(education_and_poverty$PCTPOVALL_2013) 
+meanx <- mean(education_and_poverty$PCTPOVALL_2013)
+varx <- var(education_and_poverty$PCTPOVALL_2013)
+sumsquaresx <- varx * (n-1)
+
+meany <- mean(education_and_poverty$Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)
+vary <- var(education_and_poverty$Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)
+sumsquaresy <- vary * (n-1)
+
+
+```
+Mean poverty rate: `r meanx`
+Total sum of squares for poverty: `r sumsquaresx`.
+
+Mean less than high school diploma: `r meany`
+Total summ of squares less than high school diploma: `sumsquaresy`
+
+So far this looks at each as a single variable, but in sociology we are almost always interested in the *relationship* between variables.
+
+
+```{r scatterplot}
+
+
+
+baseplot <- ggplot(education_and_poverty,
+       aes(x=Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013,
+           y=PCTPOVALL_2013)) +
+  geom_point() +
+  ggtitle("Fig # : Poverty Rate and High School Completion (for States)") +
+  labs(x = "Percent of adults with less than highschool diploma",  
+       y="Percent of population in poverty") 
+baseplot
+```
+
+Let's add a horizontal line at the mean for 
+```{r scatterplot2}
+   plot2 <- baseplot + geom_hline(aes(yintercept=mean(PCTPOVALL_2013), color = "blue")) 
+   plot2
+```
+
+What would be the equation for that line? 
+```{r line1}
+ regression0 <- lm(PCTPOVALL_2013 ~ 1, data = education_and_poverty)
+ coefficients(regression0)
+
+```
+What is the slope of a horizontal line?
+Write out the equation for the line:
+
+Let's also add a line representing the mean for the x variable:
+Percent of adults with less than high school diploma.
+
+```{r line2}
+ plot3 <- plot2 +
+     geom_vline(
+            aes(xintercept =
+              mean(Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013),
+              color='red'
+              )
+            ) 
+ plot3
+```
+
+What would the equation for the vertical line be? (Kind of a tricky question.)
+
+
+If you look at the four areads of the graph, what do you notice about where the points are? 
+What pattern do you see?
+
+
+If you drew a straight line that went through the point where the vertical and 
+horizontal lines cross (the point representing the mean of the x and the mean of the y)
+what would the slope be?
+
+Write your answer here:
+
+
+Instead of drawing this line, we want to come up with a general formula or strategy 
+for making this line.  
+
+Statisticans  came up with the "least squares" line as an approach.
+We already know that the horizontal line will create the smallest 
+total sum of squares of any possible single value.
+
+But what if instead of using the mean to calculate the deviation, we could 
+use different values depending on the value of the x variable. 
+So instead of 
+
+ Sum(y - mean(y))^2    
+We would have something like 
+  Sum(y - value(y from the line) )^2   
+and make that as small as possible.
+
+In our data the values of Percent of Population in poverty from the line are going to be
+below the mean(Percent of population in poverty) when Percent of adults with less than a
+high school diploma is below the mean (Percent of adults with less than a high school
+diploma). 
+
+Likewise, in our data the values of Percent of Population in poverty from the line are
+going to be above  the mean(Percent of population in poverty) when Percent of adults with
+less than a high school diploma is above the
+mean(Percent of adults with less than a high school diploma).
+
+Let's add the least squares line
+```{r leastsquares}
+
+ plot3 + stat_smooth(method = lm, se=FALSE)
+ 
+```
+What would be the equation for that line? 
+
+```{r regression1}
+ regression1 <- lm(PCTPOVALL_2013 ~
+                Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013, 
+                data = education_and_poverty)
+ coefficients(regression1)
+
+```
+ What is the intercept for the line?   
+ 
+ Remember from algebra the y intercept is the value of Y when X is 0. 
+ According to this line what percent of people would be expected to live in poverty 
+ even if 0% of the adult population had less than a high school diploma 
+ (that is if all adults had at least a high school diploma)?
+
+
+What is the slope of the line? 
+
+
+Remeber the slope is the change in y (Percent of population in poverty)  associated with
+a 1 unit change in x (Percent of adults with less than a high school diploma).
+
+
+ Write the equation for the line here:
+ 
+ 
+ Write what the equation means in a sentence:
+ 
+ 
+ 
+ What is the the value of y on the line when x is 12.4?
+ 
+ 
+
