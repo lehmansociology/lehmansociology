@@ -62,6 +62,7 @@ ggplot(education_and_poverty,
 ## Histogram
 
 Another basic plot type is the histogram. 
+This also only has one variable and uses geom_histogram().
 
 ````{r histogram}
 # Histogram
@@ -76,11 +77,13 @@ ggplot(education_and_poverty, aes(x=PCTPOVALL_2013)) +
 ## Bar plots
 Bar plots have two variables, the  variable defines the bars, and the y variable determines how tall the bars are.
 In bar charts the x variable is discrete, so notice that there is a space between the bars.
-```{r label="barplot"}
+Note we use geom_bar().
+
+```{r barplot}
 
 ggplot(education_and_poverty, 
-       aes(x= reorder(Area_Name, PCTPOVALL_2013), y = PCTPOVALL_2013)) +
-  geom_bar() +
+       aes(x= Area_Name, PCTPOVALL_2013, y = PCTPOVALL_2013)) +
+  geom_bar(stat="identity") +
     #Extras
   labs(y = "Percent in Poverty",     x="State") +
      # This line is going to rotate the state names by 90 degrees. You can try other values.
@@ -89,6 +92,35 @@ ggplot(education_and_poverty,
 
 ```
 
+Here's a slightly different way that illustrates using advanced features, in this case sorting the values from low to high.
+```{r barplot2 }
+
+ggplot(education_and_poverty, 
+       aes(x= reorder(Area_Name, PCTPOVALL_2013), y = PCTPOVALL_2013)) +
+  geom_bar(stat="identity") +
+  labs(y = "Percent in Poverty",     x="State") +
+     # This line is going to rotate the state names by 90 degrees. You can try other values.
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  ggtitle("Fig # :")
+
+```
+
+
+## Scatterplots
+
+
+Scatter plots are used when you have two interval variables.
+Notice that here we use geom_point() to indicate that we want a scatterplot, which is made up of points. 
+
+```{r scatterplot}
+ggplot(education_and_poverty,
+       aes(x=Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013,
+           y=PCTPOVALL_2013)) +
+  geom_point() +
+  ggtitle("Fig # : Poverty Rate and High School Completion (for States)") +
+  labs(x = "Percent of adults with less than highschool diploma",  
+       y="Percent of population in poverty") 
+```
 
 ## Additions
 
