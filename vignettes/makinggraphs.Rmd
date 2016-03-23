@@ -23,7 +23,9 @@ In SOC 345 we are using the graphing system known as ggplot2.
 Ggplot is a system in which you start a plot and then layer additional features by adding 
 commands using a +.
 
-Here are some examples.  Note that right now they will not run because the data set is not created.
+Here are some examples. 
+
+Some of these examples assume you have created the education_and_poverty data set as done above.
 
 
 ##Dotplot
@@ -74,6 +76,19 @@ ggplot(education_and_poverty, aes(x=PCTPOVALL_2013)) +
 
 ````
 
+## Stem and leaf plot
+
+The one graph that we looked at that did not use ggplot is the stem and leaf.
+With a stem and leaf plot use the appropriate scale variable for your data. 
+This is not a real plot in that it does not produce an image file. It is just displaying text. You *cannot* use the ggplot options with it.
+
+```{r stem}
+
+stem(education_and_poverty$PCTPOVALL_2013, scale = 2)
+
+```
+
+
 ## Bar plots
 Bar plots have two variables, the  variable defines the bars, and the y variable determines how tall the bars are.
 In bar charts the x variable is discrete, so notice that there is a space between the bars.
@@ -93,6 +108,7 @@ ggplot(education_and_poverty,
 ```
 
 Here's a slightly different way that illustrates using advanced features, in this case sorting the values from low to high.
+
 ```{r barplot2 }
 
 ggplot(education_and_poverty, 
@@ -108,7 +124,6 @@ ggplot(education_and_poverty,
 
 ## Scatterplots
 
-
 Scatter plots are used when you have two interval variables.
 Notice that here we use geom_point() to indicate that we want a scatterplot, which is made up of points. 
 
@@ -121,6 +136,7 @@ ggplot(education_and_poverty,
   labs(x = "Percent of adults with less than highschool diploma",  
        y="Percent of population in poverty") 
 ```
+
 
 ## Box Plots
 A box plot shows: 
@@ -147,13 +163,19 @@ ggplot(education_and_poverty,
 
 ggplot will let us add lots of features. 
 For example you can add vertical and horizontal lines to your plots to help make the more understandable.
-Adding the lines below will add a vertical line (vline) at the mean and median.
+Adding the lines below will add a vertical line (vline) at the mean and median and a horizontal line at 5.
 
-   geom_vline(aes ( xintercept  = median(education_and_poverty$PCTPOVALL_2013)))
+   `geom_vline(aes ( xintercept  = median(education_and_poverty$PCTPOVALL_2013)))`
  
-   geom_vline(aes ( xintercept  = mean(education_and_poverty$PCTPOVALL_2013)))  
+   `geom_vline(aes ( xintercept  = mean(education_and_poverty$PCTPOVALL_2013)))`  
 
-
+   `geom_hline(aes ( yintercept  = 5))` 
+   
+If you want to add a simple linear fit line to a scatterplot use 
+    `stat_smooth(method = lm, se=FALSE)`  
+    
+Use `se=TRUE` to add a ribbon showing the standard error.   
+    
 ## Maps
 
 Here is the basic ggplot code for making a map.
