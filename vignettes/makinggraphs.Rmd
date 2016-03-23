@@ -11,7 +11,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(ggplot2)
 ```
 
-```{r startupcode}
+```{r startupcode, message=FALSE, warning=FALSE}
 
 library(lehmansociology)
 education_and_poverty<-create_educ_poverty_data()
@@ -120,6 +120,27 @@ ggplot(education_and_poverty,
   ggtitle("Fig # : Poverty Rate and High School Completion (for States)") +
   labs(x = "Percent of adults with less than highschool diploma",  
        y="Percent of population in poverty") 
+```
+
+## Box Plots
+A box plot shows: 
+
+ * The median (50th percentile, second quartile) (dark line in the middle)
+ * The first quartile (25th percentile) (low value of box)
+ * The third quartile (75th percentile) (high value of box of box)
+ * The interquartile range is the distance from the high edge to the low edge
+ * Lines showing the location of the farthest point that is still within  1.5 * the Interquartile above or below the boxes.
+ * Points for individual outliers that are beyond the lines. These are usually considered outliers.
+ 
+The x variable represents the groups and the y variable is the one we are comparing across groups.
+ 
+```{r boxplots}
+
+# In R, the term factor is used for nominal variables.
+ggplot(education_and_poverty, 
+       aes(x=factor(region), y=PCTPOVALL_2013)) +
+ geom_boxplot()
+
 ```
 
 ## Additions
