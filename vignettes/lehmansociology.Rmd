@@ -4,9 +4,12 @@ author: "Elin Waring"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Lehman Sociology}
   %\VignetteEngine{knitr::rmarkdown}
-  %\usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}
 ---
 
 The vignettes are going to show some important examples of how to use this package.
+
+[Making Graphs](http:makinggraphs)
+
