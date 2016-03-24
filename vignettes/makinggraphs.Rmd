@@ -1,6 +1,6 @@
 ---
 title: "Making Graphs"
-output: html_document
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Making graphs}
   %\VignetteEngine{knitr::rmarkdown}
