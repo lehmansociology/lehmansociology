@@ -29,13 +29,13 @@ Let's do some calculations with our variable PCTPOVALL_2013
 ```{r variance_review}
 
 n <- length(education_and_poverty$PCTPOVALL_2013) 
-meanx <- mean(education_and_poverty$PCTPOVALL_2013)
-varx <- var(education_and_poverty$PCTPOVALL_2013)
-sumsquaresx <- varx * (n-1)
-
-meany <- mean(education_and_poverty$Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)
-vary <- var(education_and_poverty$Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)
+meany <- mean(education_and_poverty$PCTPOVALL_2013)
+vary <- var(education_and_poverty$PCTPOVALL_2013)
 sumsquaresy <- vary * (n-1)
+
+meanx <- mean(education_and_poverty$Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)
+varx <- var(education_and_poverty$Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013)
+sumsquaresx <- varx * (n-1)
 
 
 ```
@@ -50,8 +50,6 @@ So far this looks at each as a single variable, but in sociology we are almost a
 
 ```{r scatterplot}
 
-
-
 baseplot <- ggplot(education_and_poverty,
        aes(x=Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013,
            y=PCTPOVALL_2013)) +
@@ -60,18 +58,22 @@ baseplot <- ggplot(education_and_poverty,
   labs(x = "Percent of adults with less than highschool diploma",  
        y="Percent of population in poverty") 
 baseplot
+
 ```
 
 Let's add a horizontal line at the mean for 
 ```{r scatterplot2}
+
    plot2 <- baseplot + geom_hline(aes(yintercept=mean(PCTPOVALL_2013), color = "blue")) 
    plot2
+
 ```
 
 What would be the equation for that line? 
 ```{r line1}
- regression0 <- lm(PCTPOVALL_2013 ~ 1, data = education_and_poverty)
- coefficients(regression0)
+
+    regression0 <- lm(PCTPOVALL_2013 ~ 1, data = education_and_poverty)
+    coefficients(regression0)
 
 ```
 What is the slope of a horizontal line?
@@ -81,6 +83,7 @@ Let's also add a line representing the mean for the x variable:
 Percent of adults with less than high school diploma.
 
 ```{r line2}
+ 
  plot3 <- plot2 +
      geom_vline(
             aes(xintercept =
@@ -89,6 +92,7 @@ Percent of adults with less than high school diploma.
               )
             ) 
  plot3
+ 
 ```
 
 What would the equation for the vertical line be? (Kind of a tricky question.)
@@ -140,7 +144,8 @@ Let's add the least squares line
 What would be the equation for that line? 
 
 ```{r regression1}
- regression1 <- lm(PCTPOVALL_2013 ~
+
+  regression1 <- lm(PCTPOVALL_2013 ~
                 Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013, 
                 data = education_and_poverty)
  coefficients(regression1)
@@ -157,7 +162,7 @@ What would be the equation for that line?
 What is the slope of the line? 
 
 
-Remeber the slope is the change in y (Percent of population in poverty)  associated with
+Remember the slope is the change in y (Percent of population in poverty)  associated with
 a 1 unit change in x (Percent of adults with less than a high school diploma).
 
 
@@ -169,6 +174,7 @@ a 1 unit change in x (Percent of adults with less than a high school diploma).
  
  
  What is the the value of y on the line when x is 12.4?
+ 
  
  
 
