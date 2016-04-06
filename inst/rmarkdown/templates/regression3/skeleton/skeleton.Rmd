@@ -1,0 +1,189 @@
+---
+title: "Untitled"
+author: ""
+output: pdf_document
+---
+```{r startupcode, message=FALSE, warning = FALSE}
+
+library(ggplot2)
+library(lehmansociology)
+library(grid)
+library(scales)
+library(magrittr)
+library("dplyr")
+library(googlesheets)
+library(broom)
+library(xtable)
+library(gridExtra)
+# Set options for nicer looking documents
+options(xtable.comment = FALSE)
+knitr::opts_chunk$set(message=FALSE, warning=FALSE)
+
+```
+```{r replacecommas}
+replaceCommas<-function(x){
+  x<-as.numeric(gsub("\\,", "", x))
+}
+
+```
+
+
+
+In this exercise we are going to explore how region of the country relates to the relationship of education and income.
+
+First we create the data set.
+
+```{r label="makedata"}
+# Set up some data
+poverty13 <- select (poverty.states, FIPStxt, Area_Name, PCTPOVALL_2013, PCTPOV05_2013,
+                     MEDHHINC_2013, Rural_urban_Continuum_Code_2013)
+poverty13$FIPS.Code <- as.integer(poverty13$FIPStxt)
+poverty13$MEDHHINC_2013 <- replaceCommas(poverty13$MEDHHINC_2013)
+
+lessthanhighschool13 <- select(education.states, Area.name, FIPS.Code,
+                            Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013,
+                            Percent.of.adults.with.a.bachelor.s.degree.or.higher..2009.2013,
+                            Percent.of.adults.with.less.than.a.high.school.diploma..2000,
+                            Percent.of.adults.with.a.bachelor.s.degree.or.higher..2000
+                          )
+
+education_and_poverty <- merge(poverty13, lessthanhighschool13, by.x='FIPS.Code', by.y='FIPS.Code')
+```
+
+````{r read_regions, message=FALSE, warning = FALSE }
+#type your code here
+# First let's create the region data set
+gs_region<-gs_url('https://docs.google.com/spreadsheets/d/1h_jY4A44WoSLkrqhwZZ9oJh51N2GybwVvGgEaY3n2gc/pubhtml')
+region_data<-gs_read(gs_region)
+# We need to change this column name because the map data uses the term region differently.
+
+
+````
+
+```{r merge_data}
+
+# Add the region variable to education_and_poverty by matching the FIPS code
+education_and_poverty <- merge(education_and_poverty, region_data, 
+                               by.x='FIPS.Code', by.y='FIPS.Code')
+
+```
+
+
+Deal with commas in Median Household Income
+```{r}
+
+replaceCommas(education_and_poverty$MEDHHINC_2013)
+
+```
+
+This scatterplot shows the relationship between the percent of the population with 
+less than a high school diploma and the overall poverty rate. 
+Notice that the color of the points indicates the region. This is one way to think in a
+more multivariate (more than two at a time) manner. 
+
+Make sure to add an appropriate title and labels.
+
+```{r scatterplot}
+
+baseplot <- ggplot(education_and_poverty,
+       aes(x = Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013,
+           y = PCTPOVALL_2013,
+           fill = region
+           )
+       ) +
+  geom_point(aes(color = region)) +
+  ggtitle("") +
+  labs(x = "",
+       y="")
+baseplot
+
+```
+Summarize here what the graph tells you about the three variables and how they 
+relate to each other.
+
+
+Previously we had learned how to make a table showing univariate statistics by region.
+
+First we group the data by region.
+```{r}
+
+databyregion <- education_and_poverty  %>% 
+  group_by(region)
+
+```
+
+```{r comparison_table}
+
+# You can add any othe statistics you want, such as max() or min()
+# Add the new statistics to the list inside the parentheses.
+comparison_poverty <- databyregion %>% 
+  summarize(Mean = mean(PCTPOVALL_2013), Median = median(PCTPOVALL_2013), IQR = IQR(PCTPOVALL_2013), Variance = var(PCTPOVALL_2013))
+
+ comparison_poverty
+
+```
+
+Now compare the regression results for the different regions. 
+To do this we us our grouped data and some advanced code that uses "do"  to loop through the regions.
+
+```{r tidy=TRUE}
+regbyregion<-databyregion  %>% 
+  do(model = lm(PCTPOVALL_2013 ~ Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013, data = .))
+
+results <- tidy(regbyregion, model)
+results
+
+rsquared <- glance(regbyregion, model)
+rsquared
+
+```
+
+Nicer formatting when you knit, comment out the other ones if you want to use this, otherwise comment out this.
+```{r tidy=TRUE, results="asis"}
+print(xtable(results))
+print(xtable(rsquared))
+
+```
+
+
+Let's make separate plots by region. Feel free to add a regression line if you wish.
+```{r}
+# Since we have 4 regions, let's use the the grid.arrange function from gridExtra to set up 2 columns and 2 rows.
+
+plotbyregion <- ggplot(education_and_poverty,
+       aes(x = Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013,
+           y = PCTPOVALL_2013,
+           fill = region
+           )
+       ) +
+  geom_point(aes(color = region)) +
+  # Notice that we are adding this so that the graphs are broken out by region
+  facet_grid(. ~ region) +
+  ggtitle("") +
+  labs(x = "",
+       y="")
+plotbyregion
+
+
+```
+
+Based on the scatter plots how would you describe the similarities and differences of the regions?
+
+
+
+Examing the intercepts and coefficients.  How similar or different are they?
+Remember that the intercept represents the predicted value of Y (Y hat) when X is equal to 0.
+How do the intercepts of the regions compare to each other?
+
+
+Are all of the coefficients for Percent with less than a high school diploma the same sign?
+
+If not, which are positive and which are negative?
+
+How do the values for R squared compare to each other? 
+
+Summarize what the data show about the relationship between the variables by region.
+
+
+
+Now do the same analysis with a different pair of independent and dependent variables.
