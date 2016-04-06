@@ -6,9 +6,9 @@ output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Univariate Statistics}
   %\VignetteEngine{knitr::rmarkdown}
-  %\usepackage[utf8]{inputenc}
+  %\usepackage[utf8]{UTF-8}
 ---
----
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(ggplot2)

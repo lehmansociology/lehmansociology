@@ -1,0 +1,153 @@
+---
+title: "Untitled"
+author: ""
+output: pdf_document
+---
+```{r startupcode, message=FALSE, warning = FALSE}
+
+library(ggplot2)
+library(lehmansociology)
+library(grid)
+library(scales)
+library(magrittr)
+library("dplyr")
+library(googlesheets)
+
+# Set options for nicer looking documents
+options(xtable.comment = FALSE)
+knitr::opts_chunk$set(message=FALSE, warning=FALSE)
+
+```
+```{r replacecommas}
+replaceCommas<-function(x){
+  x<-as.numeric(gsub("\\,", "", x))
+}
+
+```
+
+
+```{r label="makedata"}
+# Set up some data
+poverty13 <- select (poverty.states, FIPStxt, Area_Name, PCTPOVALL_2013, PCTPOV05_2013,
+                     MEDHHINC_2013, Rural_urban_Continuum_Code_2013)
+poverty13$FIPS.Code <- as.integer(poverty13$FIPStxt)
+poverty13$MEDHHINC_2013 <- replaceCommas(poverty13$MEDHHINC_2013)
+
+lessthanhighschool13 <- select(education.states, Area.name, FIPS.Code,
+                            Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013,
+                            Percent.of.adults.with.a.bachelor.s.degree.or.higher..2009.2013,
+                            Percent.of.adults.with.less.than.a.high.school.diploma..2000,
+                            Percent.of.adults.with.a.bachelor.s.degree.or.higher..2000
+                          )
+
+education_and_poverty <- merge(poverty13, lessthanhighschool13, by.x='FIPS.Code', by.y='FIPS.Code')
+```
+
+````{r read_regions, message=FALSE, warning = FALSE }
+#type your code here
+# First let's create the region data set
+gs_region<-gs_url('https://docs.google.com/spreadsheets/d/1h_jY4A44WoSLkrqhwZZ9oJh51N2GybwVvGgEaY3n2gc/pubhtml')
+region_data<-gs_read(gs_region)
+# We need to change this column name because the map data uses the term region differently.
+
+
+````
+
+```{r merge_data}
+
+# Add the region variable to education_and_poverty by matching the FIPS code
+education_and_poverty <- merge(education_and_poverty, region_data, 
+                               by.x='FIPS.Code', by.y='FIPS.Code')
+
+```
+
+
+Add a code chunk here that uses the replaceCommas() function defined earlier on this variable:  poverty13$MEDHHINC_2013
+
+
+```{r scatterplot}
+
+baseplot <- ggplot(education_and_poverty,
+       aes(x = Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013,
+           y = PCTPOVALL_2013,
+           fill = region
+           )
+       ) +
+  geom_point(aes(color = region)) +
+  ggtitle("Fig # : Poverty Rate and High School Completion (for States)") +
+  labs(x = "Percent of adults with less than highschool diploma",
+       y="Percent of population in poverty")
+baseplot
+
+```
+
+```{r regression1}
+
+  regression1 <- lm(PCTPOVALL_2013 ~
+                Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013, 
+                data = education_and_poverty)
+ summary(regression1)
+
+```
+
+Change to use PCTPOV05_2013 as the dependent variable
+```{r regression2}
+
+  
+```
+
+Change to use median household income 2013 as the dependent variable
+
+```{r regression3}
+
+  
+
+```
+
+Change each of the three above to use Percent.of.adults.with.a.bachelor.s.degree.or.higher..2009.2013 as the independent variable
+
+```{r regression4}
+
+ 
+```
+
+```{r regression5}
+
+  
+
+```
+
+```{r regression6}
+
+  
+
+```
+
+Write out the equations for the lines 
+
+Comapre them
+
+
+What are the R squares 
+
+
+Which variable has the strongest relationship with MEDHHINC?
+
+Which variable has the strongest relationship wtih PCTPOVALL_2013?
+
+
+Which variable has the stongest relationship with PCTPOV05_2013
+
+
+Can you use the slope to say how strong the relationship?  Why or why not?
+
+
+What could explain the differences and similarities that you found in your result?  Use your sociological imagination to answer.
+
+
+
+
+
+
+
+

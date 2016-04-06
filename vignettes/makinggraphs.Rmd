@@ -1,6 +1,8 @@
 ---
 title: "Making Graphs"
-output: rmarkdown::html_vignette
+output: > 
+  rmarkdown::html_vignette 
+
 vignette: >
   %\VignetteIndexEntry{Making graphs}
   %\VignetteEngine{knitr::rmarkdown}
@@ -8,7 +10,6 @@ vignette: >
 ---
 ```{r, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
-library(ggplot2)
 ```
 
 ```{r startupcode, message=FALSE, warning=FALSE}
@@ -22,6 +23,9 @@ In SOC 345 we are using the graphing system known as ggplot2.
 
 Ggplot is a system in which you start a plot and then layer additional features by adding 
 commands using a +.
+
+Notice that as shown above you must load the ggplot2 package using the library function, 
+`library(ggplot2)`.
 
 Here are some examples. 
 
@@ -220,4 +224,11 @@ ggplot(education_and_poverty_map, aes(x=long, y = lat, group = group,
 
 ```
 
+## Other Resources
 
+Much excellent information on making graphs in R can be found at (http://www.cookbook-r.com/Graphs/") [Winston Chang's website] where he gives a lot of examples of how to do nice graphs using R. His book is practical and excellent.</p>
+<p>This is the (https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)[cheatsheet from RStudio] contains a huge amount of information in compressed form. 
+You should push yourselves to make great looking graphics and if you read some of those tips it will go a long way helping with that.
+There are also lots of other sources of help out there. For example this site has some  (http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/")[neat examples].
+
+(http://sctyner.github.io/ggplot_tutorial.html)[This slide deck] is fantastic at really explaining why and how things work, and I'd recommend it too.

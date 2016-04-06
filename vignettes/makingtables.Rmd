@@ -1,0 +1,65 @@
+---
+title: "Making Tables"
+author: "Elin Waring"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Making Tables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{UTF-8}
+---
+
+```{r, include = FALSE, message=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+
+library('lehmansociology')
+library(dplyr) 
+library(xtable)
+education_and_poverty<-create_educ_poverty_data()
+```
+
+There are many kinds of "tables" that we make in presenting statistical data and doing statistical analysis.  A table can be anything that is organized into columns and rows.
+
+For example you could consider presenting the summary statistics for a variable to be a table.
+```{r, echo=FALSE, message=FALSE}
+
+summary(poverty.states$PCTPOV05_2013)
+
+```
+
+However, usually we would make a table with 
+
+
+```{r regions_table}
+
+table(education_and_poverty$region)
+# You can display this as proportions. Notice how the function builds from the inside out.
+prop.table(table(education_and_poverty$region))
+
+# Alternatively you could do this
+mytable <- table(education_and_poverty$region)
+prop.table(mytable)
+
+
+```
+
+Now we will do the same comparison (of means and medians) for different groups with a table of values.
+
+There are many ways to do this, but this way uses some functions from the dplyr package and the magritte operator (%>%).
+
+```{r comparison_table}
+#start with your dataset 
+education_and_poverty %>%
+    #group it according the the variable you want
+    group_by(region) %>% 
+    # Use summarize to define the table columns
+    # You can add any othe statistics you want, such as max() or min()
+    # Add the new statistics to the list inside the parentheses.
+    summarize(
+            'Mean poverty' = mean(PCTPOVALL_2013), 
+            'Median poverty' = median(PCTPOVALL_2013), 
+            'IQR poverty' = IQR(PCTPOVALL_2013)
+            )
+
+```
+
