@@ -11,27 +11,21 @@ output:
 
 library('lehmansociology')
 library('maps')
-library('ggmap')
-library(mapproj)
+
 library("RColorBrewer")
 ````
 
-In this template we will use the poverty data to make maps.
+In this template we will use the poverty data to make maps using the maps package. You can also make maps in ggplot2.
 
 To see a nicely formatted copy of this click on the Knit HTML button at the top of this window.
 
 ###This shows the outline maps for the US, states and counties.
-````{r}
-# Show one map per image (meaning 1 in each row and column)
-par(mfrow = c(1, 1) )
-# Set the margins
-par(xpd=TRUE)
 
 
-# Make some empty maps (just to show how to do it)
-#map("usa")
-#map("state")
-#map("county")
+# Make some empty maps (just to show how to do it in the maps package)
+map("usa")
+map("state")
+map("county")
 
 # This loads the fips information from the county map data. Only includes the lower 48 states.
 data(county.fips)
@@ -42,28 +36,42 @@ data(county.fips)
 Write your introduction here.
 
 
-````{r}
-# Add colors, see color documentation for more information on how to customize.
-colors<-brewer.pal(7,"Greens")
 
-# Divide the poverty rate into levels and create a new variable for the level of each county.
-levels <- cut(poverty.counties$PCTPOVALL_2013,c(10, 20, 30, 40, 50, 60))
-poverty.counties$colorBuckets <- as.numeric(levels)
+```{r setupmaps}
+# First we need to load an extra library
 
-# Match up the poverty data with the county map data using the fips value.
-colorsmatched <- poverty.counties$colorBuckets[match(county.fips$fips, poverty.counties$FIPStxt)]
+states_map <- map_data("state")
 
-# Create the map, matching the county data with the colors
-map("county", col = colors[colorsmatched], fill = TRUE,
-    resolution = 0, lty = 0, bty='L', projection = "polyconic", mar=c(0,10,0,0))
+```
 
-# This adds the border around the states.
-map("state", col = "black", fill = FALSE, add = TRUE,
-    lty = 1, lwd = 0.2, projection = "polyconic", mar=c(0,10,0,0))
 
-# Add a title and legend. There are many other options for text and customization.
-title("Poverty Percent by County, 2013")
+```{r mapdata}
 
-leg.txt <- c("<10%", "11-20%", "21-30%", "31-40%", "41-50%", ">50%")
-legend("right", leg.txt, horiz = FALSE, fill = colors, inset=c(-.08,0))
-````
+education_and_poverty$state <- tolower(education_and_poverty$Area_Name)
+
+education_and_poverty_map <- merge(states_map, education_and_poverty, 
+                                 by.x = "region", by.y="state")
+
+```
+
+
+This actually makes the map, and you an see that this part is very similar to every other ggplot.
+
+```{r createemap}
+# If you want to try colors uncomment the next line and change to the color you want.
+# Also uncomment the scale_fill_gradientn line.
+# You can change the color and the number of colors.
+
+#colors<-brewer.pal(7,"Greens")
+ggplot(education_and_poverty_map, aes(x=long, y = lat, group = group, 
+                                      map_id = region, fill = PCTPOVALL_2013)) +
+  geom_map(map = education_and_poverty_map, color = "black" ) +
+  #scale_fill_gradientn(colors=colors) +
+  coord_map("polyconic") +
+  ggtitle("Fig #: ")
+
+```
+
+
+Making county level maps
+

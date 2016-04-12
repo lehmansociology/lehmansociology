@@ -1,0 +1,94 @@
+---
+title: "Untitled"
+author: ""
+output: pdf_document
+---
+```{r startupcode, message=FALSE, warning = FALSE}
+
+library(ggplot2)
+library(lehmansociology)
+library(grid)
+library(scales)
+library(magrittr)
+library("dplyr")
+library(googlesheets)
+library(broom)
+library(xtable)
+library(gridExtra)
+# Set options for nicer looking documents
+options(xtable.comment = FALSE)
+knitr::opts_chunk$set(message=FALSE, warning=FALSE)
+
+```
+```{r replacecommas}
+replaceCommas<-function(x){
+  x<-as.numeric(gsub("\\,", "", x))
+}
+
+```
+
+
+
+In this exercise we are going to explore how region of the country relates to the relationship of education and income.
+
+First we create the data set.
+
+```{r label="makedata"}
+# Set up some data
+poverty13 <- select (poverty.counties, FIPStxt, Area_Name, PCTPOVALL_2013,
+                     PCTPOV017_2013,
+                     MEDHHINC_2013, Rural_urban_Continuum_Code_2013,
+                     Urban_Influence_Code_2013)
+poverty13$FIPS.Code <- as.integer(poverty13$FIPStxt)
+poverty13$MEDHHINC_2013 <- replaceCommas(poverty13$MEDHHINC_2013)
+
+education13 <- select(education.counties, Area.name, FIPS.Code,
+                            Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013,
+                            Percent.of.adults.with.a.bachelor.s.degree.or.higher..2009.2013,
+                            Percent.of.adults.with.less.than.a.high.school.diploma..2000,
+                            Percent.of.adults.with.a.bachelor.s.degree.or.higher..2000
+                          )
+
+education_and_poverty_county <- merge(poverty13, education13, by='FIPS.Code')
+
+persistent_child<-select(persistentpoverty.county, -c(Persistent.poverty, State, Area.name, Metro.status))
+persistent_child$Persistent.child.poverty<-as.factor(persistent_child$Persistent.child.poverty)
+levels(persistent_child$Persistent.child.poverty) <- c("No", "Yes")
+persistent_all<-persistentpoverty
+persistent_all$FIPS.Code <- as.integer(replaceCommas(persistent_all$`FIPS,Code`))
+persistent_all <- select(persistent_all, -c(`FIPS,Code`, Area.name))
+
+# Let's make this clean for merging with education_and_poverty
+persistent <- merge(persistent_child, persistent_all, by = 'FIPS.Code')
+
+education_and_poverty_county<-merge(persistent, education_and_poverty_county, by = 'FIPS.Code')
+
+```
+
+````{r read_regions, message=FALSE, warning = FALSE }
+#type your code here
+# First let's create the region data set
+gs_region<-gs_url('https://docs.google.com/spreadsheets/d/1h_jY4A44WoSLkrqhwZZ9oJh51N2GybwVvGgEaY3n2gc/pubhtml')
+region_data<-gs_read(gs_region)
+# We need to change this column name because the map data uses the term region differently.
+region_data$census_region <- region_data$region
+region_data<-select(region_data, -region)
+
+````
+
+```{r merge_data}
+
+# Add the region variable to education_and_poverty by matching the FIPS code
+education_and_poverty_county <- merge(education_and_poverty_county, region_data, 
+                               by = 'FIPS.Code')
+
+```
+
+
+
+```{r save_data}
+
+save(education_and_poverty_county, file = "data/countycombined.RData")
+
+```
+

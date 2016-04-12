@@ -158,7 +158,7 @@ plotbyregion <- ggplot(education_and_poverty,
        ) +
   geom_point(aes(color = region)) +
   # Notice that we are adding this so that the graphs are broken out by region
-  facet_grid(. ~ region) +
+  facet_grid(. ~ region ) +
   ggtitle("") +
   labs(x = "",
        y="")

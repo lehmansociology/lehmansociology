@@ -1,11 +1,10 @@
 
-#' Layer Percent
+#' Read My Data
 #'
-#' This function uses ggvis to create a histogram with percents
-#' @keywords ggvis percent histogram
+#' This function reads a webchip style dataset
+#' @keywords
 #' @export
-#' @examples
-#' layer_percent_function()
+
 
 readMyData <- function(datasetname)
 {

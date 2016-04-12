@@ -17,7 +17,8 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(lehmansociology)
 education_and_poverty<-create_educ_poverty_data()
 library(ggplot2)
-
+library(plyr)
+library(dplyr)
 ```
 In SOC 345 we are using the graphing system known as ggplot2.
 
@@ -200,6 +201,7 @@ Unfortunately our Area_Name variable is in upper case so ... it won't match.  So
 ```{r mapdata}
 
 education_and_poverty$state <- tolower(education_and_poverty$Area_Name)
+education_and_poverty <- dplyr::select(education_and_poverty, -region)
 
 education_and_poverty_map <- merge(states_map, education_and_poverty, 
                                  by.x = "region", by.y="state")
@@ -214,13 +216,13 @@ This actually makes the map, and you an see that this part is very similar to ev
 # Also uncomment the scale_fill_gradientn line.
 # You can change the color and the number of colors.
 
-#colors<-brewer.pal(7,"Greens")
-ggplot(education_and_poverty_map, aes(x=long, y = lat, group = group, 
-                                      map_id = region, fill = PCTPOVALL_2013)) +
-  geom_map(map = education_and_poverty_map, color = "black" ) +
-  #scale_fill_gradientn(colors=colors) +
-  coord_map("polyconic") +
-  ggtitle("Fig #: ")
+# colors<-brewer.pal(7,"Greens")
+# ggplot(education_and_poverty_map, aes(x=long, y = lat, group = group, 
+#                                       map_id = region, fill = PCTPOVALL_2013)) +
+#   geom_map(map = education_and_poverty_map, color = "black" ) +
+#   scale_fill_gradientn(colors=colors) +
+#   coord_map("polyconic") +
+#   ggtitle("Fig #: ")
 
 ```
 

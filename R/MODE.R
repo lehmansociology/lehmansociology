@@ -3,13 +3,11 @@
 #' This function calculates the mode for a dataframe, supporting multiple data types and multiple modes.
 #' @keywords mode class
 #' @export
-#' @examples
-#' MODE(InsectSprays)
-#' MODE(InsectSprays$count)
-#' based on http://stackoverflow.com/questions/2547402/standard-library-function-in-r-for-finding-the-mode
+#' @examples mode(mpg), mode(mpg$model)
 
-MODE <- function(dataframe){
-  DF <- as.data.frame(dataframe)
+MODE <- function(dataframe, Freq){
+  df <- as.data.frame(dataframe)
+  #based on stackoverflow.com/questions/2547402/standard-library-function-in-r-for-finding-the-mode
 
   MODE2 <- function(x){
     if (is.numeric(x) == FALSE){
@@ -38,5 +36,5 @@ MODE <- function(dataframe){
     }
   }
 
-  return(as.vector(lapply(DF, MODE2)))
+  return(as.vector(lapply(df, MODE2)))
 }
