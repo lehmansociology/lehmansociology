@@ -88,7 +88,7 @@ education_and_poverty_county <- merge(education_and_poverty_county, region_data,
 
 ```{r save_data}
 
-save(education_and_poverty_county, file = "data/countycombined.RData")
+save(education_and_poverty_county, file = "data/education_and_poverty_county.RData")
 
 ```
 
