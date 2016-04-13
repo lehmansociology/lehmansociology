@@ -72,7 +72,7 @@ gs_region<-gs_url('https://docs.google.com/spreadsheets/d/1h_jY4A44WoSLkrqhwZZ9o
 region_data<-gs_read(gs_region)
 # We need to change this column name because the map data uses the term region differently.
 region_data$census_region <- region_data$region
-region_data<-select(region_data, -region)
+region_data<-select(region_data, -c(region, FIPS.Code))
 
 ````
 
@@ -80,7 +80,7 @@ region_data<-select(region_data, -region)
 
 # Add the region variable to education_and_poverty by matching the FIPS code
 education_and_poverty_county <- merge(education_and_poverty_county, region_data, 
-                               by = 'FIPS.Code')
+                               by = 'State')
 
 ```
 
@@ -88,7 +88,7 @@ education_and_poverty_county <- merge(education_and_poverty_county, region_data,
 
 ```{r save_data}
 
-save(education_and_poverty_county, file = "data/education_and_poverty_county.RData")
+
 
 ```
 
