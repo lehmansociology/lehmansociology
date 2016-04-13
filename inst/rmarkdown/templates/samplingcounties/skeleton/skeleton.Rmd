@@ -1,0 +1,147 @@
+---
+title: "Sampling Counties"
+output: html_document
+---
+
+In this template we are going to look at the county data and create two random
+samples of counties, each with 200 counties. Then we will compare the samples to each
+other and to the combined data.
+
+All the counties together are the population.
+Each sample we select will be a random sample of the population.
+
+In statistics when we say random sample we mean  each member of the 
+population is _equally likely_ to be selected for the sample.
+
+```{r startupcode, message=FALSE, warning = FALSE}
+
+library(ggplot2)
+library(lehmansociology)
+library(grid)
+library(scales)
+library(magrittr)
+library("dplyr")
+library(googlesheets)
+library(broom)
+library(xtable)
+library(gridExtra)
+# Set options for nicer looking documents
+options(xtable.comment = FALSE)
+knitr::opts_chunk$set(message=FALSE, warning=FALSE)
+
+```
+
+We will create two samples of size 200, mysample1 and mysample2. Copy the example and create your own code for mysample2.
+
+````{r}
+#type your code here
+
+mysample1 <- sample_n(education_and_poverty_county, 200)
+
+````
+
+Lets look at maps of our samples.
+
+```{r maps_setup}
+
+library(maps)
+county_map <- map_data("county")
+state_map <- map_data("state")
+
+# We need the FIPS values to match up the county data with the map.
+data("county.fips")
+county_map$polyname <- 
+  paste0(county_map$region,',',county_map$subregion) 
+county_map <- full_join(county_map, county.fips, by = "polyname")
+```
+
+In this code you have to merge the map information with the county data.
+The code shows you two examples, add your own code for the second sample.
+
+```{r maps2}
+
+county_map_all <- left_join(county_map, education_and_poverty_county, by = c("fips" = "FIPS.Code"))                 
+county_map_all <-  arrange(county_map_all, group, order)                
+
+mysample1_map <- left_join(county_map, mysample1, by = c("fips" = "FIPS.Code"))                 
+mysample1_map <-  arrange(mysample1_map, group, order) 
+
+
+
+
+```
+
+Now let's look at where our counties are in the US. 
+This code shows you how to get the whole US. 
+Copy and change the code to make maps for your two samples.
+Make sure to add a title. Feel free to play with colors or other options.
+
+```{r make_maps}
+
+colors<-brewer.pal(7,"Greens")
+# All counties
+ggplot(county_map_all,    aes(x=long, y=lat, group=group)) +
+  geom_polygon(aes(fill = PCTPOVALL_2013), size = 0) +
+  coord_map("polyconic" ) +
+  geom_path(data = state_map, colour = "white", size = .2)+
+    ggtitle( "Fig #: US Counties Poverty Rate")
+
+
+
+
+```
+
+How do your two samples look? Do they look randomly distributed?
+
+
+
+One thing to know is that the mind can play tricks and does 
+not understand the idea of random well. 
+In a random distribution we do not expect the results to be perfectly
+even. We also do not expect that an individual sample will match the
+population perfectly.
+
+Now let's look at some descriptive statistics for the 2 samples.
+
+Use  summary(), and  var()  for the two samples to compare the means of several interval variables.
+Use table() to look at the distribution of counties by state.
+Remember that there is [documentation here](https://github.com/SOC345/lehmansociology/tree/master/vignettes).
+
+```{r sample_univariates}
+
+
+```
+
+How do the two samples compare?  What is the modal state in each? Are the other measures similar or different?
+
+
+How do they compare to the complete county data?
+
+
+Follow the instructions in Blackboard for sharing your data.
+
+We are going to be working with these samples for the next few weeks.  Therefore we will save them, which you do using the R function save().
+Go to the Files tab and create a folder called data.
+Use the example code to create code to save your second sample also.
+
+```{r}
+save(mysample1, file = "data/mysample1.RData")
+
+
+```
+
+When you are done saving you should see your two data sets in the data folder.
+
+In the future if you want to use them you can use the load() function:
+load(file = "data/mysample1.RData").
+
+Create a code chunk below that loads the two sample data sets that 
+you saved.
+
+
+
+
+
+
+
+
