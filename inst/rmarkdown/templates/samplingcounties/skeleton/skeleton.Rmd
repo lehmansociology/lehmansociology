@@ -25,6 +25,7 @@ library(googlesheets)
 library(broom)
 library(xtable)
 library(gridExtra)
+library(RColorBrewer)
 # Set options for nicer looking documents
 options(xtable.comment = FALSE)
 knitr::opts_chunk$set(message=FALSE, warning=FALSE)
@@ -124,7 +125,9 @@ We are going to be working with these samples for the next few weeks.  Therefore
 Go to the Files tab and create a folder called data.
 Use the example code to create code to save your second sample also.
 
-```{r}
+You need to run the below code, but don't knit it, which is why there
+is no r in the {}.
+```{}
 save(mysample1, file = "data/mysample1.RData")
 
 
@@ -137,7 +140,11 @@ load(file = "data/mysample1.RData").
 
 Create a code chunk below that loads the two sample data sets that 
 you saved.
+However you can't knit this, so run the code using the run button.
 
+```{}
+
+```
 
 
 
