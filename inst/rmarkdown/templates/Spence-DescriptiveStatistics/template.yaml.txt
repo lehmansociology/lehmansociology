@@ -1,3 +1,0 @@
-name: Spence - Descriptive Statistics
-description: >
- A document showing how to work with descriptive statistics for interval variables.
