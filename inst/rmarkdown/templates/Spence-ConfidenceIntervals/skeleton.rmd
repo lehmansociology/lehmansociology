@@ -78,8 +78,6 @@ aggregate(tvhrs, by=list(raceeth), ciMean)
 ```
 
 
-````
-
 Compare the confidence intervals for the 6 race/ethnic groups. Write a few sentences that compare/contrast and INTERPRET the most interesting race/ethnic differences in the confidence intervals of the mean of tvhrs.
 
 
