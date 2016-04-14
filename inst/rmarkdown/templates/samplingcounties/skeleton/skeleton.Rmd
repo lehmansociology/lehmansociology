@@ -111,8 +111,8 @@ Use table() to look at the distribution of counties by state.
 Run a regression with PCTPOVALL_2013 as the dependent variable and  
 Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013 as the independent variable.
 
-Remember that is done with
-myregression <- lm(dependent ~ independent, data = datasetname)
+Remember that is done with  
+myregression <- lm(dependent ~ independent, data = datasetname)  
 summary(myregression)
 
 Remember that there is [documentation here](https://github.com/SOC345/lehmansociology/tree/master/vignettes).
