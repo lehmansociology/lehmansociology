@@ -1,3 +1,0 @@
-name: Spence - Confidence Intervals, cont.
-description: >
- A document showing how to do confidence intervals for means and proportions, continued.
