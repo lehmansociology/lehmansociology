@@ -1,3 +1,0 @@
-name: Spence - Mean and Standard Deviation
-description: >
- A document showing how to work with the mean and standard deviation in R.
