@@ -8,7 +8,7 @@ output:
     toc: yes
   word_document: default
 ---
-#Lab confidence intervals for means and proportions
+<!-- Lab: Confidence intervals for means and proportions -->
 
 Notice the echo=FALSE, message=FALSE here.  If you want to hide your R code you can do that by adding those inside the {}.
 We are going to load some packages we need for this lab.
