@@ -1,0 +1,72 @@
+---
+title: "Descriptive Statistics"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    fig_caption: yes
+    toc: yes
+---
+
+
+````{r}
+
+library('lehmansociology')
+library("ggplot2")
+
+library('devtools')
+
+````
+This template shows you how to do descriptive statistics for interval variables.
+There are many ways to do each of these in R.
+
+````{r}
+attach(addhealth)
+#View(addhealth)
+````
+
+You can edit this template to use different data sets and different variables, as well as to select specific statistics. In real data analysis you would never run all of these statistics at once.
+
+
+For this example we will use the variable  `radiohrs`.
+
+
+
+## Introduction
+<!-- Write your introduction here: What is this about? -->
+
+
+## Data Analysis
+
+
+Our R code goes into the highlighted area below.
+In your document delete or comment statistics you do not want.
+
+
+`````{r}
+mean(tvhrs)
+median(tvhrs)
+
+summary(tvhrs)
+
+max(tvhrs)
+min(tvhrs)
+range(tvhrs)
+IQR(tvhrs)
+### Calculates the numbers associated to defined percentiles
+quantile(tvhrs, c(.25, .5, .75, 1))
+
+sd(tvhrs)
+var(tvhrs)
+````
+What is the average number of hours per week that adolescents in the sample spend watching tv?
+Write a sentence interpreting the IQR for tvhrs.
+
+Here we can ask for a histogram of tvhrs. Be sure to add accurate and descriptive labels for the axes and a title.
+````{r}
+ggplot(addhealth, aes(tvhrs)) + 
+  geom_histogram(binwidth = 1, aes(  y=(..count..)/sum(..count..) * 100)) + 
+  labs(y="Percent",     x=" ") +
+  ggtitle("Fig 1 :")
+````
+Does the distribution of tvhrs appear to be symmetical, positively skewed, or negatively skewed?

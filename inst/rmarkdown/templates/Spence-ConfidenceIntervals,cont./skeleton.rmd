@@ -1,0 +1,80 @@
+---
+title: "Confidence Intervals, cont."
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    fig_caption: yes
+    toc: yes
+  word_document: default
+---
+#Lab confidence intervals for means and proportions
+
+````{r}
+
+library('lehmansociology')
+library('ggplot2')
+library(scales)
+library(grid)
+library(lsr)
+library(xtable) 
+library(dplyr)
+````
+
+We are going to be working with the addhealth data so let's attach it.
+````{r}
+attach(addhealth)
+````
+We are going to start by working with the variables tvhrs and sex.
+
+Remember that we have looked at tvhrs before. Let's look at the mean and standard deviation. Then, let's ask for a histogram of tvhrs by sex. Be sure to label your histogram.
+
+````{r}
+mean(tvhrs)
+sd(tvhrs)
+
+
+ggplot(addhealth, aes(tvhrs)) +
+  geom_histogram(aes(y=..density..),binwidth=1, fill="black") +
+  
+facet_wrap(~sex) +
+  
+scale_y_continuous(labels=percent) +
+  
+xlab("") +
+  
+ylab("") +
+  
+ggtitle("Figure #")
+````
+
+Let's look at sex now. We want to assign numeric values to sex such that male=0 and female=1, so we can ask for a "mean" to get the proportion of the sample who are females.
+Then, we can ask for the confidence interval around the mean, which will actually be the confidence interval around the proportion.
+````{r}
+as.numeric(sex) -> sexn
+
+female <- sexn-1
+mean(female)
+
+mean(female)
+ciMean(female, conf =0.90)
+ciMean(female, conf =0.95)
+````
+Write a sentence interpreting the proportion and the confidence interval around the proportion for the variable female.
+
+
+
+Now let's ask R for some confidence interval around the mean for tvhrs.
+````{r}
+ciMean(tvhrs, conf =0.90)
+ciMean(tvhrs, conf =0.95)
+ciMean(tvhrs, conf=0.99)
+````
+Explain the 95% CI results to someone with limited research/statistics experience. Then, choose which confidence level you think is most appropriate and explain why you would choose that confidence level.
+
+------
+Let's build upon that and get confidence intervals around the mean by sex. Although it is not clearly labeled as such, this provides a 95% confidence interval. Recall how we created the variable female above to know which group is 1 and which is 0.
+````{r}
+aggregate(tvhrs, by=list(female), ciMean)
+```
+Write a sentence interpreting the confidence intervals for tvhrs by female. Be sure to phrase it so that it is meaningful to "the person at the bus stop." Then, explain the CI results to someone with limited research/statistics experience.
