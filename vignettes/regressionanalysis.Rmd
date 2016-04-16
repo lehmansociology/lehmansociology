@@ -1,12 +1,13 @@
 ---
 title: "Regression Analysis"
-output: html_document
+output: pdf_document
 ---
 ```{r}
 library(lehmansociology)
 library(dplyr)
 library(tidyr)
 library(broom)
+library(printr)
 
 education_and_poverty<-create_educ_poverty_data()
 ```
@@ -36,7 +37,7 @@ lm(Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013
 
 ```
 
-However. more offent you will want to use the assignment operater `<-` to assign the
+However. more often you will want to use the assignment operater `<-` to assign the
 analysis to an object that will let you access much more detailed results. 
 
 ```{r regression2}
@@ -51,19 +52,28 @@ results <- lm(Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013
 
 coefficients(results)
 
-#The summary (which gives you the R Squared and other details)
+# tidy() will give you nicely printed coefficients but you must load the broom library
+tidy(results)
 
+
+#The summary (which gives you the R Squared and other details)
 summary(results)
+
+# The glance() function gives you a nice looking version of the summary, but you must load
+#the broow library.
+glance(results)
 
 # The residusals or errors (the difference between the data and the regression line)
 resid(results)
+
 
 # The fitted or predicted values (predicted dependent variable based on the line)
 # Either predict() or fitted() will work
 
 fitted(results)
-
-
+ 
+# augment() from the broom package makes a nicer looking result. 
+augment(results)
 ```
 
 # Intermediate Regression
@@ -183,4 +193,5 @@ dependent variables do not work well with ordinary least squares regression.  Th
 a more advanced analysis that is beyond the scope of this document. In reading
 journals if you see the term logistic regression or generalized linear model, this means 
 that the article is using a dependent variable that doesn't work well with ordinary
-least squares regression.
+least squares regression. Logistic regression is what is specifically used with a
+dichtomous dependent variable.
