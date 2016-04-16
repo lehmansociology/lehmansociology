@@ -19,8 +19,10 @@ This template shows you how to do descriptive statistics for interval variables.
 There are many ways to do each of these in R.
 
 ````{r}
+
 attach(addhealth)
 #View(addhealth)
+
 ````
 
 You can edit this template to use different data sets and different variables, as well as to select specific statistics. In real data analysis you would never run all of these statistics at once.
