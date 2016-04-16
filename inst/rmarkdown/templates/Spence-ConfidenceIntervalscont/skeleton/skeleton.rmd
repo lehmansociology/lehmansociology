@@ -1,5 +1,5 @@
 ---
-title: "Confidence Intervals, continued"
+title: "Confidence Intervals continued"
 output:
   pdf_document:
     toc: yes
