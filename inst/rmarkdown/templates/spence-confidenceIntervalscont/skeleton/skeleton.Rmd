@@ -19,17 +19,21 @@ library(grid)
 library(lsr)
 library(xtable) 
 library(dplyr)
+
 ````
 
 We are going to be working with the addhealth data so let's attach it.
 ````{r}
+
 attach(addhealth)
+
 ````
 We are going to start by working with the variables tvhrs and sex.
 
 Remember that we have looked at tvhrs before. Let's look at the mean and standard deviation. Then, let's ask for a histogram of tvhrs by sex. Be sure to label your histogram.
 
 ````{r}
+
 mean(tvhrs)
 sd(tvhrs)
 
@@ -46,6 +50,7 @@ xlab("") +
 ylab("") +
   
 ggtitle("Figure #")
+
 ````
 
 Let's look at sex now. We want to assign numeric values to sex such that male=0 and female=1, so we can ask for a "mean" to get the proportion of the sample who are females.

@@ -8,7 +8,6 @@ output: pdf_document
 
 library('lehmansociology')
 library("ggplot2")
-library('devtools')
 
 attach(addhealth)
 
@@ -42,6 +41,7 @@ quantile(tvhrs, c(.25, .5, .75, 1))
 
 sd(tvhrs)
 var(tvhrs)
+
 ````
 Examine your results above and answer the following questions based on the additional variable that you choose.
 
@@ -58,10 +58,12 @@ Write one sentence interpreting the mean and standard deviation of [radiohrs or 
 
 Here we can ask for a histogram of tvhrs and `radiohrs` or `compgamehrs` (choose one). You will need to add code to get the histogram for your second variable. Be sure to add accurate and descriptive labels for the axes and a title.
 ````{r}
+
 ggplot(addhealth, aes(tvhrs)) + 
   geom_histogram(binwidth = 1, aes(  y=(..count..)/sum(..count..) * 100)) + 
   labs(y="Percent",     x=" ") +
   ggtitle("Fig 1 :")
+
 ````
 
 Does the distribution of tvhrs or [radiohrs or compgamehrs] appear to be more skewed? Explain.

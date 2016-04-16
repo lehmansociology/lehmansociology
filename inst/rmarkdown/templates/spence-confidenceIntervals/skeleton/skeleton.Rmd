@@ -21,23 +21,29 @@ library(grid)
 library(lsr)
 library(xtable) 
 library(dplyr)
+
 ````
 
 We are going to be working with the addhealth data so let's attach it.
 ````{r}
+
 attach(addhealth)
+
 ````
 We are going to start by working with the variable tvhrs.
 
 Remember that we have looked at tvhrs before. Let's look at the mean and standard deviation and a histogram.
 
 ````{r}
+
 mean(tvhrs)
 sd(tvhrs)
+
 ````
 
 Now, we can ask R to show us the mean of tvhrs for different raceeth groups and histograms of tvhrs for each group. Try to notice the differences between the ggplot code here and the ggplot code that you've used before.
 ````{r}
+
 tvhrs_raceeth <- addhealth %>% 
   group_by(raceeth) %>% 
   summarize(mean(tvhrs), median(tvhrs), IQR(tvhrs), sd(tvhrs))
@@ -50,11 +56,13 @@ ggplot(addhealth, aes(tvhrs)) +
   xlab("") +
   ylab("") +
   ggtitle("Figure #")
+
 ````
 
 Now let's ask R for some confidence interval around the mean for tvhrs.
 
 ````{r}
+
 ciMean(tvhrs, conf =0.90)
 ciMean(tvhrs, conf =0.95)
 ciMean(tvhrs, conf=0.99)

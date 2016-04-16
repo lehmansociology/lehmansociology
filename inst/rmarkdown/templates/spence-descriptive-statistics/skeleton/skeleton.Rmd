@@ -44,6 +44,7 @@ In your document delete or comment statistics you do not want.
 
 
 `````{r}
+
 mean(tvhrs)
 median(tvhrs)
 
@@ -58,6 +59,7 @@ quantile(tvhrs, c(.25, .5, .75, 1))
 
 sd(tvhrs)
 var(tvhrs)
+
 ````
 What is the average number of hours per week that adolescents in the sample spend watching tv?
 Write a sentence interpreting the IQR for tvhrs.
