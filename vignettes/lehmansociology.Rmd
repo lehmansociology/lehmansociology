@@ -11,8 +11,9 @@ vignette: >
 
 The vignettes are going to show some important examples of how to use this package.
 
-[Making Graphs](http:makinggraphs)
-[Univariate Statistics](http:univariatestatistics)
-[Regression](http:regressionanalysis)
-[Making Tables](makingtables)
+[Making Graphs](http:makinggraphs)  
+[Univariate Statistics](http:univariatestatistics)  
+[Regression](http:regressionanalysis)  
+[Making Tables](makingtables)  
+
 
