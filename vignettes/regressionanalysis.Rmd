@@ -1,0 +1,186 @@
+---
+title: "Regression Analysis"
+output: html_document
+---
+```{r}
+library(lehmansociology)
+library(dplyr)
+library(tidyr)
+library(broom)
+
+education_and_poverty<-create_educ_poverty_data()
+```
+
+In Sociology 345 we use regression (specifically ordinary least squares regression) to analyse linear relationships between variables.
+
+For basic regression we use the lm() function.  The lm comes from *L*inear *M*odel, which
+makes it easy to remember.
+
+# Basics
+
+In regression analysis you have a dependent variable and one or more independent variables.
+In this section of documentation we will focus on the case of one independent variable.
+The results of regression give you the equation for a line that summarizes the linear
+relationship between your variables with an equation.   
+
+The basic format for a regression analysis in R is  
+
+lm(dependent_variable ~ independent_variable, dataset)
+
+```{r regression1}
+# Spread out because the names are long and to make the different parts more visible.
+lm(Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013 
+   ~ 
+  Percent.of.adults.with.less.than.a.high.school.diploma..1970, 
+  education.states)
+
+```
+
+However. more offent you will want to use the assignment operater `<-` to assign the
+analysis to an object that will let you access much more detailed results. 
+
+```{r regression2}
+
+results <- lm(Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013 
+   ~ 
+  Percent.of.adults.with.less.than.a.high.school.diploma..1970, 
+  education.states)
+
+
+#Then you can get the coefficients
+
+coefficients(results)
+
+#The summary (which gives you the R Squared and other details)
+
+summary(results)
+
+# The residusals or errors (the difference between the data and the regression line)
+resid(results)
+
+# The fitted or predicted values (predicted dependent variable based on the line)
+# Either predict() or fitted() will work
+
+fitted(results)
+
+
+```
+
+# Intermediate Regression
+
+There are a number of ways you can make your regression analysis more powerful or that you can take advantage of some neat properties of the mean using regression analysis.
+
+## Run separate regressions for groups
+
+One thing we might want to do is to compare the regression results for different groups.
+One way to do this is to use the dplyr package (notice this was loaded at the start of the file) groupby function.
+
+**Note that this analyses will not run right now because the region variable is not
+attached. 
+First we group the data by region.
+
+```{r}
+
+databyregion <- education_and_poverty  %>% 
+  group_by(region)
+
+```
+
+
+```{r}
+regbyregion<-databyregion  %>% 
+  do(model = lm(PCTPOVALL_2013 ~ Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013, data = .))
+
+results <- tidy(regbyregion, model)
+results
+
+rsquared <- glance(regbyregion, model)
+rsquared
+
+```
+
+## Use a dichtomous independent variable
+
+Another thing you can do is to use a dichtomous independent variable (one with only two 
+attributes, such as "yes" and "no") as an independent variable.
+
+## Use multiple independent variables
+
+Generally sociologists do not believe that there is just one important variable for
+explaining independent variables.  This is for many reasons that won't be described here.
+
+It is easy to add more independent variables into your analyis. All you need to do is 
+add them using a `+` sign. 
+
+```{r regression3}
+
+results2 <- lm(Percent.of.adults.with.less.than.a.high.school.diploma..2009.2013 
+   ~ 
+  Percent.of.adults.with.less.than.a.high.school.diploma..1970
+  +
+  Percent.of.adults.with.less.than.a.high.school.diploma..1990
+  , 
+  education.states)
+
+
+summary(results2)
+
+
+```
+
+
+## Use a nominal independent variable.
+
+Normally we think of regression as analyzing interval or ration variables, but it is
+also possible to us a nominal independent variable. 
+In R nominal variables are stored as factors. 
+
+Here is a table of means for each region.
+
+```{r}
+
+comparison_poverty <- education_and_poverty %>% 
+  group_by(region) %>% 
+  summarize(mean(PCTPOVALL_2013))
+
+ comparison_poverty
+
+```
+
+Here is a regression with `PCTPOVALL_2013` as the dependent variable and `Region` as the 
+independent variable.  
+
+```{r}
+
+ 
+ results3 <- lm(PCTPOVALL_2013 ~ region, education_and_poverty)
+ 
+ coefficients(results3)
+```
+
+Comapring the two results we can see that there are only 3 coefficients instead of the 4
+that you might have expected. 
+Also the Intercept is equal to the mean for Midwest. 
+Midwest is called the excluded value, and this kind of analysis will always exclude 1 value.  
+Now notice that the coefficients for the other regions are all very different from the
+region means.
+However, if you add the coefficient for a region to the intercept you get the mean for the region.
+So the coeffients represent the difference from the mean of the exluded value that 
+is associated with being in a particular region.
+
+If you want to make a predicted value for a state in a given region you would do this:
+
+If it is in the Midwest just use the interept.
+If it is in another region, add the coefficient for that region.
+Ignore all of the other regions.
+
+This is sometimes called regression with dummy variables.
+
+## Regression with a nominal dependent variable
+
+Although nominal independent variables are relatively easy to incorporate, nominal
+dependent variables do not work well with ordinary least squares regression.  They require
+a more advanced analysis that is beyond the scope of this document. In reading
+journals if you see the term logistic regression or generalized linear model, this means 
+that the article is using a dependent variable that doesn't work well with ordinary
+least squares regression.
