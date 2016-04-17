@@ -1,12 +1,10 @@
 ---
 title: "Making Graphs"
-output: > 
-  rmarkdown::html_vignette 
-
+output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Making graphs}
+  %\VignetteIndexEntry{Making Tables}
   %\VignetteEngine{rmarkdown::render}
-  %\VignetteEncoding{UTF-8}
+  %\usepackage[utf8]{UTF-8}
 ---
 ```{r, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
