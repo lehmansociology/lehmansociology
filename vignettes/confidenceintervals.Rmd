@@ -53,9 +53,9 @@ we have the sample value for every possible sample of a given size (n).
 How many possible samples are there?  A lot.  If we had 10 people in a population and just
 tried to list out every possible way to select them into groups of 10, assuming we could
 pick the same person multiple times and that we count each sample that is selected in a
-different order separately, we would have 10*10*10*10*10*10*10*10*10*10  or 1,000,000
-posssible samples. And it just gets bigger as the population size increases or the sample
-size increases.
+different order separately, we would have (10)(10)(10)(10)(10)(10)(10)(10)(10)(10)  or
+1,000,000 posssible samples. And it just gets bigger as the population size increases or 
+the sample size increases.
 
 Just like any distribution for an interval variable, the sampling distribution has its own
 mean, median, variance and standard deviation.  The standard deviation of a sampling 
