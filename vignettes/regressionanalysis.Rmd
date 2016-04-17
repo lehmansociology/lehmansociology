@@ -3,7 +3,7 @@ title: "Regression Analysis"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Regression Analysis}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{UTF-8}
 ---
@@ -12,7 +12,7 @@ library(lehmansociology)
 library(dplyr)
 library(tidyr)
 library(broom)
-#library(printr)
+library(printr)
 
 education_and_poverty<-create_educ_poverty_data()
 ```
@@ -20,7 +20,9 @@ education_and_poverty<-create_educ_poverty_data()
 In Sociology 345 we use regression (specifically ordinary least squares regression) to analyse linear relationships between variables.
 
 For basic regression we use the lm() function.  The lm comes from *L*inear *M*odel, which
-makes it easy to remember.
+makes it easy to remember. 
+
+You can find more useful information for regression analysis in the Making Graphs and Confidence Intervals documentation.
 
 # Basics
 
@@ -65,7 +67,7 @@ tidy(results)
 summary(results)
 
 # The glance() function gives you a nice looking version of the summary, but you must load
-#the broow library.
+#the broom package..
 glance(results)
 
 # The residusals or errors (the difference between the data and the regression line)
@@ -90,8 +92,7 @@ There are a number of ways you can make your regression analysis more powerful o
 One thing we might want to do is to compare the regression results for different groups.
 One way to do this is to use the dplyr package (notice this was loaded at the start of the file) groupby function.
 
-**Note that this analyses will not run right now because the region variable is not
-attached. 
+**Note that this analysis will not run without dplyr and the region variable.
 First we group the data by region.
 
 ```{r}
@@ -101,6 +102,10 @@ databyregion <- education_and_poverty  %>%
 
 ```
 
+
+Note that this presentation of result
+depends on the broom package. You can also just display results
+or use xtable to wrap results in a pdf.
 
 ```{r}
 regbyregion<-databyregion  %>% 

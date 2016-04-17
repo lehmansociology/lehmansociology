@@ -19,7 +19,7 @@ This vignette relies on the following packages and a custom dataset.
 library('lehmansociology')
 library(dplyr) 
 library(xtable)
-#library(printr)
+library(printr)
 education_and_poverty<-create_educ_poverty_data()
 
 ```
