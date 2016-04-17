@@ -8,26 +8,34 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{UTF-8}
 ---
+```{r}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", message = FALSE)
+```
 
-```{r, include = FALSE, message=FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+
+This vignette relies on the following packages and a custom dataset.
+```{r,  message=FALSE}
 
 library('lehmansociology')
 library(dplyr) 
 library(xtable)
+library(printr)
 education_and_poverty<-create_educ_poverty_data()
+
 ```
 
 There are many kinds of "tables" that we make in presenting statistical data and doing statistical analysis.  A table can be anything that is organized into columns and rows.
 
-For example you could consider presenting the summary statistics for a variable to be a table.
-```{r, echo=FALSE, message=FALSE}
+For example you could consider presenting the 5 number summary  for a variable to be a 
+kind of table.
+```{r summary, echo=FALSE, message=FALSE}
 
-summary(poverty.states$PCTPOV05_2013)
+fivenum(poverty.states$PCTPOVALL_2013)
 
 ```
 
-However, usually we would make a table with 
+More commonly in sociology when we say table we refer to a frequency, proportion or 
+percent table.
 
 
 ```{r regions_table}
@@ -40,10 +48,28 @@ prop.table(table(education_and_poverty$region))
 mytable <- table(education_and_poverty$region)
 prop.table(mytable)
 
+# You can make the display show percents instead of proportions and round to one decimal.
+round(prop.table(mytable)*100, 1)
+
+# You can make it display vertically by converting the table back to a dataframe.
+as.data.frame(mytable)
 
 ```
 
-Now we will do the same comparison (of means and medians) for different groups with a table of values.
+If we switch to a variable that is ordinal or interval we can create a cumulative percent
+table
+
+```{r}
+
+cumulativetvtable <- cumsum(prop.table(table(addhealth$tvhrs)))*100
+cumulativetvtable <- as.data.frame(cumulativetvtable)
+round(cumulativetvtable, 0)
+
+```
+
+
+
+Now we will do acomparison (of means and medians) for different groups with a table of values.
 
 There are many ways to do this, but this way uses some functions from the dplyr package and the magritte operator (%>%).
 
@@ -62,4 +88,5 @@ education_and_poverty %>%
             )
 
 ```
+
 

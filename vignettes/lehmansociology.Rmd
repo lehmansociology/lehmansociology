@@ -9,6 +9,18 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+Lehmansociology is a package that we are creating as we develop the course Sociology 345
+Quantitative Analysis of Sociological Data at Lehman College.
+
+In this package we are mainly relying on base r plus the family of somewhat related
+packages that includes ggplot2, knitr, dplyr, broom, and printr. We also use a few other
+packages such as Googlesheets for reading data, xtable for nice tables and maps for 
+creating maps. 
+
+Our goal is to be as simple as we can but not too simple.  We choose these packages rather
+than educationally-oriented packages because they are more useful if students try to
+do data analysis in the workplace or in other classes. 
+
 The vignettes are going to show some important examples of how to use this package.
 
 [Making Graphs](http:makinggraphs)  

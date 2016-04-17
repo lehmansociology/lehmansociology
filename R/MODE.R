@@ -3,7 +3,9 @@
 #' This function calculates the mode for a dataframe, supporting multiple data types and multiple modes.
 #' @keywords mode class
 #' @export
-#' @examples mode(mpg), mode(mpg$model)
+#' @examples
+#'  MODE(mtcars)
+#'  MODE(mtcars$hp)
 
 MODE <- function(dataframe, Freq){
   df <- as.data.frame(dataframe)

@@ -1,6 +1,11 @@
 ---
 title: "Regression Analysis"
-output: pdf_document
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{UTF-8}
 ---
 ```{r}
 library(lehmansociology)

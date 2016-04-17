@@ -4,7 +4,7 @@ author: "Elin Waring"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Univariate Statistics}
+  %\VignetteIndexEntry{UnivariateStatistics}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{UTF-8}
 ---
@@ -44,7 +44,7 @@ This assumes you have no missing values, which is true for the poverty.states da
     var(poverty.states$PCTPOVALL_2013)
     range(poverty.states$PCTPOVALL_2013)
     sum(poverty.states$PCTPOVALL_2013)
-    summary(poverty.states$PCTPOVALL_2013)
+    #summary(poverty.states$PCTPOVALL_2013)
     fivenum(poverty.states$PCTPOVALL_2013)
     ### Calculates the numbers associated to defined percentiles
     quantile(poverty.states$PCTPOVALL_2013, c(.25, .5, .75, 1))
@@ -68,7 +68,7 @@ You really cannot count on having no missing values, so you are better off most 
     var(poverty.states$PCTPOVALL_2013, na.rm = TRUE)
     range(poverty.states$PCTPOVALL_2013, na.rm = TRUE)
     sum(poverty.states$PCTPOVALL_2013, na.rm = TRUE)
-    summary(poverty.states$PCTPOVALL_2013, na.rm = TRUE)
+    #summary(poverty.states$PCTPOVALL_2013, na.rm = TRUE)
     fivenum(poverty.states$PCTPOVALL_2013, na.rm = TRUE)
  ### Calculates the numbers associated to defined percentiles
     quantile(poverty.states$PCTPOVALL_2013, c(.25, .5, .75, 1))

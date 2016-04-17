@@ -33,7 +33,7 @@ Here are some examples.
 Some of these examples assume you have created the education_and_poverty data set as done above.
 
 
-##Dotplot
+## Dotplot
 Creating a plot always starts with a  ggplot()  command.
 A dotplot has only one variable, the x. 
 We are using the education_and_poverty dataset.
