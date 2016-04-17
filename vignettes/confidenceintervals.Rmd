@@ -1,0 +1,200 @@
+---
+title: "Confidence Intervals"
+author: "Elin Waring"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Confidence Interval}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+One of the central problems of statistics is that we try to use samples to describe or make 
+conclusions about populations. Sometimes this is called making inferences about the
+populaton or making estimates of population parameters.
+This always involves uncertainty because there are many
+possible samples of any population.  Some of those samples will produce really excellent
+estimates of the population statistics, but other samples will provide terrible estimates.
+Fortunately, if we use random sampling we know that most samples will be pretty good.
+Unfortunately, we never know whether we have one of the pretty good samples or one of the
+pretty bad ones. We also know for sure that it would be extremely unlikely that 
+a sample statistic would be exactly equal to the population parameter (even with 
+rounded numbers).
+
+## Confidence Intervals
+One way that statisticians have developed to deal with the uncertainty associated with using 
+sample statistics to estimate unknown population parameters is the concept of a confidence
+interval.  
+
+A confidence interval lets us give a range of estimated values of the parameter instead
+of a single value *and* lets us
+associate a level of certainty (or uncertainty) with that estimate. The level of confidence
+is based on how often the procedures we use to create the interval will actually work,
+the population. 
+
+The wider the confidence interval, the more confident we are that the true value of the
+population parameter is somewhere inside it.  For example, we would be more confident that 
+the population parameter is between 20 and 25  than that it is between 22 and 23.  
+So higher confidence levels are associated with wider intervals.
+
+We express this confidence as a percentage, but it is important not to get confused and
+think that the percentage is the chance that the true parameter value is in the interval. 
+The percentage more accurately reflect the percent of the time that creating a confidence
+interval in this way will contain the true value if we took every possible sample of the 
+same size as our sample. 
+
+## Sampling Distributions
+
+Confidence intervals are based on the idea of a sampling distribution. In a sampling
+distribution instead of having data on people or countries, we have data about samples.
+Specifically, for a given statistic, such as the mean, median, proportion or variance, 
+we have the sample value for every possible sample of a given size (n).
+
+How many possible samples are there?  A lot.  If we had 10 people in a population and just
+tried to list out every possible way to select them into groups of 10, assuming we could
+pick the same person multiple times and that we count each sample that is selected in a
+different order separately, we would have 10*10*10*10*10*10*10*10*10*10  or 1,000,000
+posssible samples. And it just gets bigger as the population size increases or the sample
+size increases.
+
+Just like any distribution for an interval variable, the sampling distribution has its own
+mean, median, variance and standard deviation.  The standard deviation of a sampling 
+distribution is  called the *standard error*. It also, of course, has quantiles.
+Unfortunately since the reason we are estimating from a sample to start with is that we 
+don't really know about the population, we also don't know exactly what the sampling
+distribution is though fortunately when random sampline is used this does follow some
+rules.  Unfortunately, those rules also require information about the population.
+
+So when we calculate a confidence interval we are still relying on our one sample for all 
+of our information about the population.  
+
+
+
+# Constructing Confidence Intervals
+
+As with many other things, statisticans to not all think alike, and this is especially true
+when it comes to the question of how best to construct a confidence interval from a sample.
+As beginning students it is good for you to see the two main ways this is done.
+
+The validity of both methods relies on the assumption of random sampling.
+
+Let's take a random sample of 30 states.
+
+```{r selectsample}
+library(lehmansociology)
+library(dplyr)
+sample <- sample_n(poverty.states, 30)
+
+```
+
+Now let's look at the mean, median and standard devation of PCTPOVALL_2013
+
+```{r samplestats}
+
+mean(sample$PCTPOVALL_2013)
+median(sample$PCTPOVALL_2013)
+sd(sample$PCTPOVALL_2013)
+
+```
+
+
+
+## Bootstrap or Resampling Methods
+
+These methods leverage the fact that any sample you select actually represents many possible
+samples from the sampling distribution.  For example you can rearrange the order of the 
+sample members and each would be a unique permutation.  Also you can treat your sample as 
+though it was a population and take many possible samples from it that are the same size,
+but that allow the same observation to be selected more than once (sampling with
+replacement).  That's how the population of size 10 represents 1,000,000 samples. 
+Creating bootstrap confidence intervals involves taking a number of the possible samples
+and using them to create an artificial sampling distribution and using that to create
+the interval.
+
+The next code block illustrates how this is done in R.  However to really understand it, it is a good idea to look at a visualization such as that available at (Statkey)[http://lock5stat.com/statkey/bootstrap_1_quant/bootstrap_1_quant.html]
+
+```{r bootstrap}
+
+library(resample)
+# This example takes 1000 samples and calculates a 95% Confidence Interval (the default)
+# for the mean.
+result1 <- bootstrap(sample, mean(PCTPOVALL_2013, na.rm = TRUE), R = 1000)
+CI.bca(result1)
+
+# This example takes 1000 samples and calculates a 95% Confidence Interval (the default)
+# for the median.
+result2 <- bootstrap(sample, median(PCTPOVALL_2013, na.rm = TRUE), R = 1000)
+CI.bca(result2)
+
+# This example takes 1000 samples and calculates a 90% Confidence Interval (the default)
+# for the standard deviation.
+result3 <- bootstrap(sample, sd(PCTPOVALL_2013, na.rm = TRUE),
+                     R = 1000  )
+CI.bca(result3, probs = c(0.05, 0.95))
+
+# Notice that with a bootstrap estimation you will not get the same value every time you 
+# do it.  This is because you are taking new random samples each time.
+result3 <- bootstrap(sample, sd(PCTPOVALL_2013, na.rm = TRUE),
+                     R = 1000  )
+CI.bca(result3, probs = c(0.05, 0.95))
+
+```
+
+
+## Parametric and Other Non-Bootstrap Methods
+
+In most parametric methods the standard error is estimated using some assumptions,
+such as that the original variable is normally distributed.
+
+
+
+```{r}
+
+ci1 <- t.test(sample$PCTPOVALL_2013, conf.level = 0.90)
+ci1$conf.int
+
+ci2 <- t.test(sample$PCTPOVALL_2013, conf.level = 0.95)
+ci2$conf.int
+
+ci3 <- t.test(sample$PCTPOVALL_2013, conf.level = 0.95)
+ci3$conf.int
+
+
+```
+
+
+
+We can also get the confidence interval for regression estimates of the intercept and
+coefficient
+
+```{r}
+
+poverty.states$MEDHHINC_2013 <- replaceCommas(poverty.states$MEDHHINC_2013) 
+reg1 <- lm(PCTPOVALL_2013 ~  MEDHHINC_2013, data = poverty.states)
+confint(reg1)
+
+```
+
+
+Another place you can see confidence intevals is when ggplot puts a confidence ribbon
+around the least squares line.  THis is actually showing the confidence interval for each
+prediction. You can see from the graph that the intervals are wider as you get further 
+from the two means.  This is one reason we should be cautious about extending predictions
+beyond the edges of our data.
+
+```{r predictionCI_graphic}
+
+library(ggplot2)
+ggplot(poverty.states,
+       aes(x=MEDHHINC_2013,
+           y=PCTPOVALL_2013)) +
+  geom_point() +
+  stat_smooth(method = lm) +
+  ggtitle("Fig # : Poverty Rate and Median Income (for States)") +
+  labs(x = "Median Income",  
+       y="Percent of population in poverty") 
+
+
+```
+
+
