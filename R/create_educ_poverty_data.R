@@ -2,11 +2,9 @@
 
 #' Extract and merge data
 #'
-#' This function creates and assigns a custom class to handle numbers with commas.
+#' This function creates a county level education and poverty data set.
 #' @keywords poverty education data
 #' @export
-#' create_educ_poverty_data_function()
-
 
 create_educ_poverty_data <- function()
 {
