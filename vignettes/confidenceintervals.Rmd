@@ -113,6 +113,9 @@ the interval.
 
 The next code block illustrates how this is done in R.  However to really understand it, it is a good idea to look at a visualization such as that available at (Statkey)[http://lock5stat.com/statkey/bootstrap_1_quant/bootstrap_1_quant.html]
 
+
+
+
 ```{r bootstrap}
 
 library(resample)
@@ -138,6 +141,13 @@ result3 <- bootstrap(sample, sd(PCTPOVALL_2013, na.rm = TRUE),
                      R = 1000  )
 CI.bca(result3, probs = c(0.05, 0.95))
 
+```
+
+
+If you would like to use this sample in statkey to better understand bootstrapping, copy the column below. Be sure to indicate that the first column is labels.
+
+```{r comment=NA}
+sample['PCTPOVALL_2013']
 ```
 
 
