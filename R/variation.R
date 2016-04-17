@@ -5,8 +5,7 @@
 #' @keywords variation
 #' @export
 #' @examples
-#' variation_function(iris$Sepal.Petal)
-#'
+#' variation(iris$Sepal.Petal)
 
 variation<-function(x){
 

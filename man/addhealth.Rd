@@ -3,7 +3,7 @@
 \docType{data}
 \name{addhealth}
 \alias{addhealth}
-\title{Add Healths.}
+\title{Add Health.}
 \format{An object of class \code{data.frame} with 4016 rows and 16 columns.}
 \usage{
 addhealth

@@ -11,8 +11,7 @@ This function calculates a number of measures of variation for numeric and integ
 Note that this uses the unbiased estimates of variance and standard deviation.
 }
 \examples{
-variation_function(iris$Sepal.Petal)
-
+variation(iris$Sepal.Petal)
 }
 \keyword{variation}
 
