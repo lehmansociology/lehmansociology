@@ -5,7 +5,7 @@ output: >
 
 vignette: >
   %\VignetteIndexEntry{Making graphs}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{rmarkdown::render}
   %\VignetteEncoding{UTF-8}
 ---
 ```{r, include = FALSE}
