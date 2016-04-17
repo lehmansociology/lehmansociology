@@ -21,5 +21,7 @@ Imports:
     googlesheets
 Suggests:
     printr
+Remotes:
+    yihui/printr
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1

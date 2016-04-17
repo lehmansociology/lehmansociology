@@ -4,7 +4,7 @@ author: "Elin Waring"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Making Tables}
+  %\VignetteIndexEntry{Lehman Sociology}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{UTF-8}
 ---
