@@ -18,8 +18,8 @@ Imports:
     magrittr,
     maps,
     methods,
-    printr,
     googlesheets
 Suggests:
+    printr
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
