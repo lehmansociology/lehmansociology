@@ -15,7 +15,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(lehmansociology)
 education_and_poverty<-create_educ_poverty_data()
 library(ggplot2)
-library(plyr)
+#library(plyr)
 library(dplyr)
 ```
 In SOC 345 we are using the graphing system known as ggplot2.

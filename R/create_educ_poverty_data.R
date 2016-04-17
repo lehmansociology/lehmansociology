@@ -10,7 +10,7 @@ create_educ_poverty_data <- function()
 {
 
     loadNamespace('googlesheets')
-    loadNamespace('dplyr')
+    library('dplyr')
     poverty13 <- dplyr::select (poverty.states, FIPStxt, Area_Name, PCTPOVALL_2013)
     poverty13$FIPS.Code <- as.integer(poverty13$FIPStxt)
 

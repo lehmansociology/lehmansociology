@@ -12,7 +12,7 @@ library(lehmansociology)
 library(dplyr)
 library(tidyr)
 library(broom)
-library(printr)
+#library(printr)
 
 education_and_poverty<-create_educ_poverty_data()
 ```
