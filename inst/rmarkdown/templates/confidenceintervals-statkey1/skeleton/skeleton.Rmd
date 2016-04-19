@@ -36,7 +36,7 @@ univariate statistics: the mean, median and standard deviation.
 ```{r}
 
 # You may need to reload your sample data set, in that case, uncomment the line below.
-load(file = ("/data/mysample1.RData")
+load(file = "data/mysample1.RData")
 write.table(mysample1$PCTPOVALL_2013, file="data/mysample1poverty.txt", 
             row.names = FALSE)
 
