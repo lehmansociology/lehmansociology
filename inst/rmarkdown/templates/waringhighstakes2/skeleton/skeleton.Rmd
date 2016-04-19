@@ -21,6 +21,7 @@ library(magrittr)
 library(broom)
 library(xtable)
 library(gridExtra)
+library(printr)
 
 ```
 
@@ -47,51 +48,32 @@ More variables as needed.
 ```
 
 
-
-
-
 # Analysis
 
 Text
 
-````{r graph2}
+````{r datapresentation1}
 #type your code here
 
 ````
 
 Text
 
-````{r graph3}
+````{r datapresentation2}
 #type your code here
 
 ````
 
 Text
 
-````{r graph4}
+````{r datapresentation3}
 #type your code here
 
 ````
 
 Text
-````{r graph5}
-#type your code here
 
-````
-
-Text
-````{r table1}
-#type your code here
-
-````
-
-Text
-````{r table2}
-#type your code here
-
-````
-
-Text
+Repeat as needed.
 
 # Conclusion
 
