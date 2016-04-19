@@ -1,0 +1,61 @@
+---
+title: "Confidence Intervals in Statkey 1"
+output: html_document
+---
+
+In this template we are going to use our two random samples (previously created and saved)
+and the statkey web application to create confidence intervals.
+
+When we take random samples of a population, we have seen that most of the time the estimates
+are pretty good, sometimes they are terrible, and sometimes they are almost exactly right.
+We have seen this thanks to working with an artifiical situation in which we know the 
+populaton values. However, this is not a real world situation.  Usually we do not and
+cannot know what the population values are.  We are using random samples to *estimate*
+the population values and we are uncertain whether we have one of the pretty good estimates,
+one of the great estimates or one of the really terrible ones. 
+
+Because of this uncertainty, when we report our results we generally want to report a
+range of values called a confidence interval rather than a single value. We also want to link
+our range to a level of confidence.  So when you report results you should have three parts:
+ +  the calculated value (called the point estimate)
+ +  the confidence interval (called the interval estimate)
+ +  the level of confidence that is somewhere between 0 and 1 (or 0 and 100 if you put it in terms of percentages)
+
+You can create confidence intervals for any statistic but in this labe we will focus on
+univariate statistics: the mean, median and standard deviation.  
+ 
+ To start off with this we are not going to use R, we are going to use an online application
+ called (statkey)[http://lock5stat.com/statkey/bootstrap_1_quant/bootstrap_1_quant.html]
+ 
+ To use statkey we need a column of data.  Let's start with PCTPOVALL_2013.
+ 
+ To make a column of data you can do the following code.
+ 
+ Please note, knit is not going to work for this right now.
+ 
+```{r}
+
+# You may need to reload your sample data set, in that case, uncomment the line below.
+load(file = ("/data/mysample1.RData")
+write.table(mysample1$PCTPOVALL_2013, file="data/mysample1poverty.txt", 
+            row.names = FALSE)
+
+```
+
+Look in your data folder and you should see the new file.  Click on it to open.
+You should see a column of numbers and nothing else.
+
+
+Repeat the same procedure for mysample2. 
+
+
+Go to the Statkey site.  
+Click on the *edit data*  button and replace the data that is in the file with the numbers
+from your file and uncheck the box that says "Data has header row."
+
+Statkey uses a "boostrap" or "resampling" approach to estimating  confidence intervals. 
+
+Following the instructions in Blackboard, usee Statkey to create bootstrap confidence
+intervals for your first sample.
+
+Answer the questions in Blackboard.
