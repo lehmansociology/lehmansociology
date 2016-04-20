@@ -43,7 +43,7 @@ write.table(mysample1$PCTPOVALL_2013, file="data/mysample1poverty.txt",
 ```
 
 Look in your data folder and you should see the new file.  Click on it to open.
-You should see a column of numbers and nothing else.
+You should see a column of numbers, a header and nothing else.
 
 
 Repeat the same procedure for mysample2. 
@@ -51,7 +51,7 @@ Repeat the same procedure for mysample2.
 
 Go to the Statkey site.  
 Click on the *edit data*  button and replace the data that is in the file with the numbers
-from your file and uncheck the box that says "Data has header row."
+from your file.
 
 Statkey uses a "boostrap" or "resampling" approach to estimating  confidence intervals. 
 
