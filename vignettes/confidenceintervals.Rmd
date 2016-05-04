@@ -212,18 +212,15 @@ ggplot(poverty.states,
 
 
 ```{r errorbars }
-# The poverty.states data set includes the 90% confidence interval.
-ggplot(poverty.states, 
-       aes(x= reorder(Area_Name, PCTPOVALL_2013), y = PCTPOVALL_2013)) +
-    geom_point() +
-    geom_errorbar(aes(ymin = CI90LBALLP_2013, ymax = CI90UBALLP_2013),
-                  width=.2, 
-                  position=position_dodge(.9)) +
+ggplot(poverty.states,
+    aes(x= reorder(Area_Name, PCTPOVALL_2013), y = PCTPOVALL_2013)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = CI90LBALLP_2013, ymax = CI90UBALLP_2013),
+    width=.2, position=position_dodge(.9)) +
   labs(y = "Percent in Poverty",     x="State") +
-     # This line is going to rotate the state names by 90 degrees. You can try other values.
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-  ggtitle("Fig #2 : State Poverty Rate Estimates")
- 
+  # This line is going to rotate the state names by 90 degrees. You can try other values.
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  ggtitle("Fig #2:  Percent Poverty By state with 90% Confidence Intervals")
 
 ```
 

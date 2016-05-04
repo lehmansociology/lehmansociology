@@ -1,0 +1,139 @@
+---
+title: ""
+output: pdf_document
+author: ""
+date: "`r Sys.Date()`"
+---
+
+In this document we will be constructing confidence intervals using R instead of statkey or 
+using hand calculations.
+
+This assumes that you have saved your mysample1 and mysample2 data sets to the data folder. 
+If you haven't done that you should do so before starting using this code in your console:
+
+```{}
+save(mysample1, file = "data/mysample1.RData")
+save(mysample2, file = "data/mysample2.RData")
+
+```
+Now read the file.  You will need to get the "full path" to your data files.
+You can do this by going to file Files tab and finding the file and clicking on their name.
+Look at the load command that apppears in your console.  
+Change the lines below to what is shown.
+
+```{r readfiles}
+
+load(file = "change to your mysample1 file")
+load(file = "change to your mysample2 file")
+```
+
+ 
+```{r loadlibraries, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library(ggplot2)
+
+library(resample)
+
+```
+
+
+
+
+The code below creates a boot strap sample of the mean
+
+````{r confidenceintervalsmean1}
+# This example takes 1000 samples and calculates a 95% Confidence Interval (the default)
+# for the mean.
+result1 <- bootstrap(mysample1, mean(PCTPOVALL_2013, na.rm = TRUE), R = 1000)
+CI.bca(result1)
+
+
+````
+
+Copy and paste your code so that you get at least 9 different conficence intervals. You
+should: use at least two confidence levels and use at least two different values for number
+of samples. For example you could try 5000 or 500.
+
+How did the estimates change when you changed your parameter values?
+
+
+Now get at least 9 confidence intervals for the median and standard deviation.
+Make sure to change the confidence level and the number of samples.
+
+```{r confidenceintervalotherstats1}
+
+```
+
+What patterns do you notice?
+
+
+How did your results compare to the results from statkey?
+
+Now we will use the traditional (parametric) way of calculating confidence intervals in R using the t statistic.
+We will only do this for the mean.
+
+Calculate the 90, 95 and 99 percent confidence intervals.
+```{r confidenceintervalsparametric}
+
+ci1 <- t.test(sample$PCTPOVALL_2013, conf.level = 0.90)
+ci1$conf.int
+
+
+```
+
+How do these numbers compare to the values you got in the previous lab by using the formulas?
+
+How do these values compare to the bootstrap values?
+
+
+Explain in your own words why a 95% confindence interval would be displayed with the labels
+2.5% and 97.5%.
+
+How is a 99% confidence interval labelled?  Why is that?
+
+
+
+We can also get confidence intervals for our slope estimates. The default is for a 95%
+confidence interval.
+Here is the code for mysample1, add your own for mysample2.
+
+```{r}
+
+reg1 <- lm(PCTPOVALL_2013 ~  Percent.of.adults.with.a.bachelor.s.degree.or.higher..2009.2013, data = mysample1)
+confint(reg1)
+
+```
+
+Do your confidence intervals include the actual slope from the full county data set 
+(which is -0.33677)?
+
+One way we can see the impact of adding a confidence interval to a regression analysis is 
+by adding an error ribbon around the regression line in a scatter plot.
+
+```{r predictionCI_graphic}
+
+library(ggplot2)
+ggplot(education_and_poverty_counties,
+       aes(x=Percent.of.adults.with.a.bachelor.s.degree.or.higher..2009.2013,
+           y=PCTPOVALL_2013)) +
+  geom_point() +
+  stat_smooth(method = lm) +
+  ggtitle("Fig # : Poverty Rate and Median Income (for Counties)") +
+  labs(x = "Percent with Bachelors Degree or Higher",  
+       y="Percent of population in poverty") 
+
+
+```
+
+
+What do you notice about the width of the confidence band?
+
+
+
+Remember that the regression line always goes through the point that represents the mean
+of the x and the mean of the y.
+
+This requires some thinking, but why is it that the confidence interval 
+changes widths as you get farther away from the two means?
