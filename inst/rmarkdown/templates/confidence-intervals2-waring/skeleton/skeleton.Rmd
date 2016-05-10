@@ -49,12 +49,26 @@ The code below creates a boot strap sample of the mean
 result1 <- bootstrap(mysample1, mean(PCTPOVALL_2013, na.rm = TRUE), R = 1000)
 CI.bca(result1)
 
+# To get a 90% Confidence interval do this
+CI.bca(result1, probs = c(0.05, 0.95))
+
+#Now on your own get a 99% confidence interval
 
 ````
+Explain in your own words why a 95% confindence interval would be displayed with the labels
+2.5% and 97.5%.
 
-Copy and paste your code so that you get at least 9 different conficence intervals. You
+How is a 99% confidence interval labelled?  Why is that?
+
+Where to the values for "probs = " come from?
+
+
+Copy and paste your code so that you get at least 9 different confidence intervals. You
 should: use at least two confidence levels and use at least two different values for number
 of samples. For example you could try 5000 or 500.
+
+
+
 
 How did the estimates change when you changed your parameter values?
 
@@ -77,7 +91,7 @@ We will only do this for the mean.
 Calculate the 90, 95 and 99 percent confidence intervals.
 ```{r confidenceintervalsparametric}
 
-ci1 <- t.test(sample$PCTPOVALL_2013, conf.level = 0.90)
+ci1 <- t.test(mysample1$PCTPOVALL_2013, conf.level = 0.90)
 ci1$conf.int
 
 
@@ -87,11 +101,6 @@ How do these numbers compare to the values you got in the previous lab by using 
 
 How do these values compare to the bootstrap values?
 
-
-Explain in your own words why a 95% confindence interval would be displayed with the labels
-2.5% and 97.5%.
-
-How is a 99% confidence interval labelled?  Why is that?
 
 
 
@@ -111,11 +120,12 @@ Do your confidence intervals include the actual slope from the full county data 
 
 One way we can see the impact of adding a confidence interval to a regression analysis is 
 by adding an error ribbon around the regression line in a scatter plot.
+Make a second plot using mysample2.
 
 ```{r predictionCI_graphic}
 
 library(ggplot2)
-ggplot(education_and_poverty_counties,
+ggplot(mysample1,
        aes(x=Percent.of.adults.with.a.bachelor.s.degree.or.higher..2009.2013,
            y=PCTPOVALL_2013)) +
   geom_point() +
