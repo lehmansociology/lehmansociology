@@ -12,8 +12,7 @@ output: pdf_document
 library('lehmansociology')
 library('ggplot2')
 library('maps')
-library('googlesheets')
-library('mapproj')
+
 library('dplyr')
 library(grid)
 library(scales)
@@ -23,6 +22,8 @@ library(xtable)
 library(gridExtra)
 library(printr)
 
+
+load( "replace with path to your data file")
 ```
 
 # Introduction
