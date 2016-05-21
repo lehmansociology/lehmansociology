@@ -20,7 +20,7 @@ library(dplyr)
 ```
 In SOC 345 we are using the graphing system known as ggplot2.
 
-Ggplot is a system in which you start a plot and then layer additional features by adding 
+ggplot is a system in which you start a plot and then layer additional features by adding 
 commands using a +.
 
 Notice that as shown above you must load the ggplot2 package using the library function, 
@@ -29,7 +29,6 @@ Notice that as shown above you must load the ggplot2 package using the library f
 Here are some examples. 
 
 Some of these examples assume you have created the education_and_poverty data set as done above.
-
 
 ## Dotplot
 Creating a plot always starts with a  ggplot()  command.
@@ -81,8 +80,9 @@ ggplot(education_and_poverty, aes(x=PCTPOVALL_2013)) +
 
 ## Stem and leaf plot
 
-The one graph that we looked at that did not use ggplot is the stem and leaf.
-With a stem and leaf plot use the appropriate scale variable for your data. 
+The graph we look at which does not use ggplot is the stem and leaf plot.
+A stem and leaf plot organizes/splits data values into a "stem" (the first digit or digits) and a "leaf" (usually the last digit).
+With a stem and leaf plot be sure to use the appropriate scale variable for your data! 
 This is not a real plot in that it does not produce an image file. It is just displaying text. You *cannot* use the ggplot options with it.
 
 ```{r stem}
@@ -227,8 +227,8 @@ This actually makes the map, and you an see that this part is very similar to ev
 ## Other Resources
 
 Much excellent information on making graphs in R can be found at (http://www.cookbook-r.com/Graphs/") [Winston Chang's website] where he gives a lot of examples of how to do nice graphs using R. His book is practical and excellent.</p>
-<p>This is the (https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)[cheatsheet from RStudio] contains a huge amount of information in compressed form. 
+<p>This is the (https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) [cheatsheet from RStudio] contains a huge amount of information in compressed form. 
 You should push yourselves to make great looking graphics and if you read some of those tips it will go a long way helping with that.
-There are also lots of other sources of help out there. For example this site has some  (http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/")[neat examples].
+There are also lots of other sources of help out there. For example this site has some  (http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/") [neat examples].
 
-(http://sctyner.github.io/ggplot_tutorial.html)[This slide deck] is fantastic at really explaining why and how things work, and I'd recommend it too.
+(http://sctyner.github.io/ggplot_tutorial.html) [This slide deck] is fantastic at really explaining why and how things work, and I'd recommend it too.
