@@ -3,6 +3,8 @@
 export(MODE)
 export(create_educ_poverty_data)
 export(ggvis_percent)
+export(meltHMDdata)
+export(populationPyramid)
 export(readMyData)
 export(replaceCommas)
 export(variation)

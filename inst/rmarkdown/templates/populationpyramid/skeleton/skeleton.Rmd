@@ -1,0 +1,36 @@
+---
+title: "Population Pyramids"
+output: html_document
+---
+
+
+
+
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+
+```
+
+Get data from mortality.org
+Make sure to add your own password and email inside the quotation marks
+````{r getdata}
+#type your code here
+library(HMDHFDplus)
+dataset <- readHMDweb(CNTRY = 'USA', item = 'Population', 
+                         username ='email', 
+                            password = 'password')
+````
+
+Now you create the population pyramid by using the populationPyramid(df, year, entityname) function.
+df is the name of your data (probably dataset unless you changed it)
+Year is the year you will create the pyramid for.
+Entity name will be used in the title of the graph. THis neeed to be in quotation marks.
+
+```{r createpyramid}
+
+populationPyramid(dataset, 1980, "United States")
+```
+
