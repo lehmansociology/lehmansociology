@@ -1,0 +1,68 @@
+---
+title: "Fertility Lab"
+output: html_document
+---
+ 
+In this lab we will calculate birth rates per year in the US from 1933 to 2014.  The very first step is to load the necessary libraries in R.  What this does gives R information on what each command means, sort of like loading a dictionary that R can check commands against so it knows what to do.
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library('HMDHFDplus')
+
+```
+
+To calculate the birth rate, first we need to get the total population by year.  Mortality.org provides demographic data on a number of countries.  You'll need a username and password for mortality.org to access the data.  If you have not done so already, please visit mortality.org and create an account.  On their homepage on the left hand side, you'll see an option to create a "New User".  In the code below, we will pull and format the yearly population from 1933 to 1944 in the USA.
+
+````{r}
+population <- readHMDweb(CNTRY = 'USA', item = 'Population', username = 'YOUR MORTALITY.ORG USERNAME', password = 'YOUR MORTALITY.ORG PASSWORD')
+total_pop_by_year <- aggregate(x = population[4:9], by = list(Year = population$Year), FUN=sum)
+total_pop_by_year <- dplyr::select(total_pop_by_year, Year, Total1)
+total_pop_by_year <- dplyr::rename(total_pop_by_year, Population = Total1)
+
+````
+
+Next we will gather yearly birth data from mortality.org and format this data for easier use in calculating birth rates.
+
+````{r}
+births_by_year <- readHMDweb(CNTRY = 'USA', item = 'Births', username = 'YOUR MORTALITY.ORG USERNAME', password = 'YOUR MORTALITY.ORG PASSWORD')
+births_by_year <- dplyr::select(births_by_year, Year, Total)
+births_by_year <- dplyr::rename(births_by_year, Births=Total)
+
+````
+
+Now we'll merge our population data and our births data into a single dataset.
+
+````{r}
+birthdata <- merge(total_pop_by_year, births_by_year, by = 'Year')
+
+````
+
+With the data merged into a single dataset for easier use, let's calculate the annual birth rates.  I'll supply the new variable names, and you'll supply the calculations in R.  The birth rate is calculated by the following equation:
+
+birth rate = (births/population)*1000
+
+We'll do this in two steps.  In the first step we'll calculate the number of births divided by the population.  In the second, we'll multiply births/population by 1000 to get the birth rates.  Our births variable is called Births and is in the birthdata dataset.  To access this variable, we first write the dataset name, then $, then the variable name, i.e. birthdata$Births.  This tells R what dataset to look in, then that variable to look for.  All variables in the calculation will be in the birthdata dataset.  Our variable for total births is called Births.  Our variable for total population is called Population.  Remember that R is case sensitive.
+
+````{r}
+birthdata$births_population <- YOUR CALCULATION HERE
+birthdata$birth_rate <- YOUR CALCULATION HERE
+
+````
+
+Let's take a look at what this data looks like.  Entering the name of the dataset will display the data saved in this dataset in your console.  As you'll see, we now have the population, births, births/population, and birth rate for each year from 1933 to 2014.
+
+````{r}
+birthdata
+
+````
+
+Finally, we'll make a graph of this data to see it more clearly.
+
+````{r}
+ggplot(birthdata, aes(x = Year, y = birth_rate)) + geom_line() + ggtitle("US Birth Rate 1933=2014")
+
+````
+
+
