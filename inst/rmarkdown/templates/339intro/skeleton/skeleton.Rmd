@@ -9,6 +9,7 @@ In this lab, we'll cover the basic functions of R to introduce you to how this p
 In these documents, the grey rectangles contain R code that you'll run.  To do basic calculations, you can type in the expression you'd like to calculate, similar to using a calculator.  To start, calculate 1+1 by running the expression below.  To run this expression, highlight the code you want to run, then click "Run" in this window on the top right.
  
 ```{r, echo=FALSE, message=FALSE}
+
 1+1
 
 ```
@@ -16,6 +17,7 @@ In these documents, the grey rectangles contain R code that you'll run.  To do b
 R can also store variables.  You can create a variable by typing in the name of the variable you'd like to create, then <-, then entering what the variable is equal to.  For example, let's tell R that the variable "x" is equal to 2.  Go ahead and run the code below.
 
 ````{r}
+
 x <- 2
 
 #A hashtag or pound sign (#) in the grey boxes are used to make annotations.  R knows not to run lines that start with #
@@ -28,6 +30,7 @@ x <- 2
 R will remember the value of x.  Now we can calculate expressions using the variable x.  Go ahead an calculate the variables below.
 
 ````{r}
+
 x*4
 
 x/2
@@ -43,6 +46,7 @@ x^3
 R saves data in datasets.  We're going to take a look at a dataset called "states".  First, we'll need to get states set up quickly.  Run the code below, but don't worry too much about the details of what we're doing in this step.
 
 ````{r}
+
 data(state, list=character(), package="datasets", lib.loc=NULL, envir=.GlobalEnv)
 states<-data.frame(state.x77)
 
@@ -51,6 +55,7 @@ states<-data.frame(state.x77)
 Let's take a look at this dataset called states that we just set up.  To print the data to the console in the program, just enter in the name of the dataset.  Run the name below to see the data.
 
 ````{r}
+
 states
 
 ````
@@ -60,6 +65,7 @@ We can also bring up the dataset in a new tab in this window to see the data in 
 As you can see, the states data contains some data about each state in the US.  Let's calculate the population density of each state.  The population listed is the population as of July 1, 1975.  The area is the area of each state in square miles.  To calculate the population per square mile, we need to divide the population by the area.  To tell R to use a particular variable, we first tell R the dataset we're using, then use the $ sign, then tell R the variable we want to use.  We'll create a new variable called PopulationDensity using calculations from the variables we already have.  Run the code below to create the variable.
 
 ````{r}
+
 states$PopulationDensity <- states$Population/states$Area
 
 ````
@@ -67,6 +73,7 @@ states$PopulationDensity <- states$Population/states$Area
 Now let's take a look at the results of this new variable.  Run the code below.
 
 ````{r}
+
 states$PopulationDensity
 
 ````  
@@ -74,6 +81,7 @@ states$PopulationDensity
 You've just printed all the population density values of each state.  It's kind of hard to make sense of all the individual values, though.  So, let's calculate the mean and the median.
 
 ````{r}
+
 mean(states$PopulationDensity)
 
 median(states$PopulationDensity)
@@ -95,7 +103,7 @@ ggplot(states, aes(x=HS.Grad, y=Illiteracy)) +
 
 ````
 
-Does it look like there's a correlation here?  Let's use the cor() function to see the Pearson R squared.
+Does it look like there's a correlation here?  Let's use the cor() function to see the Pearson R.
 
 ```{r}
 
