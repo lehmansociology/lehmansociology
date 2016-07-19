@@ -13,7 +13,7 @@ library('HMDHFDplus')
 
 ```
 
-To calculate the birth rate, first we need to get the total population by year.  Mortality.org provides demographic data on a number of countries.  You'll need a username and password for mortality.org to access the data.  If you have not done so already, please visit mortality.org and create an account.  On their homepage on the left hand side, you'll see an option to create a "New User".  In the code below, we will pull and format the yearly population from 1933 to 1944 in the USA.
+To calculate the birth rate, first we need to get the total population by year.  Mortality.org provides demographic data on a number of countries.  You'll need a username and password for mortality.org to access the data.  If you have not done so already, please visit mortality.org and create an account.  On their homepage on the left hand side, you'll see an option to create a "New User".  In the code below, we will pull and format the yearly population from 1933 to 2014 in the USA.
 
 ````{r}
 population <- readHMDweb(CNTRY = 'USA', item = 'Population', username = 'YOUR MORTALITY.ORG USERNAME', password = 'YOUR MORTALITY.ORG PASSWORD')
