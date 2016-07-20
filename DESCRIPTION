@@ -21,7 +21,8 @@ Imports:
     googlesheets,
     HMDHFDplus
 Suggests:
-    printr
+    printr,
+    aws.s3
 Remotes:
     yihui/printr
 VignetteBuilder: knitr
