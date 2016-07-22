@@ -1,0 +1,110 @@
+---
+title: "Growth Rates Lab"
+output: html_document
+---
+
+In this lab we'll explore the growth rates of the US and Japan, as well as the expected time to double the population.  As always, we'll start with loading out libraries.
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library ('HMDHFDplus')
+library('ggplot2')
+
+```
+
+As we've done before, we'll start with importing the annual population data for the US.  In the code below you'll see that we're using the population given for the start and end of each year. You may also notice that we're only using dates from 1950 on in this lab.  You'll need to enter in your username and password for mortality.org to pull the data.  Once you've entered in your usename and password, you can run the code below.
+
+````{r}
+
+populationUSA <- readHMDweb(CNTRY = 'USA', item = "Population", username = "YOUR MORTALITY.ORG USERNAME", password = "YOUR MORTALITY.ORG PASSWORD")
+total_pop_by_year_USA <- aggregate(x=populationUSA[4:9], by=list(Year=populationUSA$Year), FUN=sum)
+total_pop_by_year_USA <- dplyr::select(total_pop_by_year_USA, Year, Total1, Total2)
+total_pop_by_year_USA <- dplyr::rename(total_pop_by_year_USA, PopJan=Total1, PopDec=Total2)
+total_pop_by_year_USA<-subset(total_pop_by_year_USA, Year>=1950)
+
+````
+
+The Growth Rate is a calculation of the percentage increase in population size over a given period.  Here, we're looking at annual growth rates since we're looking at the change from January 1st to December 31st in a given year.  To calculate this, we subtract the population in January from the population in December to get the difference in population over the period, then we divide this by the population in January to see the percentage change since the start.  Since this calculation is really a percentage, it can be easier to interpret after multipying by 100.
+
+  Growth Rate = (End Population - Start Population)/Start Population * 100
+
+````{r}
+
+total_pop_by_year_USA$Growth <- (total_pop_by_year_USA$PopDec - total_pop_by_year_USA$PopJan) / total_pop_by_year_USA$PopJan
+total_pop_by_year_USA$GrowthRate <- total_pop_by_year_USA$Growth*100
+
+````
+
+Now let's plot the growth rate.  Fill in the name of the dataset where our variables are found, and our x and y variables.  On the x axis, we'll want years displayed, and on the y axis we'll want the growth rate displayed.  If you'd like to see a which variables we have available, enter the command View(total_pop_by_year_USA) into the console below, or click on the total_pop_by_year_USA data on the right.
+
+````{r}
+
+ggplot(DATASET NAME HERE, aes(x = X VARIABLE HERE, y = Y VARIABLE HERE)) +
+  geom_line() + 
+  ggtitle("US Growth Rate 1950-2014") +
+  expand_limits(y = 0)
+
+````
+
+Growth rates are not a very intuitive measure, so instead it can be helpful to look at Doubling Time, sometimes refered to as T.  Doubling time is a measure of how many years it would take to double the current population size, assuming that the growth rate does not change.  Of course the growth rate does change, so this isn't a prediction of how long it will take to double a population, but doubling time does give us a more intuitive way to think about growth.  We'll calculate the doubling time below and then graph it.  For the graph, go ahead and enter in the dataset, x, and y variables.
+
+````{r}
+
+total_pop_by_year_USA$DoublingTime <- 69.3/total_pop_by_year_USA$GrowthRate
+
+ggplot(DATASET NAME HERE, aes(x = X VARIABLE HERE, y = Y VARIABLE HERE)) +
+  geom_line() + 
+  ggtitle("US Doubling Time 1950-2014") +
+  expand_limits(y = 0)
+
+````
+
+It's great to know what's going on in the US, but let's take a look at Japan to compare and contrast to the US.  Below we'll pull the annual population data for Japan from mortality.org.  Enter in your username and password, then run the code below.
+
+````{r}
+
+populationJPN <- readHMDweb(CNTRY = 'JPN', item = "Population", username = "YOUR MORTALITY.ORG USERNAME", password = "YOUR MORTALITY.ORG PASSWORD")
+total_pop_by_year_JPN <- aggregate(x=populationJPN[4:9], by=list(Year=populationJPN$Year), FUN=sum)
+total_pop_by_year_JPN <- dplyr::select(total_pop_by_year_JPN, Year, Total1, Total2)
+total_pop_by_year_JPN <- dplyr::rename(total_pop_by_year_JPN, PopJan=Total1, PopDec=Total2)
+total_pop_by_year_JPN<-subset(total_pop_by_year_JPN, Year>=1950)
+
+````
+
+Now we'll need to calculate the growth rate for Japan.  Go ahead and enter in the equation for the growth rate.  You can reference the corresponding section for US data, but note that you'll need to modify the name of the dataset uses, even if the variable names are the same.  For the US, our dataset is called total_pop_by_year_USA, for Japan it's called total_pop_by_year_JPN.  In the first line you'll subtract the start population from the end population, then divide by the start population.  In the second line, you'll multiply this by 100.
+
+````{r}
+
+total_pop_by_year_JPN$Growth <- YOUR CALCULATION HERE
+total_pop_by_year_JPN$GrowthRate <- YOUR CALCULATION HERE
+
+````
+
+Now let's plot the growth rate for Japan.
+
+````{r}
+
+ggplot(total_pop_by_year_JPN, aes(x = Year, y = GrowthRate)) +
+  geom_line() + 
+  ggtitle("Japan Growth Rate 1950-2012") +
+  expand_limits(y = 0)
+
+````
+
+And finally, let's calculate the doubling time for Japan and plot it.  For this graph, you'll notice that we've removed the cases after 2008.  That's becuase, as you saw in the growth rates lab, the population growth was negative in 2009 and after, indicating a shrinking population.  Our calculation for doubling time no longer makes sense if the population is getting smaller rather than larger.  Since the doubling time calculations for 2009 and after are not interpretable, we limit our graph to years 2008 and prior.
+
+````{r}
+
+total_pop_by_year_JPN$DoublingTime <- 69.3/total_pop_by_year_JPN$GrowthRate
+
+ggplot(total_pop_by_year_JPN, aes(x = Year, y = DoublingTime)) + 
+  geom_line() + 
+  scale_x_continuous(limits=c(1950,2008)) +
+  scale_y_continuous(limits=c(-200,3000)) +
+  ggtitle("Japan Doubling Time 1950-2008")
+       
+````
+
+Once you've completed this template, knit to PDF and return to Blackboard to complete the rest of the lab.

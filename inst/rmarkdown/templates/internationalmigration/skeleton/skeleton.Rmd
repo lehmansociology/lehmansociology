@@ -1,0 +1,100 @@
+---
+title: "International Migration"
+output: html_document
+---
+
+In this lab, we will attempt to calculate annual net migration to the US from 1933 to 2014 using the population balancing equation.  End Population = Start Population + Natural Increase + Net Migration.  Natural increase is the result of births minus deaths.  Net migraiton is the result of immigration (also known an inmigration) minus emigration (also knows as outmigration).  Often this equation is used to calculated the change in a overall population over a period of time.  However, if you have all pieces of information except one, you can calculate that one missing piece.  In our case here, we have start and end populations for each year, as well as births and deaths.  We'll use this to calculate an estimate of net migration.  We'll start by loading our libraries.
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library('HMDHFDplus')
+library('ggplot2')
+
+```
+
+As with the previous labs, we'll import the population of the USA from the Human Mortality Database for years 1933 to 2014 into RStudio.  Enter in your username and password information for mortality.org as before.
+
+````{r}
+
+population <- readHMDweb(CNTRY = 'USA', item = 'Population', 
+                         username = 'YOUR MORTALITY.ORG USERNAME', 
+                         password = 'YOUR MORTALITY.ORG PASSWORD')
+total_pop_by_year <- aggregate(x=population[4:9], by=list(Year=population$Year), FUN=sum)
+
+````
+
+There are two populations listed for each age and each year.  Total1 is the population on January 1st, and Total2 is the population on December 31st.  We'll want both of these totals for the population balancing equation.  These will serve as our start and end populations for each year.  The code below tells R that we want to keep these two population (the select function), and then renames them Pop_T1 and Pop_T2 under a new dataset called migration_by_year.
+
+````{r}
+
+total_pop_by_year <- dplyr::select(total_pop_by_year, Year, Total1, Total2)
+migration_by_year <- total_pop_by_year
+migration_by_year <- dplyr::rename(migration_by_year, Pop_T1=Total1)
+migration_by_year <- dplyr::rename(migration_by_year, Pop_T2=Total2)
+
+````
+
+You may recognize this chunk from the fertility lab.  Here we are importing and formatting the data on births for each year 1933 to 2014.
+
+````{r}
+
+births_by_year <- readHMDweb(CNTRY = 'USA', item = 'Births', 
+                             username = 'YOUR MORTALITY.ORG USERNAME', 
+                             password = 'YOUR MORTALITY.ORG PASSWORD')
+births_by_year <- dplyr::select(births_by_year, Year, Total)
+births_by_year <- dplyr::rename(births_by_year, Births=Total)
+
+````
+
+You may recognize this chunk from the mortality lab.  Here we are importing and formatting the data on deaths for each year 1933 to 2014.
+
+````{r}
+
+deathcount <- readHMDweb(CNTRY='USA', item='Deaths_1x1',
+                         username = 'YOUR MORTALITY.ORG USERNAME', 
+                         password = 'YOUR MORTALITY.ORG PASSWORD')
+deaths_by_year <- aggregate(x=deathcount[3:5], by=list(Year=deathcount$Year), FUN=sum)
+deaths_by_year <- dplyr::select(deaths_by_year, Year, Total)
+deaths_by_year <- dplyr::rename(deaths_by_year, Deaths=Total)
+
+````
+
+Right now we have three separate datasets.  migration_by_year has information on start and end populations.  births_by_year has information on births.  And deaths_by_year has information on deaths.  Let's add the variables on births and deaths by year into the migration_by_year dataset.
+
+````{r}
+
+migration_by_year$Births <- births_by_year$Births
+migration_by_year$Deaths <- deaths_by_year$Deaths
+
+````
+
+Now it's time to calculate net migration.  Remember, our population balancing equation is
+
+     Pop_T2 = Pop_T1 + Births - Deaths + Net_Migration
+     
+Since we're trying to calculate net migration, we need to isolate net migration in this equation as a function of the other variables.
+
+     Net_Migration = Pop_T2 - Pop_T1 - Births + Deaths
+     
+Go ahead and write this equation for R to calculate below.  Remember, for each variable, you will need to first write the dataset name, migration_by_year, then $, then the variable name.  On the left hand side of the code below, you need to tell R that you want to calculate a new variable called Net_Migration, and you'd like it to be in the migration_by_year dataset.  On the right hand side, you'll need to tell R to take the ending population, subtract the starting population, subtract births, and add deaths.  R will know to do this for each year.
+
+````{r}
+
+NET MIGRATION VARIABLE HERE <- YOUR CALCULATION FOR NET MIGRATION HERE
+
+````
+
+Now let's graph the net migration variable.  Go ahead and run the code below.
+
+````{r}
+
+ggplot(migration_by_year, aes(x=Year, y=Net_Migration, ymax=4000000)) + 
+  scale_y_continuous(breaks=c(-2000000, 0, 2000000, 4000000), labels=c("-2M", "0","2M","4M")) +
+  geom_line() + 
+  ggtitle("US Net Migration 1933-2014 (in Millions)")
+
+````
+
+You'll notice that the graph doesn't seem to line up with what's said in the readings.  Go ahead and compare this graph to the one on p. 112 of A Portrait of America.  Back in Blackboard, we'll explore why our graph looks so different from John Iceland's.

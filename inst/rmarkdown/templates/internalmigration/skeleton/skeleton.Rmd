@@ -1,0 +1,103 @@
+---
+title: "Internal Migration Lab"
+output: html_document
+---
+
+In this lab, we'll take a look at household movement within and into the five borough of New York City between 2013 and 2014.  As always, we'll start by loading our libraries.
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library('acs')
+library('printr')
+
+```
+
+For this lab, we'll use American Community Survey data.  To help keep response rates for the Census near 100%, in the 1990's, the Census Bureau decided to make the Census shorter, and to get rid of the Long Form Census that was administered to a portion of the population.  They found that longer questionnaires yielded lower response rates.  So, the Census Bureau created a new survey called the American Community Survey.  The ACS is administered to 1% of the US population each year, and asks a much more detailed and lengthy series of questions than on the Census, allowing the Census Bureau to keep the Census itself very brief.  Here, we will look at the results of their questions asking about household movement within the 5 boroughs of New York City on the 2014 ACS.
+
+The code below creates geographies for our pull from the ACS, and then imports data from a specific table already created by the Census Bureau.  Enter in 2014 for the year to tell ACS which year's data we want.
+
+````{r}
+
+bronx <- geo.make(county = "Bronx County", state = "NY")
+manhattan <- geo.make(county = "New York County", state = "NY")
+queens <- geo.make(county= "Queens County", state = "NY")
+brooklyn <- geo.make(county = "Kings County", state = "NY")
+statenisland <- geo.make(county = "Richmond County", state = "NY")
+nyc_counties <- bronx + manhattan + queens + brooklyn + statenisland
+
+migration <- acs.fetch(geography = nyc_counties, table.number = "B07003", endyear = YEAR, col.names = "pretty")
+
+````
+
+The names for the columns in the table are extremely long, so this code shortens the lines.  Then, we flip the row and columns of the table to make them easier to read.
+
+````{r}
+
+migration.names <- acs.colnames(migration)
+new.names <- stringr::str_sub(migration.names, start = 82)
+acs.colnames(migration) <- new.names
+
+estimates <- as.data.frame(estimate(migration))
+
+estimatest <- t(estimates)
+
+estimatest
+
+````
+
+Next, since we'll want to work with the data, we make some changes to how the names or each variable is formatted.
+
+````{r}
+
+new.names <- str_replace_all(str_trim(new.names), " ", ".")
+new.names <- str_replace_all(str_trim(new.names), ":", "")
+colnames(estimates) <- new.names
+
+````
+
+The ACS provides us with counts, or the estimated number of people that fall within each category.  We want to take a look at percents so we can view the relative proportions within each category.  The code below will calculate the percentages within each category.
+
+````{r}
+
+estimates$percent_total <- round(100*estimates$Total/estimates$Total)
+
+estimates$percent_male <- round(100*estimates$Male/estimates$Total)
+estimates$percent_female <- round(100*estimates$Female/estimates$Total)
+
+estimates$percent_same_house <- round(100*estimates$Same.house.1.year.ago/estimates$Total)
+estimates$percent_same_house_male <- round(100*estimates$Same.house.1.year.ago.Male/estimates$Same.house.1.year.ago)
+estimates$percent_same_house_female <- round(100*estimates$Same.house.1.year.ago.Female/estimates$Same.house.1.year.ago)
+
+estimates$percent_moved_within_same_county <- round(100*estimates$Moved.within.same.county/estimates$Total)
+estimates$percent_moved_within_same_county_male <- round(100*estimates$Moved.within.same.county.Male/estimates$Moved.within.same.county)
+estimates$percent_moved_within_same_county_female <- round(100*estimates$Moved.within.same.county.Female/estimates$Moved.within.same.county)
+
+estimates$percent_moved_from_different_county_within_same_state <- round(100*estimates$Moved.from.different.county.within.same.state/estimates$Total)
+estimates$percent_moved_from_different_county_within_same_state_male <- round(100*estimates$Moved.from.different.county.within.same.state.Male/estimates$Moved.from.different.county.within.same.state)
+estimates$percent_moved_from_different_county_within_same_state_female <- round(100*estimates$Moved.from.different.county.within.same.state.Female/estimates$Moved.from.different.county.within.same.state)
+
+estimates$percent_moved_from_different_state <- round(100*estimates$Moved.from.different.state/estimates$Total)
+estimates$percent_moved_from_different_state_male <- round(100*estimates$Moved.from.different.state.Male/estimates$Moved.from.different.state)
+estimates$percent_moved_from_different_state_female <- round(100*estimates$Moved.from.different.state.Female/estimates$Moved.from.different.state)
+
+estimates$percent_moved_from_abroad <- round(100*estimates$Moved.from.abroad/estimates$Total)
+estimates$percent_moved_from_abroad_male <- round(100*estimates$Moved.from.abroad.Male/estimates$Moved.from.abroad)
+estimates$percent_moved_from_abroad_female <- round(100*estimates$Moved.from.abroad.Female/estimates$Moved.from.abroad)
+
+````
+
+Now, we want to create a separate table with just the percentages.  The code below separates out the variables with percentages from the original count variables.  After separating out the variables we want in our new table, we'll need to flip the rows and columns again using the t() command.  Go ahead an name the datasets.  You'll need one name for the dataset that selects just the variables in percent format, and you'll need a second dataset name for the transposed version.
+
+````{r}
+
+DATA SET NAME FOR PERCENTS TABLE <- dplyr::select(estimates, percent_total, percent_male, percent_female, percent_same_house, percent_same_house_male, percent_same_house_female, percent_moved_within_same_county, percent_moved_within_same_county_male, percent_moved_within_same_county_female, percent_moved_from_different_county_within_same_state, percent_moved_from_different_county_within_same_state_male, percent_moved_from_different_county_within_same_state_female, percent_moved_from_different_state, percent_moved_from_different_state_male, percent_moved_from_different_state_female, percent_moved_from_abroad, percent_moved_from_abroad_male, percent_moved_from_abroad_female)
+
+TRANSPOSED DATASET NAME <- t(DATA SET NAME FOR PERCENTS TABLE)
+
+TRANSPOSED DATASET NAME
+
+````
+
+Go ahead and knit this template to PDF.  The main results you'll see are two tables, the first with counts, and the second with percentages.  We will interpret these tables in the lab in Blackboard.
