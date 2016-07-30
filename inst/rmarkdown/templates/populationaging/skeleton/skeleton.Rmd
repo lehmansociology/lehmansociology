@@ -1,0 +1,69 @@
+---
+title: "Population Aging Lab"
+output: pdf_document
+---
+
+In this lab we will look at Population Pyramids.  Population Pyramids are a type of diagram that show the number of individuals at each age in a population, split by sex.  These diagrams allow us to see in a visual way if a population is growing, stable, or shrinking.  It also allows us to see the relative number of individuals at a given age, compared to other ages.  As always, let's start by loading our libraries.
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library('HMDHFDplus')
+
+```
+
+We'll use data from mortality.org for this lab.  First, let's get the population data for the US.  Enter in your usename and password below.
+
+````{r}
+
+population_USA <- readHMDweb(CNTRY = 'USA', item = 'Population', 
+                             username = 'YOUR MORTALITY.ORG USERNAME', 
+                             password = 'YOUR MORTALITY.ORG PASSWORD')
+
+````
+
+We'll use a special function that has been set up specifically for Lehman for this lab.  This means that if you use R in the future outside of Lehman's RStudio, this function will not be available.  But within in this lab, the function below will work to create a population pyramid.  Within the function called populationPyramid, we first specify the dataset, then the year, then the country name.  Go ahead an run the completed example below.  There is no need to alter anything in this example.
+
+````{r}
+
+populationPyramid(population_USA, 1940, 'United States')
+
+````
+
+We'll create a population pyramid for every 10 years up to 2010.  In the code below, fill in the dataset name for the US population data.  If you're not sure the name of the dataset, take a close look at the example above.
+
+````{r}
+
+populationPyramid(US DATA SET NAME, 1950, 'United States')
+populationPyramid(US DATA SET NAME, 1960, 'United States')
+populationPyramid(US DATA SET NAME, 1970, 'United States')
+populationPyramid(US DATA SET NAME, 1980, 'United States')
+populationPyramid(US DATA SET NAME, 1990, 'United States')
+populationPyramid(US DATA SET NAME, 2000, 'United States')
+populationPyramid(US DATA SET NAME, 2010, 'United States')
+
+````
+
+Now let's do the same for Japan.  Fill in your mortality.org username and password to get Japan's population data.
+
+````{r}
+
+population_JPN <- readHMDweb(CNTRY = 'JPN', item = 'Population', username = 'YOUR MORTALITY.ORG USERNAME', password = 'YOUR MORTALITY.ORG PASSWORD')
+
+````
+
+Now go ahead an fill in the dataset and years for Japan's population pyramids.  Start with the year 1950, and create a pyramid for every 10 years up to 2010 (that is 1950, 1960, 1970, etc.).  If you're not sure the dataset name, take a look at the name of the dataset that is created by the code in line 50.
+
+````{r}
+
+populationPyramid(JAPAN DATASET NAME, YEAR, 'Japan')
+populationPyramid(JAPAN DATASET NAME, YEAR, 'Japan')
+populationPyramid(JAPAN DATASET NAME, YEAR, 'Japan')
+populationPyramid(JAPAN DATASET NAME, YEAR, 'Japan')
+populationPyramid(JAPAN DATASET NAME, YEAR, 'Japan')
+populationPyramid(JAPAN DATASET NAME, YEAR, 'Japan')
+populationPyramid(JAPAN DATASET NAME, YEAR, 'Japan')
+
+````
+

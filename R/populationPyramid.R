@@ -5,7 +5,9 @@
 #' @export
 
 
+
 populationPyramid <- function (df, year, entityname){
+# Inspired by https://rpubs.com/walkerke/pyramids_ggplot2.
   melteddata <- meltHMDdata(df, year)
 
   library(ggplot2)
@@ -16,7 +18,8 @@ populationPyramid <- function (df, year, entityname){
     coord_flip() +
     scale_fill_brewer(palette = "Set1") +
     ggtitle(paste0(year, " Population Pyramid for ", entityname))+
-    theme_bw()
+    theme(axis.text.x = element_text( angle = -45, hjust= 0, vjust =.5))
+
 
   return(plot)
 }

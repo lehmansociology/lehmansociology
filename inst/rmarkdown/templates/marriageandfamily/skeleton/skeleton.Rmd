@@ -1,0 +1,89 @@
+---
+title: 'Marriage and Family Lab'
+output: pdf_document
+---
+
+In this lab, we'll create two maps of median age at first marriage in the US - one map for males, and one for females.  As always, let's start by loading the libraries.
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library('maps')
+library('acs')
+library('printr')
+library('ggplot2')
+
+```
+
+To do this, first we'll tell R that we want to make a map of states.  In doing so, R creates a dataset with latitude and longitude data for the boundaries of each state.  Then, we'll get data from the ACS on mediage age at first marriage for males and females in each state.  This will be a separate dataset with the data for median age at first marriage.  Later in the lab, we'll combine these two datasets together.  For the data from the ACS, we want to make a map of the data from 2014.  Go ahead and fill in the year 2014 where promped in the code below.
+
+````{r}
+
+allstates <- map_data("state")
+
+states<- geo.make(state="*")
+
+marriageage <- acs.fetch(geography = states, table.number = "B12007", 
+                         endyear = YEAR, col.names = "pretty")
+
+````
+
+As we've done in previous labs, we need to clean up the variable names that the ACS gives us.  The variable names provided by the ACS are very long.  What we do here is make them shorter to be more usable.  Then, we save the data as a dataset.  Finally, you'll display the data of median age at first marriage by state.
+
+````{r}
+
+marriageage.names <- acs.colnames(marriageage)
+new.names <- stringr::str_sub(marriageage.names, start = 63)
+acs.colnames(marriageage) <- new.names
+
+marriageage <- as.data.frame(estimate(marriageage))
+
+marriageage
+
+````
+
+The data that the ACS provides us has states listed as an ID, but not as a variable.  What we do here is create a variable for the state names that matches the state names in our allstates dataset.  Then, we merge our two datasets into a single dataset for mapping, which we'll call marriagemap.
+
+````{r}
+
+marriageage$region <- tolower(rownames(marriageage))
+marriagemap <- merge(allstates, marriageage, by="region")
+
+````
+
+Now, we'll make a graph of the median age at first marriage for males.  All of the code is there except for the name of the dataset.  Again, we've named our dataset marriagemap.  Go ahead and fill in the name of the dataset below where prompted.
+
+````{r}
+
+ggplot(data=DATA SET NAME, aes(x=long, y=lat, group = group)) + 
+  geom_polygon(fill=marriagemap$Male, colour="white") +
+  scale_fill_continuous(low = "thistle2", high = "darkblue", guide="colorbar") +
+  theme_bw() + 
+  labs(fill = "Median Age at First Marriage" , 
+       title = "Median Age at First Marriage, Males, 2014",
+       x="", y="") + 
+  coord_map() +
+  scale_y_continuous(breaks=c()) + 
+  scale_x_continuous(breaks=c()) + 
+  theme(panel.border = element_blank(), legend.position = "bottom")
+
+````
+
+And finally, let's make a map for females.  Go ahead and fill in the same dataset name where prompted below.
+
+````{r}
+
+ggplot(DATA SET NAME, aes(x=long, y=lat, group = group)) + 
+  geom_polygon(, fill=marriagemap$Female, colour="white") +
+  scale_fill_continuous(low = "thistle2", high = "darkred", guide="colorbar") +
+  theme_bw() + 
+  labs(fill = "Median Age at First Marriage" , 
+       title = "Median Age at First Marriage, Females, 2014", 
+       x="", y="") + 
+  coord_map +
+  scale_y_continuous(breaks=c()) + 
+  scale_x_continuous(breaks=c()) + 
+  theme(panel.border = element_blank(), legend.position = "bottom")
+
+````
