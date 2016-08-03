@@ -81,7 +81,7 @@ ggplot(DATA SET NAME, aes(x=long, y=lat, group = group)) +
   labs(fill = "Median Age at First Marriage" , 
        title = "Median Age at First Marriage, Females, 2014", 
        x="", y="") + 
-  coord_map +
+  coord_map() +
   scale_y_continuous(breaks=c()) + 
   scale_x_continuous(breaks=c()) + 
   theme(panel.border = element_blank(), legend.position = "bottom")
