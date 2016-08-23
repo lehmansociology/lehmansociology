@@ -2,10 +2,12 @@
 
 export(MODE)
 export(create_educ_poverty_data)
+export(crosstab)
 export(ggvis_percent)
 export(load_lehman_data)
 export(meltHMDdata)
 export(populationPyramid)
+export(printCrosstab)
 export(readMyData)
 export(replaceCommas)
 export(variation)
