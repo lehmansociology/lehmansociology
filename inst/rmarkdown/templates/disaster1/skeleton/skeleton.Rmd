@@ -18,7 +18,7 @@ Type your text here.
 ````{r}
 # First we will download the spreadsheet of data.  Make sure you have created a data folder before doing this.
 # You don't need to do this again if you have already downloaded the data, but it won't hurt.
-destination =paste(getwd(),"/data/marinedisasters.xlsx", sep="/")
+destination =paste(getwd(),"data/marinedisasters.xlsx", sep="/")
 utils::download.file( 'http://www.pnas.org/content/suppl/2012/07/24/1207156109.DCSupplemental/sd01.xlsx', destfile = destination )
 
 #This code gets you the exact names of the sheets containing the ship data. 

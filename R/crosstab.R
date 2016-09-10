@@ -34,19 +34,6 @@ crosstab <- function (..., dec.places = NULL,
 
 #Declare function used to convert frequency counts into relevant type of proportion or percentage
 {
-#   mk.pcnt.tbl <- function(tbl, type) {
-#     a <- length(row.vars)
-#     b <- length(col.vars)
-#     mrgn <- switch(type, column.pct = c(row.vars[-a], col.vars),
-#                    row.pct = c(row.vars, col.vars[-b]),
-#                    joint.pct = c(row.vars[-a], col.vars[-b]),
-#                    total.pct = NULL)
-#     tbl <- prop.table(tbl, mrgn)
-#     if (percentages) {
-#       tbl <- tbl * 100
-#     }
-#     tbl
-#   }
 
   #Find no. of vars (all; row; col) for use in subsequent code
   n.row.vars <- length(row.vars)
@@ -56,6 +43,7 @@ crosstab <- function (..., dec.places = NULL,
 
   #Check to make sure all user-supplied arguments have valid values
   stopifnot(as.integer(dec.places) == dec.places, dec.places > -1)
+
   #type: see next section of code
   stopifnot(is.character(style))
   stopifnot(is.logical(percentages))
@@ -134,13 +122,13 @@ crosstab <- function (..., dec.places = NULL,
     }
   }
 
-  #If dec.places not set by user, set to 2 unlesss only one table of type frequency requested,
+  #If dec.places not set by user, set to 1 unlesss only one table of type frequency requested,
   #in which case set to 0.  [Leaves user with possibility of having frequency tables with > 0 dp]
   if (is.null(dec.places)) {
     if ((length(type)==1) & (type[1]=="frequency")) {
       dec.places <- 0
     } else {
-      dec.places <-2
+      dec.places <-1
     }
   }
 
@@ -195,7 +183,7 @@ crosstab <- function (..., dec.places = NULL,
       tbl <- tbl$table
     }
     else {
-      stop("first argument must be either factors or a table object")
+      stop("First argument must be either factors or a table object.")
     }
   }
 
@@ -222,29 +210,34 @@ crosstab <- function (..., dec.places = NULL,
     row.vars <- (1:z)[-col.vars]
   }
 
-  #Take the original input data, converted into table format using supplied row and col vars (tbl)
-  #and create a second version (crosstab) which stores results as percentages if a percentage table type is requested.
-  if (type[1] == "frequency")
+  # Take the original input data, converted into table format using supplied row and col vars (tbl)
+  # and create a second version (crosstab) which stores results as percentages
+  # if a percentage table type is requested.
+  if (type[1] == "frequency"){
     crosstab <- tbl
-  else
-    crosstab <- makePercentTable(tbl, type[1])
-
+  } else {
+    crosstab <- makePercentTable(tbl, type[1], row.vars, col.vars, percentages)
+  }
 
   #If multiple table types requested, create and add these to
   if (length(type) > 1) {
     tbldat <- as.data.frame.table(crosstab)
     z <- length(names(tbldat)) + 1
     tbldat[z] <- 1
+
     pcntlab <- type
     pcntlab[match("frequency", type)] <- "Count"
     pcntlab[match("row.pct", type)] <- "Row %"
     pcntlab[match("column.pct", type)] <- "Column %"
     pcntlab[match("joint.pct", type)] <- "Joint %"
     pcntlab[match("total.pct", type)] <- "Total %"
+
     for (i in 2:length(type)) {
       if (type[i] == "frequency")
         crosstab <- tbl
-      else crosstab <- makePercentTable(tbl, type[i])
+      else {
+          crosstab <- makePercentTable(tbl, type[i], row.vars, col.vars, percentages)
+      }
       crosstab <- as.data.frame.table(crosstab)
       crosstab[z] <- i
       tbldat <- rbind(tbldat, crosstab)
@@ -359,13 +352,15 @@ crosstab <- function (..., dec.places = NULL,
   result$subtotals <- subtotals
 
   #(b) tabular output [3 variants]
-  result$table <- tbl  #Stores original cross-tab frequency counts without margins [class: table]
-  result$crosstab <- crosstab #Stores cross-tab in table format using requested style(frequency/pct) and table margins (on/off)
-  #[class: table]
-  result$crosstab.nosub <- t1  #crosstab with subtotals suppressed [class: dataframe; or NULL if no subtotals suppressed]
-  class(result) <- "crosstab"
+  #Stores original cross-tab frequency counts without margins [class: table]
+  result$table <- tbl
+  #Stores cross-tab in table format using requested style(frequency/pct) and table margins (on/off)
+  result$crosstab <- crosstab
+      #[class: table]
+      #crosstab with subtotals suppressed [class: dataframe; or NULL if no subtotals suppressed]
+      result$crosstab.nosub <- t1
 
-  #Return 'result' as output of function
-  result
-
+      printCrosstab(result)
+       #t<-printCrosstab(result)
+        #print.data.frame(t, row.names = FALSE, quote = FALSE)
 }

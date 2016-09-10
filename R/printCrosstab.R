@@ -32,7 +32,7 @@ printCrosstab <- function(x,dec.places=x$dec.places,subtotals=x$subtotals,...) {
     n.col.vars <- length(col.vars)
     n.vars <- n.row.vars + n.col.vars
 
-    if (length(x$type)>1) {
+    if (length(x$type) > 1) {
         z<-length(names(dimnames(x$crosstab)))
         if (x$style=="long") {
             row.vars<-c(row.vars,z)
@@ -41,13 +41,17 @@ printCrosstab <- function(x,dec.places=x$dec.places,subtotals=x$subtotals,...) {
         }
     }
 
-    if (n.vars==1) {
+    if (n.vars == 1) {
+
         if (length(x$type)==1) {
             tmp <- data.frame(round(x$crosstab,x$dec.places))
             colnames(tmp)[2] <- ifelse(x$type=="frequency","Count","%")
-            print(tmp,row.names=FALSE)
+
+            return(tmp)
+
         } else {
-            print(round(x$crosstab,x$dec.places))
+
+            return(round(x$crosstab,x$dec.places))
         }
     }
 
@@ -56,10 +60,14 @@ printCrosstab <- function(x,dec.places=x$dec.places,subtotals=x$subtotals,...) {
     #print table using ftable() on x$crosstab
     if ((n.vars == 2) | ((subtotals==TRUE) & (n.vars>2))) {
 
-        tbl <- ftable(x$crosstab,row.vars=row.vars,col.vars=col.vars)
+       tbl <- ftable(x$crosstab,row.vars=row.vars,col.vars=col.vars)
+       # tbl <- ftable(x$crosstab)
+        if (!all(as.integer(tbl)==as.numeric(tbl))){
+            tbl <- round(tbl,dec.places)
+        }
+        tbl<-as.data.frame(format(tbl,quote=FALSE, include.rownames=FALSE), optional = TRUE)
 
-        if (!all(as.integer(tbl)==as.numeric(tbl))) tbl <- round(tbl,dec.places)
-        print(tbl,...)
+       return(tbl)
 
     }
 
@@ -88,8 +96,7 @@ printCrosstab <- function(x,dec.places=x$dec.places,subtotals=x$subtotals,...) {
             t1[,i] <- sprintf(row.lab.format,t1[,i])
         }
 
-        write.table(t1,quote=FALSE,col.names=FALSE,row.names=FALSE)
-
+       return(t1)
     }
 
 }
