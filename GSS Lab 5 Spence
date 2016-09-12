@@ -1,0 +1,68 @@
+---
+title: "GSS Lab 5"
+output: pdf_document
+---
+
+
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+library(aws.s3)
+library('lehmansociology')
+
+```
+
+Type your text here.
+````{r}
+#type your code here
+s3load('gss.Rda', bucket = 'lehmansociologydata')
+#View(GSS)
+
+````
+
+````{r}
+table(GSS$sex)
+crosstab(GSS, row.vars = "sex")
+summary(GSS$sex)
+
+table(GSS$health)
+crosstab(GSS, row.vars = "health")
+summary(GSS$health)
+
+table(GSS$childs)
+crosstab(GSS, row.vars = "childs")
+summary(GSS$childs)
+
+table(GSS$age)
+crosstab(GSS, row.vars = "age")
+summary(GSS$age)
+````
+*CHOOSE ONE OF THE VARIABLES IN THE CHUNK ABOVE AND INDICATE WHICH VALUE IS THE MOST COMMON (I.E., THE MODE).
+
+THERE ARE OFTEN MANY DIFFERENT WAYS TO CODE THE SAME THING IN R, BUT DEPENDING ON THE CODE THAT YOU WRITE, YOU MAY GET THE INFORMATION IN A DIFFERENT WAY. 
+*QUESTION: WHAT ARE DIFFERENCES THAT YOU SEE BETWEEN THE TWO SETS OF CODE ABOVE?
+
+*QUESTION: WHY DID SUMMARY GIVE YOU VERY DIFFERENT INFORMATION FOR CHILDS AND AGE THAT YOU DIDN'T GET FOR SEX AND HEALTH?
+
+*QUESTION: WHICH COMMAND --TABLE, CROSSTAB, OR SUMMARY --DO YOU PREFER? WHY?
+
+
+
+````{r}
+#[CHANGE THIS TEXT TO A NOTE WHERE YOU DESCRIBE WHAT THE LINE OF CODE BELOW DOES]
+GSS$nochild <-as.numeric(GSS$childs) <= 0
+crosstab(GSS, row.vars = "nochild")
+
+#[CHANGE THIS TEXT TO A NOTE WHERE YOU DESCRIBE WHAT THE LINE OF CODE BELOW DOES]
+GSS$youngadult <- as.numeric(GSS$age) <= 25
+crosstab(GSS, row.vars = "youngadult")
+
+#[CHANGE THIS TEXT TO A NOTE WHERE YOU DESCRIBE WHAT THE LINE OF CODE BELOW DOES]
+crosstab(GSS, row.vars = "nochild", col.vars = "youngadult")
+````
+
+*WRITE A SENTENCE INTERPRETING THE RESULT FROM CROSSTAB OF NOCHILD.
+
+*WRITE A SENTENCE INTERPRETING THE RESULT FROM CROSSTAB OF YOUNGADULT.
+
+*WRITE 1-2 SENTENCES INTERPRETING THE RESULTS FROM THE CROSSTAB OF NOCHILD BY YOUNGADULT.
