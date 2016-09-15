@@ -1,0 +1,83 @@
+---
+title: "GSS Descriptives 2 Spence"
+output: pdf_document
+---
+
+
+
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+library(aws.s3)
+library('lehmansociology')
+library(devtools)
+```
+
+Type your text here.
+````{r}
+#type your code here
+s3load('gss.Rda', bucket = 'lehmansociologydata')
+#View(GSS)
+
+````
+
+````{r}
+table(GSS$sex)
+crosstab(GSS, row.vars = "sex")
+summary(GSS$sex)
+
+table(GSS$health)
+crosstab(GSS, row.vars = "health")
+summary(GSS$health)
+
+table(GSS$childs)
+crosstab(GSS, row.vars = "childs")
+summary(GSS$childs)
+
+table(GSS$age)
+crosstab(GSS, row.vars = "age")
+summary(GSS$age)
+median(GSS$age)
+````
+IF YOU DID NOT ANSWER THE QUESTIONS ABOUT THE ABOVE CHUNK PREVIOUSLY, YOU SHOULD TYPE NOTES HERE TO ANSWER THOSE QUESTIONS.
+
+
+````{r}
+#[CHANGE THIS TEXT TO A NOTE WHERE YOU DESCRIBE WHAT THE LINE OF CODE BELOW DOES]
+GSS$nochild <-as.numeric(GSS$childs) <= 0
+crosstab(GSS, row.vars = "nochild")
+
+#[CHANGE THIS TEXT TO A NOTE WHERE YOU DESCRIBE WHAT THE LINE OF CODE BELOW DOES]
+GSS$youngadult <- as.numeric(GSS$age) <= 25
+crosstab(GSS, row.vars = "youngadult")
+
+#[CHANGE THIS TEXT TO A NOTE WHERE YOU DESCRIBE WHAT THE LINE OF CODE BELOW DOES]
+crosstab(GSS, row.vars = "nochild", col.vars = "youngadult")
+crosstab(GSS, row.vars = "nochild", col.vars = "youngadult", type = "c")
+````
+
+*WRITE A SENTENCE INTERPRETING THE RESULT FROM CROSSTAB OF NOCHILD.
+
+*WRITE A SENTENCE INTERPRETING THE RESULT FROM CROSSTAB OF YOUNGADULT.
+
+*WRITE 1-2 SENTENCES INTERPRETING THE RESULTS FROM THE CROSSTAB OF NOCHILD BY YOUNGADULT.
+
+--
+Note that this template adds a new library. This library gives you more options for getting descriptive statistics for your variables. The chunk below shows you some of those options.
+```{r}
+median(GSS$childs)
+mean(GSS$childs)
+min(GSS$childs)
+max(GSS$childs)
+range(GSS$childs)
+```
+
+Remember that we can get a median for an ordinal variable. However, when we ran summary(GSS$health) above, R did not give us the median of health. This is because we need to tell R to treat health as a numeric variable because it thinks health is a factor/character variable. Recall from swirl lesson that we've done this using as.numeric. Also, when R thinks health is a factor/character variable, it does not know that NA is not a valid value for the variable. Also recall from the swirl that we use na.rm=TRUE for missing values. 
+```{r}
+GSS$health.numeric <-as.numeric(GSS$health)
+summary(GSS$health.numeric, na.rm=TRUE)
+median(GSS$health.numeric, na.rm=TRUE)
+```
+
+WHAT HAPPENS IF YOU LEAVE na.rm=TRUE OUT OF THE MEDIAN STATEMENT ABOVE. WHY?
+
+NOW ADD A CHUNK AND GET APPROPRIATE DESCRIPTIVE STATISTICS FOR 2 GSS VARIABLES THAT WE HAVE NOT USED IN THIS LAB. WRITE A FEW SENTENCES TO INTERPRET THE STATISTICS THAT YOU GET.
