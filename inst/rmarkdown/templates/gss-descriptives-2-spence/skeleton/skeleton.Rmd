@@ -9,7 +9,7 @@ output: pdf_document
 # Load your libraries here
 library(aws.s3)
 library('lehmansociology')
-library(devtools)
+
 ```
 
 Type your text here.
@@ -61,8 +61,7 @@ crosstab(GSS, row.vars = "nochild", col.vars = "youngadult", type = "c")
 
 *WRITE 1-2 SENTENCES INTERPRETING THE RESULTS FROM THE CROSSTAB OF NOCHILD BY YOUNGADULT.
 
---
-Note that this template adds a new library. This library gives you more options for getting descriptive statistics for your variables. The chunk below shows you some of those options.
+
 ```{r}
 median(GSS$childs)
 mean(GSS$childs)
