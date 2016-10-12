@@ -55,7 +55,9 @@ crosstab <- function (..., dec.places = NULL,
   #If invalid type supplied, failed match gives user automatic error message
   types <- NULL
   choices <- c("frequency", "row.pct", "column.pct", "joint.pct", "total.pct")
-  for (tp in type) types <- c(types, match.arg(tp, choices))
+  for (tp in type) {
+      types <- c(types, match.arg(tp, choices))
+  }
   type <- types
 
   #If no type supplied, default to \'frequency + total\' for univariate tables and to
@@ -82,7 +84,7 @@ crosstab <- function (..., dec.places = NULL,
   #Check for integrity of requested analysis and adjust values of function arguments as required
 
   if ((addmargins==FALSE) & (subtotals==FALSE)) {
-    warning("WARNING: Request to suppress subtotals (subtotals=FALSE) ignored because no margins requested (addmargins=FALSE)")
+    # warning("WARNING: Request to suppress subtotals (subtotals=FALSE) ignored because no margins requested (addmargins=FALSE)")
     subtotals <- TRUE
   }
 
@@ -359,8 +361,10 @@ crosstab <- function (..., dec.places = NULL,
       #[class: table]
       #crosstab with subtotals suppressed [class: dataframe; or NULL if no subtotals suppressed]
       result$crosstab.nosub <- t1
+      #class(result)
 
-      printCrosstab(result)
+     printCrosstab(result)
+
        #t<-printCrosstab(result)
         #print.data.frame(t, row.names = FALSE, quote = FALSE)
 }
