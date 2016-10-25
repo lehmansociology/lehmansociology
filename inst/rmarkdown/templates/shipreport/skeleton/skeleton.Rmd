@@ -1,0 +1,43 @@
+---
+title: ""
+author: ""
+output: pdf_document
+---
+
+
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+
+```
+
+# Introduction
+
+
+
+# Background
+
+
+
+
+# Theory and Hypotheses
+
+
+
+# Data
+
+
+````{r}
+
+
+````
+
+# Results
+
+
+# Conclusions and Future Research
+
+
+# References

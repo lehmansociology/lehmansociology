@@ -1,0 +1,88 @@
+---
+title: "Disaster Part 2"
+output: pdf_document
+author: ""
+---
+
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+
+```
+
+Now that we have our data sets set up let's take a look at them and start 
+to analyze what happened. (And learn some R basics along the way.)
+
+Let's focus on the Titanic.
+
+Start by loading the dataset that you previously saved.
+
+````{r}
+  load(paste("~","data/RMS_Titanic.Rda", sep="/"))
+````
+## Describing the Data
+
+The data we downloaded contains 1 row per person on the ship for a given ship, in this case RMS Titanic.
+
+Find some basic information about the RMS_Titanic using the str() function and the summary()
+function on the RMS_Titanic data set. That means, put the name of the data set inside 
+the parentheses.
+```{r}
+str(RMS_Titanic)
+summary(PUT_THE_DATA_SET_NAME_HERE)
+
+```
+
+You should notice some odd things.
+
+####Some variables are all set to NA.  Which ones are these?
+
+
+We need to pay attention to the fact that there are some variables not available for all 
+of the ships. When a variable is not available, all values will be missing.
+
+
+#### There are some variables where all the values are the same. Which are these?
+
+
+#### Why do some variables have the same value for every observation?  Think about what they refer to.
+
+
+#### Browse the dataset.  There is something interesting about how the Crew and Passenger Class variables relate to each other.  What is that?
+
+
+### Tables
+
+Now let's get some descrptive information about the people on the ship using the crosstab function. The variables we are interested in in the RMS_Titanic data set are: 
+Gender, Passenger Class, Crew, Survival. 
+
+
+
+```{r}
+
+#Here is the first. You add the others.
+crosstab(RMS_Titanic, row.vars = "Gender")
+
+
+```
+
+We would also like to know about the proportion who are 15 and under. The problem is that the Child variable is all missing and age is given in years.  Let's update the Child variable with information from the Age variable and then run the crosstab.
+(For your other ship you need to see if this is necessary and possible. 
+You may need to do other similar things with other variables.)
+
+```{r}
+RMS_Titanic$Child <- as.numeric(RMS_Titanic$Age) <= 15
+
+# Add the crosstab below
+crosstab(RMS_Titanic, row.vars = "Child")
+
+```
+
+#### Explain what you think the code `RMS_Titanic$Child <- as.numeric(RMS_Titanic$Age) <= 15 ` does.
+
+
+
+### Summary
+
+Write a paragraph describing the people who were on board the Titanic and what happened to them. 

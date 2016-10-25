@@ -1,0 +1,125 @@
+---
+title: "Exploring Data Visualization"
+output: html_document
+---
+
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library('ggplot2')
+
+```
+
+In this exercise we will be using ggplot2 to visualize information.  
+
+We will be using the **ships** data set that is part of lehmansociology. This data set has one observation for each ship and contains the ship-level data.   You can see the spreadsheet by typing View(ships) in the console. Make sure to use upper case V. Also notice that we load the ggplot2 package.
+
+Use the str() function in the code chunk below to get information on the variables.
+
+
+```{r}
+
+
+
+```
+
+
+For our first plot let's make a Cleveland dot plot of the number of passengers on the ships.  In this case we are going to put the names of the 
+ships on the y (vertical) axis and number of ships on the x (horizontal) axis.  
+
+The first step is to make a plot object reflecting this.
+Notice that we have to use the "back tick" character (upper left on your keyboard) beause the names have spaces in them.
+
+````{r}
+
+plot1<-ggplot(ships, aes(y=`Name of Ship` , x=`No. of passengers` ))
+
+
+````
+
+Next we want to add a title.  Type your own title between the quotation marks.
+
+```{r}
+
+title1<-ggtitle("")
+
+```
+
+Finally, we put the pieces together with a geom_point()  to make a complete plot
+
+```{r}
+
+plot1 + title1 + geom_point()
+
+```
+
+We can also add a line segment that goes from 0 to the point if we want.   You can change the color of the segment if you want. Also you
+can ask or look up how to change the color or size of the dots.
+
+Notice that the + sign has to be at the end of the line being added to, not at the start of the new line.  
+This is important! You will get error messages if you make a mistake, in which case just fix it.
+
+```{r}
+
+plot1 + title1 + geom_point() +
+    geom_segment(aes(yend = `Name of Ship`), xend = 0, color = "grey50")
+
+```
+
+### Which display do you prefer? The dots alone or the dots with the line segments added?
+
+
+
+Another thing we can do is to change the order in which the bars are displayed. For example we can sort by the number of passengers.
+This requires us to make a new plot object as shown.
+
+Add the code to produce the plot.
+
+```{r}
+
+plot2<-ggplot(ships, aes(y=reorder(`Name of Ship`, `No. of passengers`) , x=`No. of passengers` ))
+
+
+```
+
+### Which do you think is more informative to a viewer, the sorted or the unsorted? Why?
+
+
+
+
+
+The y axis label is now not very clear to the viewer who may have no idea what those commands mean.  Let's change it by adding an ylab()  value.
+
+Put your code for the plot here and add + at the end of the last line then ylab("")  with your new title inside the quotation marks.
+
+```{r}
+
+  
+
+
+
+```
+
+
+###  Write a short paragraph summarizing the graph.  What information does the graph give us overall? How does or does not the graph help understand your ship and the Titanic and how they compare to other ships in the data set?
+
+
+
+
+
+###   Just using the graph (so we know it will not be perfect), what would you estimate the median, first quartile and third quartile are?
+
+
+
+Use the summary() function to get the calculated values for the variable. Remember that you have to put datasetname$variable name and that you need the back ticks.
+
+```{r}
+
+
+
+```
+
+###  How do the calculated values compare to the estimated ones? Why would it sometims be important to use the calculated variables and somtimes enough to use the ones based on a graph?
+
+

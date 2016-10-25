@@ -1,0 +1,142 @@
+---
+title: ""
+output: html_document
+---
+
+
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+load(paste("~","data/RMS_Titanic.Rda", sep="/"))
+```
+
+One of the issues we have is that we want to include passenger class in our analysis but we don't want to lose all the data on the cres.
+Let's look at the relationship between Passenger Class and Crew as variables using crosstab().
+
+````{r}
+crosstab(RMS_Titanic, col.vars = "Crew", type = "f")
+# Add a single variable crosstab for "Passenger Status"
+
+
+# Add a crosstab of "Crew" and "Passenger Class" with "Crew" as the row variable.
+
+
+# Run this table to see missing values
+table(RMS_Titanic$Crew, RMS_Titanic$`Passenger Class`, useNA = "ifany")
+
+````
+
+### Explain how the current variable "Passsenger Class" limits our ability to analyze the data.
+
+
+
+## Data Wrangling
+Now we want to create a new variable called "Class.Combined" that combines the two variables by adding "Crew" as a status.
+
+```{r}
+
+RMS_Titanic$Class.Combined<- ifelse(RMS_Titanic$Crew == 1, "Crew", RMS_Titanic$`Passenger Class`)
+
+
+```
+
+### Explain in words what the above code does.
+
+
+
+#Add a crosstab of "Crew" and "Class.Combined" with "Crew" as the row variable.
+
+```{r}
+
+```
+
+Add a crosstab of "Class.Combined" with "Survival" as the row variable and type="c" to get column percents.
+
+```{r}
+
+```
+
+### Write a paragraph summarizing the relationship between Class.Combined and Survival.
+
+
+
+We have previously looked at survival by gender.  This time let's look at the combination of Class.Combined and Gender. 
+
+```{r}
+crosstab(RMS_Titanic, row.vars = "Survival", col.vars = c("Class.Combined", "Gender"), type = "c")
+# Do the same table but change the order of the column variables.
+
+#Do the same table but create a frequency table.
+
+```
+
+### Explain how the three tables relate to each other.
+
+
+
+###  Describe the relationship between Gender, Combined.Class and Survival. Remember that survival is the dependent variable.
+
+
+
+Now let's add a third variable, Child.  Rememember that for RMS_Titanic we have to create the Child variable.
+
+```{r}
+RMS_Titanic$Child <- as.numeric(RMS_Titanic$Age) <= 15
+
+# Run a cross tab with Class.Combined, Gender and Child as column variables and survival as the row variable. 
+# You can run several variations if you want.
+
+
+```
+
+
+### Describe the combined relationships between the variables.
+
+
+
+
+Overall (using all of the tables above as needed):
+#### Does being a child increase or decrease someone's chances of survival compared to not being a child?
+
+#### Does being female (gender = 1 ) increase or decrease someone's chances of survival compared to being a male?
+
+
+#### Does being a crew member increase or decrease someone's chances of survival compared to being in first class?
+
+
+#### Does being in third class increase or decrease someone's chances of survival compared to being in first class?
+
+
+#### Does being a crew member increase or decrease someone's survival compared to being in third class?
+
+
+Does this seem to be getting a bit complex? That is one reason why sociologists will often switch to a linear model. 
+These may seem complex at first but compared to reading a complex crosstab they may be easier. 
+
+Here's how to run a linear model called a logistic regression. Just run it.
+
+```{r}
+
+results<-glm(Survival~Class.Combined + Gender + Child, data=RMS_Titanic, family = binomial(link = logit))
+coef(results)
+
+```
+
+We are going to discuss this together, but for right now:
+
+#### Is the sign of ChildTRUE positive or negative?
+
+
+#### Is the sign of Gender (being female in this case) positive or negative?
+
+#### Is the sign of Class.CombinedCrew (being a crew member) positive or negative?
+
+#### Is the sign of Class.Combined3 (being in 3rd Class) positive or negative?
+
+#### Is the size (absolute value) of Class.CombinedCrew bigger or smaller than Class.Combined3?
+
+#### How do these answers compare with the answers about the cross tabulation?
+
+
