@@ -1,0 +1,143 @@
+---
+title: "More Data Visualization"
+output: html_document
+---
+
+In this template we are going to look at other ways of displaying a single variable visually.
+
+Previously we had looked at Cleveland dot plots. Now let's examine a more traditional bar chart displaying the same information about 
+the number of passengers on each ship.
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library('ggplot2')
+
+```
+
+Notice we have switched the x and y here.
+
+````{r}
+#type your code here
+
+plot1<-ggplot(ships, aes(x=`Name of Ship` , y=`No. of passengers` ))
+
+# stat="identity" says to use the value from the data set with no other calculations.
+plot1 + geom_bar(stat="identity")
+
+````
+
+
+
+### What would you say the biggest problems with this graph are?
+
+
+
+Do what you can to make the graph better ... 
+You can rotate the x labels by 60 degrees by adding  
+         +
+  theme(axis.text.x = element_text(angle = 60))
+
+  Remember that the + sign goes at the end of the previous line.  You can use an angle that is not 60 if you want to.
+  
+  
+```{r}
+
+
+
+```
+
+
+There are other ways we can display a variable that are different because they do not focus on individual observations. For example we could use a histogram. In that case we need a new plot object that only has an x variable.
+
+```{r}
+
+plot2<- ggplot(ships, aes(x=`No. of passengers`))
+
+```
+
+
+Add geom_histogram() to plot2 
+
+```{r}
+
+
+
+```
+
+If you want, you can try changing the binwith by adding  
+         binwidth= 
+
+some number inside the parentheses.  
+Experiment with that until you find one you like.
+
+### Write a few sentences describing the distribution shown in the histogram.
+
+
+### Write a few sentences comparing the bar graph to the histogram. 
+
+
+
+
+
+Now lets add thre vertical lines to the histogram.  Those lines will represent the 25th, 50th and 75th percentiles.
+
+Here is the code for the 25th percentile
+
+ geom_vline(xintercept=quantile(ships$`No. of passengers`, probs=c(.25),
+         na.rm=TRUE),  color="green", linetype="dashed", size=1) 
+
+Remember that you need to add a plus sign at the end of each line except the last one when putting togeher the 
+parts of your graph.
+
+You need to change the code to get the 50th and 75th percentiles.
+
+Also feel free to change the color or size (play around with those).
+
+
+```{r}
+
+
+
+
+```
+
+
+
+## Box plots
+
+Now let's make a box plot for the same data. Normally box plots are used to compare groups, but in this case we are using just one, so we have to make a fake factor (categorical) variable for the second variable.
+
+To do this add  
+
+      x = factor(0)
+
+when creating your plot object (call that plot3)
+```{r}
+
+#Create plot3 with fake factor. 
+
+
+# Display plot3 using geom_boxplot().
+
+```
+
+
+### Write a few sentences about the box plot.  How does it relate to the histograms? 
+
+
+
+
+Pick on nominal( catagorical) variable from the ships data set.  Use that as your x variable in the box plot.
+
+```{r}
+
+
+```
+
+
+### Write a few sentences describing the comparisons shown in your box plot.
+
+
+
