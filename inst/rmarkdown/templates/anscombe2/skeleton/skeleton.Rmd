@@ -1,0 +1,286 @@
+---
+title: "Anscombe Quartet Part 2"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library('ggplot2')
+```
+
+
+Previously we looked at the 4 pairs of x and y variables in the anscombe dataset.
+We saw that although the variables were very similar to each other in terms
+of some statistics, such as the means, and the regression results were all
+identical, the plotted data looked pretty different
+
+Remember you can see the anscombe data by typing View(anscombe) in the console.
+
+Run the code below to review the plots.
+
+````{r echo=FALSE, fig.height=3.5, fig.width=3.5}
+#type your code here
+ggplot(anscombe, aes(x=x1 , y=y1)) + geom_point() +geom_smooth(method="lm") +
+   ggtitle("Results for x1 and y1 ")
+
+ggplot(anscombe, aes(x=x2 , y=y2)) + geom_point() +geom_smooth(method="lm") +
+   ggtitle("Results for x2 and y2 ")
+
+
+ggplot(anscombe, aes(x=x3 , y=y3)) + geom_point() +geom_smooth(method="lm") +
+   ggtitle("Results for x3 and y3 ")
+
+ggplot(anscombe, aes(x=x4 , y=y4)) + geom_point() +geom_smooth(method="lm") +
+   ggtitle("Results for x4 and y4 ")
+
+
+````
+
+
+### Looking at these graphs, in which graph does the straight line, known as 
+### the OLS regression line, accurately describe the relationship between x and y?
+
+
+
+### For the other three graphs, how would you describe x, y and the relationship between x and y? 
+Just use words to say what you see. You can mention individual
+points if it makes sense to do so.
+
+
+
+
+
+Ordinary least squares regression is designed to estimate a straight line that 
+has the "best" fit to the data.  But what does "best" fit mean?  We have already
+seen that  sometimes the regression line is not really the most accurate
+way to summarize data.
+
+Remember that all of the regression results for the four pairs were the same. 
+Let's just look at the summary for the first result to remind us of this. 
+We'll also create the 3 other results objects.
+
+```{r}
+results1<-lm(y1 ~ x1, data=anscombe)
+summary(results1)
+
+results2<-lm(y2 ~ x2, data=anscombe)
+results3<-lm(y3 ~ x3 , data=anscombe)
+results4<-lm(y4 ~ x4, data=anscombe)
+
+```
+
+The two things we want to look closely at here are the coefficient estimates
+and the Multiple R-Squared values.
+
+### What value is the multiple R squared?
+
+
+The multiple R squared represents how much of the variation in the dependent
+variable is "explained by" the independent variable.  A 0 would mean none, a
+1 would mean all.  This is a proportion, so it has to be between 0 and 1.
+
+The coefficients represent a regresssion equation that is
+
+predicted(y) = 3.001 + .5001*x
+
+### Find where the coefficiencts are in the summary. Where are they?
+
+Use R as a calculator below to calculate the predicted(y) for 0, 8, 9, 19 
+and a value of your choice.
+
+```{r}
+
+
+
+```
+
+### What does the .5001 say about the relationship of x and predicted(y)?
+
+
+Fortunately R will calculated the predicted values of y for each observation.
+These are found in fitted.values(lm_results_object).
+Fitted values and predicted values mean the same thing.
+
+It will also calculate the actual y value minus the predicted value. 
+These are called either resdiduals or errors. 
+These are found in resid(lm_results_object).
+Let's get all 4 sets of actual x, actual y, predicted and residual.
+
+```{r}
+# Results 1 (x1, y1)
+fitdata1 <-data.frame(x=anscombe$x1, y=anscombe$y1,  predicted = fitted.values(results1), error = resid(results1))
+# To make the results a bit easier to read, arrange them by the size of x.
+dplyr::arrange(fitdata1, x)
+
+
+
+
+```
+
+
+### If two observations have the same value of x, does that mean their
+### predicted(y) values will be the same?
+
+
+
+### If two observations have the same value of x does that mean that their
+### actual y values will be the same? You may want to look at results4 and
+### the 4th graph to help answer this.
+
+
+
+
+### How do the values of y, the predicted and error relate to each other?
+### Answer in both words and with an equation.
+
+
+
+It turns out that one way to tell if a regression line is an appropriate 
+approach for your data is to look for patterns or strange values, such as  
+extremely large values, in the errors. If there are patterns then the 
+regression model you have used probably does not make sense. 
+Errors should be evenly (and randomly) distributed around the regression line.
+
+### Just based on looking at the values of the errors, for which pairs 
+### do you see patterns in the errors? What are the patterns?
+## A pattern is anything that makes it easier for you to guess the 
+### size or sign of the error based on either the x or y values.
+
+
+### Just based on looking at the residuals, so you see any particularly
+### large residuals? In which data?
+
+
+
+## Deciding what to do
+
+Now we want to look closely at the last 3 models, since the first one looks fine. 
+
+### Looking at the last one (x4, y4) what could cause such an unusual value?
+
+### What is the row number of the unusual value?
+
+
+### What would happen to your regression if you just left that value out of the analysis?
+
+```{r}
+# Create a new data set without observation 8.
+no_obs_8 <- anscombe[-8,]
+# You can View() it to see the new data, but not in your file.
+
+results4<-lm(y4 ~ x4, data=no_obs_8)
+# Get the summary 
+
+
+```
+
+
+### What is the equation for your results? Why does x4 have the coefficient
+### that it does?
+You might want to also try some of the techniques we used earlier, 
+such as graphing or looking at the errors.
+
+
+
+
+###  Do you think it is valid to drop an outlier from the analysis in this case?
+There is not a right answer, only well thought out answers.
+
+
+
+
+Now let's look at the x3, y3 results.
+
+### What is the observation number and value of the outlier?
+
+Write the code to see what happens if we drop the outlier.
+
+```{r}
+
+
+
+```
+
+### How did dropping the outlier change your results? Look at both the 
+### coefficients and the Multiple R-squared. 
+You might want to also try some of the techniques we used earlier, 
+such as graphing or looking at the errors.
+
+
+### What do you think it means when the Multiple R-Squared is 1?
+
+
+Another way to appoach the x3, y3 data would be to make a dichotomous variable 
+representing observation 3 and add that to the regression. 
+
+```{r}
+
+anscombe$obs3<-anscombe$y3 == 12.74
+# Add it to the model using a +.
+results3<-lm(y3 ~ x3 + obs3, data=anscombe)
+
+
+
+```
+
+### How does this analysis change your results? 
+### What is the equation for the line? 
+### What is the predicted value for observation 3? 
+
+
+###  Do you think it is valid to drop an outlier from the analysis in this case or is it better to add a dicohtomous variable for the observation? Why?
+There is not a right answer, only well thought out answers.
+
+
+Finally, let's look at the x2, y2 results. 
+
+### What is the basic problem with using a straight line model for this pair?
+
+
+### Can you remember any kinds of lines or functions from algebra that 
+### were not straight lines? If so, what are they?  
+Really try to remember!
+
+
+
+One kind of curve line in algebra is a parabola, which is a function 
+with a squared value of x. (Google parabola if you need to.)
+
+Let's try a model with a squared term.  We add it using a + sign.
+
+```{r}
+anscombe$x2squared<- anscombe$x2^2
+results2<-lm(y2 ~ x2 + x2squared, data=anscombe)
+
+
+
+```
+You will definitely want to look at the predicted values and the errors.
+You may also want to plot x and predicted. 
+
+### How did adding the squared term change your results?
+
+
+### Do you think it is legitimate to add a squared term? 
+
+
+### Can you think of any set of variables that might have a relationship
+### that is curved like this? 
+
+## Conclusion
+
+We should take two lessons from this. 
+First, just because you **can** do something does not mean you **should** do it. 
+A regression will run for all kinds of data but that does not mean it is right.
+
+Second, always look at your data graphically in order to help decide
+whether a regression model makes sense and spot problems such as outliers.
+Looking at residuals can give you the same information especially as your models get more complex.
+ 
+As a reader of regression results you should always ask whether the author
+has really investigated if there are any such issues in their data. 

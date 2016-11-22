@@ -1,0 +1,124 @@
+---
+title: "Anscombe's Quartet"
+output: html_document
+---
+
+
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library('ggplot2')
+```
+
+In this lab we are going to use a famous data set to understand a bit more
+about regession analysis.   
+Some of the issues we want to think about are:
+*What is regression?
+*What assumptions does regression analysis have?
+*How do we interpret the results of regression?
+*What is the role of plots in doing regression
+
+For this project we will be using the data set called anscombe.
+You can see the data set in RStudio by typing View(anscombe) in your console.
+Remember that you can't knit View() so don't put that in your code chunk.
+
+The anscombe data set has 4 x variables, x1, x2, x3, x4 and 4 y variables, 
+y1, y2, y3 and y4.
+
+Lets start by looking more closely at them.
+````{r}
+# Print the whole data set by just typing the name.
+
+
+# Get a summary of all of the variables in the data set.
+
+
+````
+
+## Working with one or two partners, list at least 5 interesting facts about the
+## data. 
+These don't have to be big things, just show you have looked closely.
+
+
+
+
+Now let's run a ordinary least squares (OLS) regression analyses with 
+each of the pairs (x1 with y1 etc). We will use the lm() function which is 
+lm(dependent_variable ~ independent_variable, data=datasetname)
+For each analysis, save the results to a different object (such as 
+results1, results2 etc) and then ask for the coefficients for example coef(results1).
+
+(Note that you will get the same estimates using glm with family=Gaussian.)
+
+```{r}
+
+
+
+
+```
+
+###  What do you notice about the estimates for each of the regression equations?
+
+
+
+Now let's get a slightly more complex output from each results object 
+using e.g. summary(results1). 
+
+```{r}
+
+```
+
+## Where are the coefficients found in the summary output?
+
+
+## What is the same in all of the summary results and what differs?
+
+
+
+Now let's take a look at the data visually by running scatterplots for each pair
+including the "lm" smoother. Notice that "lm" is the same as the "lm" that 
+runs the regression.
+
+Remember that the basic code for scatter plots is:
+ggplot(dataset, aes(x= , y=)) + geom_point() +geom_smooth(method="lm") +
+   ggtitle("")
+
+
+```{r}
+
+
+
+```
+
+Look over your 4 plots with your group.
+
+### For which of the 4 plots do you think that the line best fits the data?
+
+
+
+### In your opinion, which is the plot where the line is the worst fitting for 
+### the data?
+
+
+
+
+
+### Why is it important to do "visual inspection" (that is, look at the plots) 
+### before deciding if a model is accurate?
+
+
+
+
+Now let's look at the fitted values and residuals (also called errors) 
+using the fitted.values() and residuals() functions on the 4 results objects.
+
+```{r}
+
+```
+
+Notice that we get a fitted.value and a residual for each observation.
+
+
+
