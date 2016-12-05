@@ -1,0 +1,148 @@
+---
+title: ""
+output: html_document
+---
+
+
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library(ggplot2)
+```
+
+First add the code to create the following variables in the ships data set:
+No_of_male_passengers
+No_of_crew
+Dichtomous variables:
+Titanic
+Your_ship
+
+(You should have this from the previous template on scatterplots)
+
+````{r}
+
+```
+For this template we will use `No. of women passengers` as the y variable in all analyses.
+
+First, lets make a scatter plot showing the relationship of our dependent variable with No_of_male_passengers  as the x variable, but this time add a color to the aes that differentiates the Titanic from the other ships. 
+
+```{r}
+plot1 <- ggplot(ships, aes(y=`No. of women passengers`, x=No_of_male_passengers, color = Titanic)) 
+plot1 + 
+  geom_point()+
+  ## Since we keep repeating this we could assign it to an object and just use the name of the object.
+  ggtitle("Relationship between the number of male and female passengers")
+  
+```
+Now show the location of your ship in the scatter plot.
+
+  
+```{r}  
+
+
+
+```
+
+Now let's create a new variable by using the or operator |  that is true for both 
+your ship and the Titanic.
+Remember that in this kind of logic, if for any observation either A is TRUE OR B is TRUE then
+the new variable is TRUE.
+
+We would write that:
+
+newvariable <- A | B
+
+In this case the new variable will be called two_ships and the data set is ships.
+So we would  write 
+ships$two_ships <- ships$Titanic | ships$yourship
+
+Write that code and create the new plot below.
+
+```{r}
+
+
+```
+
+
+### Write a few sentences about how your ship and the Titanic compare to each other and to the other ships.
+ 
+ 
+  
+  Now let's create a geom_hline() for the mean of number of male passengers and a geom_line() for the 
+  mean number of female passengers.  
+  You learned to do this in the second boxplot template. 
+  If needed, review the code from there and modify to use the mean() function instead of quantile(). 
+  Create the two lines and add to your plot. 
+  
+  Note that you could put the whole plot, with the lines and the title into an object.
+  This will make the last two plots less subject to error because you don't have to retype your code.
+  
+```{r}  
+
+
+
+```
+
+### How do the values of the variables for the two ships compare to the two means? 
+
+
+
+
+
+
+Next we will make two more plots that add "smoothers" 
+geom_smooth(method="lm",se=FALSE)
+geom_smooth(method="loess",se=FALSE)
+
+Also make the same plots with se= TRUE.
+
+```{r}  
+
+
+
+
+
+```
+
+### How do the two smoother lines differ? Why would each be useful?
+
+
+
+### How do the two ships relate to the straight (lm) lines without the ribbons? 
+### Are they nearer to the smoothed lines or to the mean lines?
+
+
+### How do the two ships relate to the smoothed lines with the "ribbons"? 
+### Do they fall inside the ribbons or outside the ribbons?
+
+
+Use the code below to get the number of male passengers on the Titanic and your ship.
+
+```{r}
+# Numbor of male passengers on the Titanic
+ships$No_of_male_passengers[ships$`Name of Ship` == "RMS Titanic"]
+#Number of male passengers on your ship
+
+
+```
+
+### Explain the logic of the code for getting the specific values.
+
+
+
+### Based  No. of women passengers for the Titanic, what value do the smooth lines
+### have for No_of_male_passengers?  How does this compare to the actual number? 
+
+
+
+### Based  No. of women passengers for the your ship, what value do the smooth lines
+### have for No_of_male_passengers?  How does this compare to the actual number?
+
+
+### How do the smoother lines relate to the vertical and horizontal lines showing the means?
+
+
+
+

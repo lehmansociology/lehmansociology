@@ -1,4 +1,4 @@
-#' Get the current swirl name
+#' Get the swirl name for the current user
 #'
 #' @keywords swirl
 #' @export

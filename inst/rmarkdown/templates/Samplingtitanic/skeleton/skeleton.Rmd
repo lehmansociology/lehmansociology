@@ -1,0 +1,144 @@
+---
+title: "Sampling People on the Titanic"
+output: html_document
+---
+
+In this template we are going to look at the Titanic data and create two random
+samples of people who were on the ship Titanic, 
+each with 200 individuals. Then we will compare the samples to each
+other and to the combined data.
+
+All the people on the ship together are the population.
+Each sample we select will be a random sample of the population.
+
+In statistics when we say random sample we mean  each member of the 
+population is _equally likely_ to be selected for the sample.
+
+```{r startupcode, message=FALSE, warning = FALSE}
+
+library(ggplot2)
+library(lehmansociology)
+
+
+```
+
+To do this exercise you will first need to reload your data set for the 
+Titanic. This should be in your data folder. If not, you will have to make
+adjustments to the code or redo the beginning of the Disaster1 template.
+
+```{r}
+# Note this could need to change depending on your folder structure.
+load(paste("~","data/RMS_Titanic.Rda", sep="/"))
+```
+
+
+We will create two samples of size 200, mysample1 and mysample2. Copy the example and create your own code for mysample2.
+
+````{r}
+#type your code here
+
+mysample1 <- sample_n(RMS_Titanic, 200, replace=TRUE)
+
+````
+
+We are going to be working with these samples for the next few classes.  Therefore we will save them, which you do using the R function save().
+Go to the Files tab and create a folder called data if you do not have one already.
+Use the example code to create code to save your second sample also.
+
+You need to run the below code, but don't knit it, which is why there
+is no r in the {}.
+```{}
+save(mysample1, file = "data/mysample1.RData")
+
+
+```
+When you are done saving you should see your two new data sets in the data folder.
+
+In the future if you want to use them you can use the load() function:
+load(file = "data/mysample1.RData").
+
+
+
+# Analysis of random samples
+
+
+One thing to know is that the mind can play tricks and does 
+not understand the idea of random well. 
+In a random distribution we do not expect the results to be perfectly
+even. We also do not expect that an individual sample will match the
+population perfectly.
+
+Now let's look at some descriptive statistics for the 2 samples.
+
+Use  summary(), and  var()  for the two samples to compare the age distributions in the two samples.
+
+Use crosstab() to look at the distribution Gender, Crew Passenger and Survival.
+Remember that you make a crosstab table for one variable like this
+crosstab(datasetname, col.vars = "variable name")
+
+```{r sample_univariates}
+
+
+```
+
+
+
+### How do the two samples compare?  What is the modal state in each? Are the other measures similar or different?
+
+Run a logistic regression with Survival as the dependent variable and  
+Gender as the independent variable.
+
+Remember that is done with  
+myregression <- glm(dependent ~ independent, data = datasetname, family=binomial(link=logit))  
+summary(myregression)
+
+Remember that there is [documentation here](https://github.com/SOC345/lehmansociology/tree/master/vignettes).
+
+## How do the separate samples compare to the complete RMS Titanic data?
+(You need to do some analyses here in order to answer the question.)
+
+```{r}
+
+
+
+```
+
+
+
+__Follow the instructions in Blackboard for sharing your data.__
+
+
+## 1000 Samples!
+
+As a last step we are going to try taking  1000 random samples of size 200
+and look at the distribution of the mean age using a histogram. 
+
+
+```{r}
+
+x<-replicate(1000, { 
+        xi<-sample_n(RMS_Titanic, 200, replace=TRUE)
+        mean(xi$Age, na.rm = TRUE)
+       }
+    )
+
+ggplot(data = as.data.frame(x), aes(x=x)) + geom_histogram(binwidth = .25)
+
+```
+
+### What does the distribution look like? 
+
+
+### What value is the middle of the distribution?
+
+
+### How do they compare to the values for the population (the full Titanic data set)? 
+
+
+### What happens if you divide the standard deviation of the 
+### whole Titanic data set by the square root of the sample size?
+Function for square root is sqrt()
+
+
+
+

@@ -1,0 +1,157 @@
+---
+title: "Scatterplots aand mre "
+output: html_document
+---
+
+
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library(ggplot2)
+```
+
+First let's create two new variables, the number of male passengers and the number of crew members.
+Remember that `No. of passengers` is the total passengers, `No. of women passengers` is the number of women
+passengers, and `Ship size ` is the total number of people including passengers and crew.
+Set up the code below to create the new variables.
+
+````{r}
+#type your code here
+ships$No_of_male_passengers <- 
+ships$No_of_crew <- 
+
+````
+
+Let's also create new dichtomous variables, one for the Titanic and one for your ship.
+These will be TRUE if the observation is that ship, FALSE otherwise.
+
+```{r}
+
+ships$Titanic <- ifelse(ships$`Name of Ship` == 'RMS Titanic', TRUE, FALSE)
+ships$Titanic
+# Now do yours
+
+```
+Make sure to check your results in the displayed the values.
+
+
+Let's also create new dichtomous variables, one for the Titanic and one for your ship.
+These will be TRUE if the observation is that ship, FALSE otherwise.
+
+```{r}
+
+ships$Titanic <- ifelse(ships$`Name of Ship` == 'RMS Titanic', TRUE, FALSE)
+ships$Titanic
+# Now do yours
+
+```
+Make sure to check your results in the displayed the values.
+
+Now get the summary data for the number of male passengers, number of women passengers and 
+number of crew members.
+
+### How do the three variables compare to each other in terms of cnetral tendency (mean and median) and 
+### variation (range and interquartile range)?
+(Feel free to use additional R functions of your choice to get this information)
+
+```{r}
+
+```
+
+
+### All three of these "number" variables are interval variables.  What makes them interval variables?
+
+
+
+
+Do ships with more male passengers have more female passengers?  To explore this one thing we can do
+is make a scatterplot using ggplot and geom_point.
+
+```{r}
+plot1 <- ggplot(ships, aes(x=`No. of women passengers`, y=No_of_male_passengers)) 
+  plot1 + 
+  geom_point() +
+  ggtitle("Relationship between the number of male and female passengers")
+  
+
+
+```
+
+## In looking at your results would you say that generally speaking as the number of female passengers
+## increases the number of male passengers increases?
+
+
+## If you increase the number of female passengers by 100 how do you think that would change
+## the number of male passengers you would expect? (Just an estimation by eyeball)
+
+Now make the same plot but switch the x and y axes.
+
+```{r}
+
+
+```
+
+## In looking at your results would you say that generally speaking as the number of male passengers
+## increases the number of female passengers increases?
+
+
+## If you increase the number of male passengers by 100 how do you think that would change
+## the number of female passengers you would expect? (Just an estimation by eyeball)
+
+
+
+
+Now do the same thing but with number of crew members as the y variable. 
+You can use either number of male passengers or number of female passengers as the x variable.
+
+```{r}
+
+
+
+```
+
+## In looking at your results would you say that generally speaking as the number of male or female passengers
+## increases the number of crew members increases?
+
+
+## If you increase the number of male or female passengers by 100 how do you think that would change
+## the number of crew you would expect? (Just an estimation by eyeball).
+
+## Based on the change due to change of 100, what would the impact of change of 1 male or 
+## female passenger be?
+
+Now rerun two or three of the graphs but add this geom code to them to get a "linear fit" line.
+
+geom_smooth(method="lm",se=FALSE)
+
+
+```{r}
+
+```
+
+
+## Does the line change your thinking at all?  Based on the line what are the impacts of changing 
+## the x variable by 100?  What would the impact of changing by 1 be?
+
+
+Now let's use R to estimate the slope of the line.  Here is one example, add more corresponding to
+the graphs you made above.
+
+```{r}
+
+results1 <- glm(No_of_male_passengers ~ `No. of women passengers`, family = gaussian, data = ships)
+coefficients(results1)
+
+
+
+```
+
+### How do the coeffcients for your x variables relate to your estimates of change based on increase 
+### of 100 and increase of 1?
+
+
+
+
+### How does this glm differ from the glm() we did previously?
