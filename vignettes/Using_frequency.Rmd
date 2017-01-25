@@ -1,0 +1,110 @@
+---
+title: "Using Frequency()"
+author: "Elin Waring"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r, message=FALSE}
+library(lehmansociology)
+```
+
+This document describes how to use the freqency() function from lehmansociology.  
+This function is designed to produce useful frequency, percent and
+cumulative data distributions in tabular form for variables treated as
+factors or ordinal factors. 
+
+## Basic use
+
+By default the function produces a table containing the frequency and
+percent. 
+
+```{r}
+frequency(chickwts$feed)
+
+```
+
+You can set freq = FALSE or percent = FALSE to eliminate the respective 
+columns from the results
+
+```{r}
+
+frequency(chickwts$feed, freq = FALSE)
+
+```
+
+If apporopriate, you can also request the cumulative frequencies and percents
+using cumulative.freq = TRUE and cumulative.percent = TRUE. Note that 
+cumulative columns will have a blank Total row.  
+
+```{r}
+
+frequency(chickwts$weight, cumulative.percent = TRUE)
+
+```
+
+Add a title to the table using the title parameter.
+
+```{r}
+
+frequency(chickwts$feed, title = "Feed types")
+
+```
+
+Handling of missing data is done using the useNA parameter. By default 
+useNA = "no" which means that missing data are excluded from the results.
+useNA = "ifany" will include missing values if they are present. useNA =
+"always" will add an NA row to the table whether or not there is any
+missing data.
+
+## Printing
+
+Printing is what controls what data R displays either when you type `x` 
+or `print(x)` and how it looks.   
+
+The function `print.frequencytable` lets you print the table with different options.  
+You only need to use this if you want to do something other than the defaults.  
+
+It includes the same parameters as `print.table()` from base r but by
+default row names are not printed and the values of the variable are left
+justified.  Use `row.names = TRUE` to print
+the names or numbers. Use  `right = TRUE` to right justify the values.   
+
+## Advanced
+
+The function returns an object of class frequencytable.
+
+The object is a list containing:  
+
+table  
+This is the whole table as a dataframe. 
+
+frequencies 
+This is the table class for the variable. That is, it is the result from
+using `table(x)` with the value of useNA from the `frequency()` call.  
+
+proportions  
+This is the table class result for `prop.table(table(x))`.  
+
+cum_prop  
+This is the cumulative proportions as integers. Effectively this is
+`cumsum(prop.table(table(x)))`.  
+
+cum_freq  
+This is the cumulative frequencies as integers. Effectively `cumsum(table(x))`.
+
+totrow  
+
+This is the row displayed at the bottom. The first element contains the
+string "Total".  Cumulative totals (totrow[3] and totrow[4]) are empty
+strings.
+
+title
+
+This is the supplied title or an empty string (default).
+
+Once you have the object you can use these separately or modify them 
+using normal R procedures. 

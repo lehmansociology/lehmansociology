@@ -1,0 +1,121 @@
+---
+title: "Using crosstab"
+author: "Elin Waring"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r, message=FALSE}
+library(lehmansociology)
+addhealth<-droplevels.data.frame(addhealth)
+```
+
+This document describes how to use the ` crosstab() ` function from lehmansociology.  
+This function is designed to produce useful crosstabs that can have 
+raw frequencies, row, colum and total percents and either numeric or 
+percent marginals
+
+## Basic use
+
+By default the function produces a table of raw frequencies with
+a bottom row containing the column N values.  Note that the 
+data= can be dropped if the data set name is in the first position.
+The row.vars and col.vars list variables from the data set by name, and
+the name must be in quotation marks.  
+
+You must have both row and column variables. For a single variable, 
+use frequency(). 
+
+```{r}
+
+#crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex")
+
+```
+
+You can use additional parameters to modify the table.
+
+For example, let's make a table with column percents and a marginal
+column with the percents for the whole sample.
+
+
+```{r}
+
+#crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
+#         format = "column_percent", row.margin.format = "percent")
+
+```
+
+If you would like to have row percents (which is not normal practice
+in sociology but is in other disciplines) you can change the format to 
+` row_percents`.  If you would like total percents (percent of the whole
+sample that is in a given cell) use total_percent. If you would like
+frequencies instead of percents in the total column change the
+row.margin.format to "freq".
+
+
+```{r}
+
+#crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
+#         format = "total_percent", row.margin.format = "freq")
+
+```
+
+You can also add a title using the title="" parameter. You can change
+the Total N row to show the percent in each column by adding 
+` col.margin.format="percent" `  or eliminate that row by using ` "none" `.
+
+
+```{r}
+
+#crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
+#         format = "column_percent", row.margin.format = "percent",
+#         title = "Feeling Happy with School by Gender", 
+#         col.margin.format = "percent")
+
+```
+
+You can get a summary including Chi Square by using the summary function.
+
+```{r}
+
+#result<- crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
+#         format = "column_percent", row.margin.format = "percent",
+#         title = "Feeling Happy with School by Gender", 
+#         col.margin.format = "percent")
+
+#summary(result)
+
+```
+
+
+## Advanced
+
+The function returns an object of class crosstab.
+
+The object is a list containing:  
+
+tabf   
+
+A table object with the raw frequencies.
+
+tab  
+
+The created table that is printed when you run crosstab().
+
+n  
+
+The number of observations in the table.
+ 
+margins 
+
+A list of freqency and proportion margins for the table.
+
+title
+
+This is the user supplied title or an empty string (default).
+
+Once you have the object you can use these separately or modify them 
+using normal R procedures. 
