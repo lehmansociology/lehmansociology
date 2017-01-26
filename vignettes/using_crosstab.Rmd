@@ -31,7 +31,7 @@ use frequency().
 
 ```{r}
 
-#crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex")
+crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex")
 
 ```
 
@@ -43,8 +43,8 @@ column with the percents for the whole sample.
 
 ```{r}
 
-#crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
-#         format = "column_percent", row.margin.format = "percent")
+crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
+         format = "column_percent", row.margin.format = "percent")
 
 ```
 
@@ -58,8 +58,8 @@ row.margin.format to "freq".
 
 ```{r}
 
-#crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
-#         format = "total_percent", row.margin.format = "freq")
+crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
+         format = "total_percent", row.margin.format = "freq")
 
 ```
 
@@ -70,10 +70,10 @@ the Total N row to show the percent in each column by adding
 
 ```{r}
 
-#crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
-#         format = "column_percent", row.margin.format = "percent",
-#         title = "Feeling Happy with School by Gender", 
-#         col.margin.format = "percent")
+crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
+         format = "column_percent", row.margin.format = "percent",
+         title = "Feeling Happy with School by Gender", 
+         col.margin.format = "percent")
 
 ```
 
@@ -81,12 +81,12 @@ You can get a summary including Chi Square by using the summary function.
 
 ```{r}
 
-#result<- crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
-#         format = "column_percent", row.margin.format = "percent",
-#         title = "Feeling Happy with School by Gender", 
-#         col.margin.format = "percent")
+result<- crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
+         format = "column_percent", row.margin.format = "percent",
+         title = "Feeling Happy with School by Gender", 
+         col.margin.format = "percent")
 
-#summary(result)
+summary(result)
 
 ```
 
@@ -101,19 +101,19 @@ tabf
 
 A table object with the raw frequencies.
 
-tab  
+*tab*  
 
 The created table that is printed when you run crosstab().
 
-n  
+*n*    
 
 The number of observations in the table.
  
-margins 
+*margins*   
 
 A list of freqency and proportion margins for the table.
 
-title
+*title*  
 
 This is the user supplied title or an empty string (default).
 
