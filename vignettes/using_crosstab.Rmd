@@ -4,7 +4,7 @@ author: "Elin Waring"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Using crosstab}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -90,6 +90,21 @@ summary(result)
 
 ```
 
+By default the parameter pretty.print = FALSE, but when you are ready to knit you may want to change it to
+TRUE and use pander to print. If you run this without knitting it will look a bit strange if 
+you have multiple lines, but
+once you knit it will look nicer. Of course you can change many options on this, such as justification
+and whether to use linebreaks. Overall, it is a more professional approach to displaying your results.
+Notice that you need to add the $tab when using `pander()` to print.
+```{r}
+
+library(pander)
+t<-crosstab(addhealth, row.vars = "happywschool", col.vars = c("sex", "raceeth"), pretty.print = TRUE)
+t
+pander(t$tab, keep.line.breaks = TRUE, justify = "right")
+
+```
+You can learn about many options for pander at the pander website. 
 
 ## Advanced
 

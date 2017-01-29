@@ -22,7 +22,8 @@ Imports:
     HMDHFDplus
 Suggests:
     printr,
-    aws.s3
+    aws.s3,
+    pander
 Remotes:
     yihui/printr
 VignetteBuilder: knitr

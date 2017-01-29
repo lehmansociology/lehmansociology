@@ -16,9 +16,11 @@ print.crosstab <- function (ctab, ..., digits = NULL, quote = FALSE, right = FAL
           row.names = FALSE)
 {
     title <- ctab[["title"]]
-    n <- ctab[["n"]]
+    ncases <- ctab[["n"]]
     x <- ctab[["tab"]]
+    n<-nrow(ctab[["tab"]])
 
+    # This is from the table print function.
     if (length(x) == 0L) {
         cat(sprintf(ngettext(n, "data frame with 0 columns and %d row",
                              "data frame with 0 columns and %d rows"), n),
