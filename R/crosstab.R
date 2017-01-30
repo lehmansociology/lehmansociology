@@ -81,10 +81,12 @@ crosstab<-function(data, row.vars = "", col.vars = "",
         }
 
         names(dimnames(tab))<-list(rname, cname)
-        form <- as.formula("~ rowvars + colvars")
+        form <- as.formula(paste0("Freq ~ rowvars + colvars"))
+        tabf<-tab<-xtabs(form, tab)
     }
 
-    tabf<-tab<-xtabs(Freq~rowvars+colvars, tab)
+    # Now process everything as though it is a two way table.
+    #tabf<-tab<-xtabs(form, tab)
     tabn<-margin.table(tabf)
     margin.row.f<-margin.table(tabf,1)
     margin.row.p<-prop.table(margin.row.f)
