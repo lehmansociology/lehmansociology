@@ -1,10 +1,10 @@
 ---
-title: "Confidence Intervals"
+title: "Introduction to Confidence Intervals"
 author: "Elin Waring"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Confidence Interval}
+  %\VignetteIndexEntry{Confidence Intervals}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,32 +15,44 @@ populaton or making estimates of population parameters.
 This always involves uncertainty because there are many
 possible samples of any population.  Some of those samples will produce really excellent
 estimates of the population statistics, but other samples will provide terrible estimates.
+This is not because the researcher made an error, it is just a result of the fact 
+that a sample is used.
 Fortunately, if we use random sampling we know that most samples will be pretty good.
 Unfortunately, we never know whether we have one of the pretty good samples or one of the
 pretty bad ones. We also know for sure that it would be extremely unlikely that 
 a sample statistic would be exactly equal to the population parameter (even with 
-rounded numbers).
+rounded numbers). Therefore it is almost always better to make an estimate that is 
+an interval (the estimated mean is between 8.2 and 9.4) than an estimate that is a 
+single point (the estimated mean is 8.8).  The single point gives a false impression of
+precision to an estimate that already has uncertainty.
 
 ## Confidence Intervals
 One way that statisticians have developed to deal with the uncertainty associated with using 
 sample statistics to estimate unknown population parameters is the concept of a confidence
-interval.  
+interval. Unfortunately, as with many other words such as random and normal,
+statisticians use the term confidence
+in ways that do not necessarily match the way people use them in ordinary English.
 
 A confidence interval lets us give a range of estimated values of the parameter instead
 of a single value *and* lets us
-associate a level of certainty (or uncertainty) with that estimate. The level of confidence
-is based on how often the procedures we use to create the interval will actually work,
-the population. 
+associate a level of confidence (or uncertainty) with that estimate.  The level of confidence
+is based on how often the procedures we use to create the interval will actually work at
+including the actual value in the population (assuming that a list of assumptions are met) if we took a huge number of samples. 
+The level of confidence is a probability, so it has to be between 0 and 1, though
+this is often converted to a percent when presented. 
 
-The wider the confidence interval, the more confident we are that the true value of the
-population parameter is somewhere inside it.  For example, we would be more confident that 
-the population parameter is between 20 and 25  than that it is between 22 and 23.  
-So higher confidence levels are associated with wider intervals.
+If we were guess of a population parameter, such 
+as the mean age or temperature, using  a range of values, we would be more likely to be right if our range is bigger. For example, we would be more confident that 
+the population parameter is between 20 and 25  than that it is between 22 and 23. This is just a truism. Of course, it could be that our guess is still completely wrong and that the mean age is 32 or 16.
+Similarly, the wider the confidence interval, the more likely it is that the true value of the
+population parameter is somewhere inside it. 
+That is, higher confidence levels are associated with wider intervals. Ultimately, the probability that the parameter is in a given interval is either 1 (it is) 
+or 0 (it is not), but in the practical world of research we will never know this.  
 
 We express this confidence as a percentage, but it is important not to get confused and
 think that the percentage is the chance that the true parameter value is in the interval. 
-The percentage more accurately reflect the percent of the time that creating a confidence
-interval in this way will contain the true value if we took every possible sample of the 
+The percentage more accurately reflects our estimate of the percent of the time that creating a confidence
+interval from a random sample of a given size will contain the true population value if we took every possible sample of the 
 same size as our sample. 
 
 ## Sampling Distributions
@@ -54,50 +66,58 @@ How many possible samples are there?  A lot.  If we had 10 people in a populatio
 tried to list out every possible way to select them into groups of 10, assuming we could
 pick the same person multiple times and that we count each sample that is selected in a
 different order separately, we would have (10)(10)(10)(10)(10)(10)(10)(10)(10)(10)  or
-1,000,000 posssible samples. And it just gets bigger as the population size increases or 
-the sample size increases.
+10,000,000,000 or $1*10^{10}$ posssible samples. And it just gets bigger as the population size increases or 
+the sample size increases. Many results in statistics actually depend on the idea of an infinite population.
 
 Just like any distribution for an interval variable, the sampling distribution has its own
 mean, median, variance and standard deviation.  The standard deviation of a sampling 
-distribution is  called the *standard error*. It also, of course, has quantiles.
+distribution is  called the *standard error*.  The standard error of a sampling
+distribution is related to the distribution of the original variable.  In the case of 
+the mean, _the standard error of the sampling distribution is a function of the 
+standard deviation of the original variable and the square root of the sample size_. 
+
+A sampling distribution also, of course, has quantiles, like 
+the 25th percentile, the 90th percentile and the 99th percentile.
 Unfortunately since the reason we are estimating from a sample to start with is that we 
 don't really know about the population, we also don't know exactly what the sampling
-distribution is though fortunately when random sampline is used this does follow some
-rules.  Unfortunately, those rules also require information about the population.
+distribution is, though, fortunately, when random sampling is used this does follow some
+rules that can be proved mathematically.  Unfortunately, those rules also require information about the population.
 
-So when we calculate a confidence interval we are still relying on our one sample for all 
+That means that when we calculate a confidence interval we are still relying on our one sample for all 
 of our information about the population.  
 
 
+## Constructing Confidence Intervals
 
-# Constructing Confidence Intervals
-
-As with many other things, statisticans to not all think alike, and this is especially true
+As with many other things, statisticans do not all think alike, and this is especially true
 when it comes to the question of how best to construct a confidence interval from a sample.
 As beginning students it is good for you to see the two main ways this is done.
 
 The validity of both methods relies on the assumption of random sampling.
 
-Let's take a random sample of 30 states.
+Let's take a random sample of 30 states from our population of 50 states as an example. Of course we would never do this in real life.
 
-```{r selectsample}
+```{r selectsample,message=FALSE}
 library(lehmansociology)
 library(dplyr)
-sample <- sample_n(poverty.states, 30)
+library(ggplot2)
+#Set the seed. This ensures that everytime this document is generated we get the same sample. The seed was generated using runif(1, 1, 1000).
+set.seed(565)
+our_sample <- sample_n(poverty.states, 30)
 
 ```
 
-Now let's look at the mean, median and standard devation of PCTPOVALL_2013
+Now let's look at the mean, median and standard devation of PCTPOVALL_2013 in our sample. 
 
 ```{r samplestats}
 
-mean(sample$PCTPOVALL_2013)
-median(sample$PCTPOVALL_2013)
-sd(sample$PCTPOVALL_2013)
+mean(our_sample$PCTPOVALL_2013)
+median(our_sample$PCTPOVALL_2013)
+sd(our_sample$PCTPOVALL_2013)
 
 ```
 
-
+We will construct confidence intervals around these estimates.
 
 ## Bootstrap or Resampling Methods
 
@@ -106,48 +126,87 @@ samples from the sampling distribution.  For example you can rearrange the order
 sample members and each would be a unique permutation.  Also you can treat your sample as 
 though it was a population and take many possible samples from it that are the same size,
 but that allow the same observation to be selected more than once (sampling with
-replacement).  That's how the population of size 10 represents 1,000,000 samples. 
-Creating bootstrap confidence intervals involves taking a number of the possible samples
+replacement).  That is how a population of size 10 represents 10,000,000,000 samples.
+In our case we have $30^{30}$ possible samples which would be $2 * 10^{44}$ samples or 2
+followed by 44 zeros.
+Creating bootstrap confidence intervals involves taking a number of these possible samples
 and using them to create an artificial sampling distribution and using that to create
-the interval.
+the interval. In our example we will take 10,000 samples.
 
 The next code block illustrates how this is done in R.  However to really understand it, it is a good idea to look at a visualization such as that available at (Statkey)[http://lock5stat.com/statkey/bootstrap_1_quant/bootstrap_1_quant.html]
-
+At the end of this document the 30 values used here are listed so that you can try them
+in Statkey.
 
 
 
 ```{r bootstrap}
 
 library(resample)
-# This example takes 1000 samples and calculates a 95% Confidence Interval (the default)
+# This example takes 10000 samples and calculates a 95% Confidence Interval (the default)
 # for the mean.
-result1 <- bootstrap(sample, mean(PCTPOVALL_2013, na.rm = TRUE), R = 1000)
-CI.bca(result1)
-
-# This example takes 1000 samples and calculates a 95% Confidence Interval (the default)
-# for the median.
-result2 <- bootstrap(sample, median(PCTPOVALL_2013, na.rm = TRUE), R = 1000)
-CI.bca(result2)
-
-# This example takes 1000 samples and calculates a 90% Confidence Interval (the default)
-# for the standard deviation.
-result3 <- bootstrap(sample, sd(PCTPOVALL_2013, na.rm = TRUE),
-                     R = 1000  )
-CI.bca(result3, probs = c(0.05, 0.95))
-
-# Notice that with a bootstrap estimation you will not get the same value every time you 
-# do it.  This is because you are taking new random samples each time.
-result3 <- bootstrap(sample, sd(PCTPOVALL_2013, na.rm = TRUE),
-                     R = 1000  )
-CI.bca(result3, probs = c(0.05, 0.95))
+result1A <- bootstrap(our_sample, mean(PCTPOVALL_2013, na.rm = TRUE), R = 10000)
+CI.bca(result1A)
 
 ```
 
+Notice that each confidence interval gives you two values, one labelled 2.5% and one labelled 97.5%.   
+97.5 - 2.5 = 95 
+which is where the 95% comes from. The 97.5 and 2.5
+refer to the percentiles of the sampling distribution. The difference between the two values
+is like the Interquartile Range, but instead of being the middle 50% of the distribution
+it represents the middle 95% of the distribution. 
 
-If you would like to use this sample in statkey to better understand bootstrapping, copy the column below. Be sure to indicate that the first column is labels.
+Suppose we wanted a 98% confidence interval. The middle 98% are between the 1st percentile and the 99th percentile (99 - 1 = 98).  We would get our confidence interval for the same
+analysis by specifying those percentiles instead of the default.  
+
+```{r bootstrap2}
+CI.bca(result1A, probs = c(0.01, 0.99))
+```
+Notice that this interval is wider.  To have more confidence for the 
+same sample, the interval has to get wider.
+
+If we wanted to be similar to the IQR we could use a 50% confidence interval.
+
+```{r bootstrap3}
+CI.bca(result1A, probs = c(0.25, 0.75))
+```
+Notice that this is narrower.  
+We can use bootstraping to construct a confidence interval for any statistic. In this 
+document we are going to stay with univariate statistics and estimate intervals
+for the median and standard deviation.
+
+```{r bootstrap4}
+# This example takes 10000 samples and calculates a 95% Confidence Interval (the default)
+# for the median.
+result2 <- bootstrap(our_sample, median(PCTPOVALL_2013, na.rm = TRUE), R = 10000)
+CI.bca(result2)
+
+# This example takes 10000 samples and calculates a 95% Confidence Interval
+# for the standard deviation.
+result3 <- bootstrap(our_sample, sd(PCTPOVALL_2013, na.rm = TRUE),
+                     R = 10000  )
+CI.bca(result3)
+
+```
+
+Notice that with a bootstrap estimation you will get different values every time you 
+do it.  This is because you are taking new random samples each time.
+
+```{r boostrap5}
+result4 <- bootstrap(our_sample, sd(PCTPOVALL_2013, na.rm = TRUE),
+                     R = 10000  )
+CI.bca(result4)
+
+```
+
+Remember that the sampling error for a variance, standard deviation or IQR is not an
+estimate of actual variation, it is an estimate of how much such estimates would vary if
+there were repeated samplng.
+
+If you would like to use this sample in Statkey to better understand bootstrapping, copy the column below. Be sure to indicate that the first column is labels.
 
 ```{r comment=NA}
-sample['PCTPOVALL_2013']
+our_sample['PCTPOVALL_2013']
 ```
 
 
@@ -155,66 +214,64 @@ sample['PCTPOVALL_2013']
 
 In most parametric methods the standard error is estimated using some assumptions,
 such as that the original variable is normally distributed.
-
+One of the most commonly used ways of estimating a confidence interval is using
+the percentiles of the t distribution which relies on this assumption as well as
+the assumption that the standard deviation in our sample is accurate.  The code below
+shows how to calculate confidence intervals for the mean using the t distribution in R.
 
 
 ```{r}
 
-ci1 <- t.test(sample$PCTPOVALL_2013, conf.level = 0.90)
+ci1 <- t.test(our_sample$PCTPOVALL_2013, conf.level = 0.90)
 ci1$conf.int
 
-ci2 <- t.test(sample$PCTPOVALL_2013, conf.level = 0.95)
+ci2 <- t.test(our_sample$PCTPOVALL_2013, conf.level = 0.95)
 ci2$conf.int
 
-ci3 <- t.test(sample$PCTPOVALL_2013, conf.level = 0.95)
+ci3 <- t.test(our_sample$PCTPOVALL_2013, conf.level = 0.98)
 ci3$conf.int
 
 
 ```
 
+Notice that as before, as we make the confidence level higher, the confidence interval
+gets wider.  Unlike the bootstrap method, you would only calculate it once since the
+result for a given sample would never change.
+(because you are using the t distribution instead of resampling your sample).
+
+Unfortunately, parametric confidence intervals for the median, variance and standard deviation
+are not as simple, so we won't go into them here since the boostrap methods are available. 
 
 
-We can also get the confidence interval for regression estimates of the intercept and
-coefficient
+We can also use a t test for the confidence interval for regression estimates of the intercept and
+coefficient.
+
+```{r echo=FALSE}
+our_sample$MEDHHINC_2013 <- replaceCommas(our_sample$MEDHHINC_2013) 
+```
+
 
 ```{r}
 
-poverty.states$MEDHHINC_2013 <- replaceCommas(poverty.states$MEDHHINC_2013) 
-reg1 <- lm(PCTPOVALL_2013 ~  MEDHHINC_2013, data = poverty.states)
+
+reg1 <- lm(PCTPOVALL_2013 ~  MEDHHINC_2013, data = our_sample)
 confint(reg1)
 
 ```
 
 
-Another place you can see confidence intevals is when ggplot puts a confidence ribbon
-around the least squares line.  THis is actually showing the confidence interval for each
-prediction. You can see from the graph that the intervals are wider as you get further 
-from the two means.  This is one reason we should be cautious about extending predictions
-beyond the edges of our data.
+## Displaying confidence intervals.
 
-```{r predictionCI_graphic}
+Often, we want to display confidence intervals around our estimates. This can be an excellent 
+way of communicating the uncertainty of estimates.  It can make the comparison of different groups or units more clear. For example, although the Census Bureau provides
+a level of poverty for each state, that level itself is based on the sampling used 
+in the American Community Survey. Therefore the Census Bureau provides 90% confidence intervals for the estimate in each state. We can display these to help readers understand
+that the measures are just that, measurements, that are not perfect representations of
+the underlying reality in this case due to the inherent uncertainty that comes along with using even a very well designed probability sample.
 
-library(ggplot2)
-ggplot(poverty.states,
-       aes(x=MEDHHINC_2013,
-           y=PCTPOVALL_2013)) +
-  geom_point() +
-  stat_smooth(method = lm) +
-  ggtitle("Fig # : Poverty Rate and Median Income (for States)") +
-  labs(x = "Median Income",  
-       y="Percent of population in poverty") 
-
-
-```
-
-
-# Displaying confidence intervals.
-
-
-```{r errorbars }
+```{r errorbars, fig.height=6, fig.width=6 }
 ggplot(poverty.states,
     aes(x= reorder(Area_Name, PCTPOVALL_2013), y = PCTPOVALL_2013)) +
-  geom_point() +
   geom_errorbar(aes(ymin = CI90LBALLP_2013, ymax = CI90UBALLP_2013),
     width=.2, position=position_dodge(.9)) +
   labs(y = "Percent in Poverty",     x="State") +
@@ -224,5 +281,64 @@ ggplot(poverty.states,
 
 ```
 
+
+This display illustrates some important points.  First, confidence intervals displayed in
+this way can help us see that while the means from the states are all different,
+many of them are in the same general range and their confidence intervals overlap.
+On the other hand, some states that seem very different from the others, specifically 
+New Hampshire and Mississippi, remain different even when we use interval estimation.
+Their whole intervals are separate from those of other states.
+
+Second, clearly some confidence intervals are wider than others, and the widths vary
+a lot.  This is because confidence intervals are based on the standard error, which
+depends on the standard deviation and square root of the sample size. So some states 
+with bigger confidence intervals may have smaller samples but some may have 
+more variability.
+
+### Displaying Confidence Intervals in Regression
+
+Another place you can see a kind of confidence interval
+is when ggplot puts a confidence ribbon
+around the least squares line or other smoother.  The ribbon for OLS regression
+is actually showing the confidence interval for each
+value of y based on the estimated equation of the line. You can see from the graph that the intervals are wider as you get further 
+from the two means.  This is one reason we should be cautious about extending 
+beyond the edges of our data. 
+
+```{r predictionCI_graphic, fig.height=6, fig.width=6}
+
+library(ggplot2)
+ggplot(our_sample,
+       aes(x=MEDHHINC_2013,
+           y=PCTPOVALL_2013)) +
+  geom_point() +
+  stat_smooth(method = lm) +
+  ggtitle("Fig # 1: Poverty Rate and Median Income (for States)") +
+  labs(x = "Median Income",  
+       y="Percent of population in poverty") 
+
+
+```
+
+## Conclusion
+
+It is important to keep in mind that confidence intervals are for describing the range
+of values that we estimate for a parameter using observed data from a sample. If we were
+making predictions about new values of $y$ for a new observation of $x$ the intervals
+would be wider. This would be called a prediction interval.  Bayesian statisticians
+create credibility intervals which also are different in terms of the underlying 
+assumptions.  If you read an article with intervals it is important to pay attention to
+which kind of interval it is.
+
+Statisticians have a number of debates about the place of confidence intervals and how
+they shoulld be interpreted.  Nonetheless, there is general agreement that it is better 
+to make estimates that are intervals rather than specific points, since point estimates
+imply more certainty than there really is.
+
+The most important thing to remember is what a confidence interval does not do. It does 
+not make it possible to say that there is a certain percent probability that the true 
+value is within the confidence interval.  It only allows you to say that if you 
+performed the procedure repeatedly over many separate random sample that you would expect
+the interval to include the true value that percent of the time.  
 
 

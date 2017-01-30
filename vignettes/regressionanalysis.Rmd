@@ -1,5 +1,5 @@
 ---
-title: "Regression Analysis"
+title: "Introduction to Regression Analysis"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -7,33 +7,53 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{UTF-8}
 ---
-```{r}
+```{r message=FALSE}
 library(lehmansociology)
 library(dplyr)
 library(tidyr)
 library(broom)
 library(printr)
 
+
+```
+
+```{r echo=FALSE, message = FALSE}
 education_and_poverty<-create_educ_poverty_data()
 ```
 
-In Sociology 345 we use regression (specifically ordinary least squares regression) to analyse linear relationships between variables.
+We use regression (specifically ordinary least squares regression or OLS) to analyse linear relationships between variables.
 
 For basic regression we use the lm() function.  The lm comes from *L*inear *M*odel, which
 makes it easy to remember. 
 
-You can find more useful information for regression analysis in the Making Graphs and Confidence Intervals documentation.
 
 # Basics
 
 In regression analysis you have a dependent variable and one or more independent variables.
-In this section of documentation we will focus on the case of one independent variable.
-The results of regression give you the equation for a line that summarizes the linear
-relationship between your variables with an equation.   
+The dependent variable in OLS regression should be an interval-ratio variable. 
+If you choose to use an ordinal variable you need to have a good reason to assume that
+it will act like an interval variable.
+
+In this section of documentation we will focus on the case of one independent variable
+that is an interval or ratio variable.
+
+The results of regression give you the equation for a straight line that summarizes the linear
+relationship between your variables.  Of course this only makes sense if 
+you have good reason to believe that the relationship is linear.
+You may remember the idea of equation of a line from algebra:
+
+
+$$ y = mx + b $$
+where $b$ is the intercept and $m$ is the slope. 
+
+In statistics there is a similar idea, but 
+but instead of y, we have $\hat y$ (prounounced y-hat) or
+$predicted(y)$ and we write the equation this way:  
+ $$ \hat y = a +b_1x_1  $$
 
 The basic format for a regression analysis in R is  
 
-lm(dependent_variable ~ independent_variable, dataset)
+`lm(dependent_variable ~ independent_variable, dataset)`
 
 ```{r regression1}
 # Spread out because the names are long and to make the different parts more visible.
@@ -205,3 +225,7 @@ journals if you see the term logistic regression or generalized linear model, th
 that the article is using a dependent variable that doesn't work well with ordinary
 least squares regression. Logistic regression is what is specifically used with a
 dichtomous dependent variable.
+
+
+
+You can find more useful information for regression analysis in the Making Graphs and Confidence Intervals documentation.
