@@ -20,8 +20,11 @@ frequency <- function(Values,
                       cumulative.freq = FALSE,
                       useNA = "no",
                       title = ""){
-
     tabf<-table(Values, useNA=useNA)
+
+    if (is.null(dimnames(tabf)$Values)){
+        return(print("Object does not exist"))
+    }
     tabp<-prop.table(tabf)
     tabp100<-round(tabp*100,1)
     tabmf<-margin.table(tabf)
