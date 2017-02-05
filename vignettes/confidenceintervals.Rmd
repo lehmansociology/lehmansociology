@@ -126,7 +126,7 @@ samples from the sampling distribution.  For example you can rearrange the order
 sample members and each would be a unique permutation.  Also you can treat your sample as 
 though it was a population and take many possible samples from it that are the same size,
 but that allow the same observation to be selected more than once (sampling with
-replacement).  That is how a population of size 10 represents 10,000,000,000 samples.
+replacement).  That is how a sample of size 10 actually represents 10,000,000,000 samples.
 In our case we have $30^{30}$ possible samples which would be $2 * 10^{44}$ samples or 2
 followed by 44 zeros.
 Creating bootstrap confidence intervals involves taking a number of these possible samples
@@ -154,7 +154,7 @@ Notice that each confidence interval gives you two values, one labelled 2.5% and
 which is where the 95% comes from. The 97.5 and 2.5
 refer to the percentiles of the sampling distribution. The difference between the two values
 is like the Interquartile Range, but instead of being the middle 50% of the distribution
-it represents the middle 95% of the distribution. 
+it represents the middle 95% of the distribution, in this case the middle 95% of a sampling distribution. 
 
 Suppose we wanted a 98% confidence interval. The middle 98% are between the 1st percentile and the 99th percentile (99 - 1 = 98).  We would get our confidence interval for the same
 analysis by specifying those percentiles instead of the default.  
@@ -190,7 +190,7 @@ CI.bca(result3)
 ```
 
 Notice that with a bootstrap estimation you will get different values every time you 
-do it.  This is because you are taking new random samples each time.
+do it.  This is because you are taking new random samples each time. Even though we are using different samples, they should be similar most of the time if our sample is reasonable large.
 
 ```{r boostrap5}
 result4 <- bootstrap(our_sample, sd(PCTPOVALL_2013, na.rm = TRUE),
@@ -336,7 +336,7 @@ to make estimates that are intervals rather than specific points, since point es
 imply more certainty than there really is.
 
 The most important thing to remember is what a confidence interval does not do. It does 
-not make it possible to say that there is a certain percent probability that the true 
+not make it possible to say that there is a certain probability that the true 
 value is within the confidence interval.  It only allows you to say that if you 
 performed the procedure repeatedly over many separate random sample that you would expect
 the interval to include the true value that percent of the time.  
