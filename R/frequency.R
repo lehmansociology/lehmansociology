@@ -33,6 +33,7 @@ frequency <- function(Values,
     totrow<-c("Total", tabmf, tabmp)
     table<-merge(as.data.frame(tabf, stringsAsFactors = FALSE),
                  as.data.frame(tabp100, responseName = "Percent"))
+    table$Values <- dimnames(tabf)[[1]]
 
     if (cumulative.percent) {
         table$`Cum. Percent`<- cumsum(table$Percent)
