@@ -1,0 +1,92 @@
+---
+title: "Lab 1"
+output: html_document
+author: ""
+date: "`r Sys.Date()`"
+---
+
+This is an RMarkdown file.  Notice that it has different sections. Some are for code and they are called "code chunks." These are are marked off with tickmarks and {r} which indicates that the code you are creating is in
+the R language.
+
+On line 4, add your name (between the quotation marks) as the author of this document. 
+
+In this class we always need to start by loading the lehmansociology package which contains our data, 
+templates and other useful things. 
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+
+```
+
+We will be using the *ships* data set.  
+Let's look at the first line of the data set using the head() function.  
+
+```{r}
+
+head(ships, 1)
+
+```
+
+### What is the Name of Ship and Ship Id for the first line?
+
+
+Now let's get the list of all of the Ship Id and Ship Name values.
+
+```{r}
+
+ships[c("Ship Id", "Name of Ship")]
+
+```
+
+Notice that we selected two columns by name from the data frame called ships. 
+
+### What is the Ship Id and Name of SHip for your assigned ship? 
+
+
+### What is the row number for your ship? 
+
+
+
+For the RMS Titanic the row number is 8 and the Ship Id is 8. To find the Cause of the Titanic sinking
+I can use the code below.  Try it and then add the code to find  how your ship sank.
+
+```{r}
+
+ships[8, "Cause"]
+
+
+```
+
+Find out whether the captain of your ship survived by using the variable "Survived."
+
+```{r}
+
+
+
+```
+
+What year did your ship sink? 
+
+```{r}
+
+
+
+```
+
+You can put more than one command in the same code chunk.  In this code chunk find the Number of passengers,
+Number of women passengers, the length of the voyage, and the proportion of people on the ship who survived.
+You can add any additional variables that are of interest.
+
+```{r}
+
+
+
+```
+
+
+### Write a paragraph summarize the information about your ship. 
+
+
+
