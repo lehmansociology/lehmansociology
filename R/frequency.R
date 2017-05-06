@@ -34,9 +34,17 @@ frequency <- function(Values,
     table<-merge(as.data.frame(tabf, stringsAsFactors = FALSE),
                  as.data.frame(tabp100, responseName = "Percent"))
 
+    rawtable <- merge(as.data.frame(tabf, stringsAsFactors = FALSE),
+                      as.data.frame(tabp, responseName = "Proportion"))
+
     if (is.numeric(Values)){
         table$Values <- as.numeric(table$Values)
         table <- table[order(table$Values),]
+    }
+
+    if (is.ordered(Values)){
+        olevels <-levels(Values)
+        table<-table[match(olevels, table$Values),]
     }
 
     if (cumulative.percent) {
@@ -44,6 +52,7 @@ frequency <- function(Values,
 
         totrow<-c(totrow,  "")
     }
+
     if (cumulative.freq) {
         table$`Cum. Freq`<- cumsum(tabf)
 
@@ -62,6 +71,7 @@ frequency <- function(Values,
     }}}
 
     t<-list(table = table,
+            raw_table = rawtable,
             frequencies = tabf,
             proportions = tabp,
             cum_prop = cumsum(tabp),

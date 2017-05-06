@@ -23,15 +23,27 @@ crosstab<-function(data, row.vars = "", col.vars = "",
                     pretty.print = FALSE
                     ){
 
-    factorsToUse<-c(row.vars, col.vars)
+    factorsToUse <- c(row.vars, col.vars)
+
+    # Deal with case where row.vars or col.vars is empty.
+    factorsToUse <- factorsToUse[factorsToUse != ""]
+    nvars <- length(factorsToUse)
+    if (nvars == 0 ){
+        return("No variables were specified")
+    }
+
+    if (nvars == 1) {
+        onedtable <- lehmansociology::frequency(data[factorsToUse])
+        return(onedtable)
+    }
+
     form<-as.formula(paste(" ~", paste(factorsToUse, collapse="+"), sep=""))
 
-    nvars <- length(factorsToUse)
     tab<-tabf<-xtabs( form, data = data)
 
     # Preprocess larger tables down to 2 variables
     if (nvars > 2) {
-        # this is for 3+ variables, basically we make it be 2 variables
+        # This is for 3+ variables, basically we make it be 2 variables.
         tab<-as.data.frame(tab)
 
         cname <- paste(col.vars, collapse = " ")
@@ -142,7 +154,8 @@ crosstab<-function(data, row.vars = "", col.vars = "",
                    factors = factorsToUse,
                    formula = form
                     )
-    class(crosstab)<-"crosstab"
+    class(crosstab)<-c("crosstab")
+
     crosstab
 
 }
