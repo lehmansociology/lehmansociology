@@ -72,9 +72,9 @@ Now let's look at some descriptive statistics for the 2 samples.
 
 Use  summary(), and  var()  for the two samples to compare the age distributions in the two samples.
 
-Use crosstab() to look at the distribution Gender, Crew Passenger and Survival.
+Use frequency() to look at the distribution Gender, Crew Passenger and Survival.
 Remember that you make a crosstab table for one variable like this
-crosstab(datasetname, col.vars = "variable name")
+crosstab(datasetname$variablename)
 
 ```{r sample_univariates}
 
@@ -83,16 +83,6 @@ crosstab(datasetname, col.vars = "variable name")
 
 
 
-### How do the two samples compare?  What is the modal state in each? Are the other measures similar or different?
-
-Run a logistic regression with Survival as the dependent variable and  
-Gender as the independent variable.
-
-Remember that is done with  
-myregression <- glm(dependent ~ independent, data = datasetname, family=binomial(link=logit))  
-summary(myregression)
-
-Remember that there is [documentation here](https://github.com/SOC345/lehmansociology/tree/master/vignettes).
 
 ## How do the separate samples compare to the complete RMS Titanic data?
 (You need to do some analyses here in order to answer the question.)

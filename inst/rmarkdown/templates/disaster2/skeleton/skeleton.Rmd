@@ -20,21 +20,24 @@ Start by loading the dataset that you previously saved.
 
 ````{r}
   load(paste("~","data/RMS_Titanic.Rda", sep="/"))
+# Do the same thing but for  your ship.
+
+
 ````
 ## Describing the Data
 
-The data we downloaded contains 1 row per person on the ship for a given ship, in this case RMS Titanic.
+The data we downloaded contains 1 row per person on the ship for a given ship, in this case RMS Titanic and your ship.
 
-Find some basic information about the RMS_Titanic using the str() function and the summary()
+Find some basic information about the data for your ship using the str() function and the summary()
 function on the RMS_Titanic data set. That means, put the name of the data set inside 
 the parentheses.
 ```{r}
-str(RMS_Titanic)
+str(PUT_THE_DATA_SET_NAME_HERE)
 summary(PUT_THE_DATA_SET_NAME_HERE)
 
 ```
 
-You should notice some odd things.
+You will probably notice some odd things.
 
 ####Some variables are all set to NA.  Which ones are these?
 
@@ -46,7 +49,7 @@ of the ships. When a variable is not available, all values will be missing.
 #### There are some variables where all the values are the same. Which are these?
 
 
-#### Why do some variables have the same value for every observation?  Think about what they refer to.
+#### Why do some variables have the same value for every observation?  Think about what they refer to. (Think back to the ships data)
 
 
 #### Browse the dataset.  There is something interesting about how the Crew and Passenger Class variables relate to each other.  What is that?
@@ -54,35 +57,44 @@ of the ships. When a variable is not available, all values will be missing.
 
 ### Tables
 
-Now let's get some descrptive information about the people on the ship using the crosstab function. The variables we are interested in in the RMS_Titanic data set are: 
-Gender, Passenger Class, Crew, Survival. 
+Now let's get some descrptive information about the people on the ship using the frequency() function. The variables we are interested in in the RMS_Titanic data set are: 
+Gender,  Crew, Survival and any other variables that are nominal or ordinal and have data. 
 
+Remember the code will look like this:
+frequency(YOUR_SHIP_DATA$variable)
 
 
 ```{r}
 
-#Here is the first. You add the others.
-crosstab(RMS_Titanic, row.vars = "Gender")
 
 
 ```
 
-We would also like to know about the proportion who are 15 and under. The problem is that the Child variable is all missing and age is given in years.  Let's update the Child variable with information from the Age variable and then run the crosstab.
-(For your other ship you need to see if this is necessary and possible. 
-You may need to do other similar things with other variables.)
+Are there any interval variables? If so run a summary() function for them.
 
 ```{r}
-RMS_Titanic$Child <- as.numeric(RMS_Titanic$Age) <= 15
 
-# Add the crosstab below
-crosstab(RMS_Titanic, row.vars = "Child")
 
 ```
 
-#### Explain what you think the code `RMS_Titanic$Child <- as.numeric(RMS_Titanic$Age) <= 15 ` does.
+
+Now run at least three cross tabs.  The dependent variable (row.vars) should be Survival
+for all of them.  The two shared variables are Crew and Gender. Pick one other variable
+describing individual people.
+
+Remember that the code will look like:
+crosstab(DATASET, row.vars="", col.vars="", title="", format="col_percent")
+
+
+```{r}
+
+
+
+```
+
 
 
 
 ### Summary
 
-Write a paragraph describing the people who were on board the Titanic and what happened to them. 
+Write a paragraph describing the people who were on board your ship and what happened to them. 
