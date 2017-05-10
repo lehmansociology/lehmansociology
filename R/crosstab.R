@@ -36,13 +36,12 @@ crosstab<-function(data, row.vars = "", col.vars = "",
         onedtable <- lehmansociology::frequency(data[factorsToUse])
         return(onedtable)
     }
-    # Deal with spaces in title, but make it backward compatible.
-
-    if (grep(" ", factorsToUse) == TRUE && substr(factorsToUse, 1, 1) != "`") {
-        factorsToUse<-paste0("`",factorsToUse,"`")
+    # Deal with spaces in variable name, but make it backward compatible.
+    if (grepl(" ", factorsToUse) == TRUE && substr(factorsToUse, 1, 1) != "`") {
+            factorsToUse<-paste0("`",factorsToUse,"`")
         }
     else {
-        factorsToUse <- factorsToUse
+            factorsToUse <- factorsToUse
         }
 
     form<-as.formula(paste(" ~", paste(factorsToUse, collapse="+"), sep=""))
