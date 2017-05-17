@@ -1,0 +1,111 @@
+---
+title: ""
+author: ""
+output: html_document
+---
+
+In this lab you will be doing some basic regression models for your ship.
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+
+```
+
+Load the data set for your ship 
+
+````{r}
+load("")
+```
+
+Let's make nicer labels. We are making a new variable for Survival here because we need it to
+be a number (not a factor) later.
+```{r}
+DATASETNAME$Survival_nominal<- factor(DATASETNAME$Survival, levels = c("0","1"), labels = c("Died", "Survived"))
+DATASETNAME$Gender<- factor(DATASETNAME$Gender, levels = c("0","1"), labels = c("Male", "Female"))
+DATASETNAME$Crew<- factor(DATASETNAME$Crew, levels = c("0","1"), labels = c("Passenger", "Crew"))
+
+
+```
+
+
+For comparison purposes let's run a frequency of Survival_nominal and crosstabs of Survival_nominal
+with Gender and Crew.
+For the third crosstab make a copy and switch the order of your column variables.
+
+```{r}
+
+frequency(DATASETNAME$Survival_nominal)
+crosstab( DATASETNAME, row.vars = "Survival_nominal", col.vars = "Gender", 
+          title ="Surival by Gender")
+crosstab( DATASETNAME, row.vars = "Survival_nominal", col.vars = "Crew", 
+          title ="Surival of Crew and Passengers")
+# This cross tab will control for two variables.
+crosstab( DATASETNAME, row.vars = "Survival_nominal", col.vars = c("Crew", "Gender"), 
+          title ="Surival by Gender and Group")
+
+
+```
+
+
+
+Now we will run 3 regressions. First one without any independent variables, then one with Gender, then one with 
+Gender and Crew.
+We use the lm() function which means *l*inear *m*odel.
+
+````{r}
+
+lm(Survival ~ 1, DATASETNAME)
+lm(Survival ~ Gender, DATASETNAME)
+lm(Survival ~ Gender + Crew, DATASETNAME)
+
+````
+
+Write out the three equations below:
+
+No independent variable:
+
+
+
+Gender only:
+
+
+Gender and Crew:
+
+
+
+
+Calculate the predicted values for each the equation with no indepdent variable:
+
+How does the equation relate to the frequency distribution results?
+
+
+Calculate the predicted values for males and females for the Gender only model.
+
+
+Did being female help or hurt or make no difference? 
+
+
+How do these results compare to the cross tab for gender? 
+
+
+For the equation with Gender and Crew as independent variables, calculate the predicted values for:
+
+Female, Crew
+Female, Passenger
+Male, Crew
+Male, Passenger
+
+Which group has the best predicted probability of surviving?
+
+Did Gender have an effect that was positive, negative or close to 0? 
+
+Did it stay the same as the equation for Gender alone? If not, how did it change?
+
+
+Did Crew have an effect that was positive, negative or close to 0?
+
+
+How do the predicted values from the equation with two variables compare to the crosstabs?
+
