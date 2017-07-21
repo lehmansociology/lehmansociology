@@ -3,7 +3,7 @@ title: "Mortality Lab"
 output: html_document
 ---
 
-In this lab we will calculate death rates per year in the US from 1933 to 2014.  As always, we'll start by loading the necessary libraries.
+In this lab we will calculate death rates per year in the US from 1933 to 2015.  As always, we'll start by loading the necessary libraries.
  
 ```{r, echo=FALSE, message=FALSE}
 # Load your libraries here
@@ -16,6 +16,7 @@ library('HMDHFDplus')
 Just like when we calculated the birth rates, let's start with pulling the annual population from mortality.org.  When we pull it, it provides population information by age.  When we format the data using the "aggregate" function, what we are doing is combining the population at each age within a year to get a single population count for all ages in a given year.
 
 ````{r}
+
 population <- readHMDweb(CNTRY='USA', item='Population', username='YOUR MORTALITY.ORG USERNAME', password='YOUR MORTALITY.ORG PASSWORD')
 total_pop_by_year <- aggregate(x=population[4:9], by=list(Year=population$Year), FUN=sum)
 total_pop_by_year <- dplyr::select(total_pop_by_year, Year, Total1)
@@ -26,35 +27,68 @@ total_pop_by_year <- dplyr::rename(total_pop_by_year, Population=Total1)
 Now let's pull the data on number of deaths in the US.  As with the population data, this information comes broken down by year and ages.  To get a single death rate per year, we'll need to aggregate the deaths at all ages in a given year to get a single number of deaths per year.
 
 ````{r}
-deathcount <- readHMDweb(CNTRY='USA', item='Deaths_1x1', username='YOUR MORTALITY.ORG USERNAME', password='YOUR MORTALITY.ORG PASSWORD')
-deaths_by_year <- aggregate(x=deathcount[3:5], by=list(Year=deathcount$Year), FUN=sum)
-deaths_by_year <- dplyr::select(deaths_by_year, Year, Total)
-deaths_by_year <- dplyr::rename(deaths_by_year, Deaths=Total)
+
+mortalitycount <- readHMDweb(CNTRY='USA', item='Deaths_1x1', username='YOUR MORTALITY.ORG USERNAME', password='YOUR MORTALITY.ORG PASSWORD')
+mortality_by_year <- aggregate(x=mortalitycount[3:5], by=list(Year=mortalitycount$Year), FUN=sum)
+mortality_by_year <- dplyr::select(mortality_by_year, Year, Total)
+mortality_by_year <- dplyr::rename(mortality_by_year, Deaths=Total)
 
 ````
 
-Right now we have two different datasets, each with one of the pieces of information we need.  We have the dataset total_pop_by_year with annual population data, and we have deaths_by_year with annual death counts.  To put these together into a single dataset that we'll call deathdata, we'll use the merge function.
+Right now we have two different datasets, each with one of the pieces of information we need.  We have the dataset total_pop_by_year with annual population data, and we have mortality_by_year with annual death counts.  To put these together into a single dataset that we'll call mortalitydata, we'll use the merge function.
 
 ````{r}
-deathdata <- merge(total_pop_by_year, deaths_by_year, by='Year')
+
+mortalitydata <- merge(total_pop_by_year, mortality_by_year, by='Year')
 
 ````
 
-Now go ahead and calculate the death rate on your own.  This will be identical to calculating the birth rate from the last lab, however we're using death data instead of birth data.  Remember, to name a particular variable, you'll need to specify the dataset, use the $ sign, then specify the variable.  For example, if we want to create a new variable called "deaths_population" in the "deathdata" dataset, we'll need to call it deathdata$deaths_population for R to understand.
+Now go ahead and calculate the mortality rate on your own.  Remember, to name a particular variable, you'll need to specify the dataset, use the $ sign, then specify the variable.  For example, if we want to create a new variable called "deaths_population" in the "mortalitydata" dataset, we'll need to call it mortalitydata$deaths_population for R to understand where both what to call this variable, and where to save it.
 
 ````{r}
+
 #calculate deaths divided by population here
 
+mortalitydata$deaths_population <- YOUR CALCULATION HERE
 
 #calculate (deaths/population)*1000 here
 
-
+mortalitydata$mortalityrate <- YOUR CALCULATION HERE
 
 ````
 
-Finally, we'll plot the annual death rates.  You'll need to fill in the death rate variable with the name you gave for the variable above.
+Now, we'll plot the annual mortality rates.  You'll need to fill in the death rate variable with the name you gave for the variable above.
 
 ````{r}
-ggplot(deathdata, aes(x=Year, y=YOUR DEATH RATE VARIABLE)) + geom_line() + ggtitle("US Death Rate 1933-2014")
+
+ggplot(deathdata, aes(x=Year, y=mortalityrate)) + geom_line() + ggtitle("US Death Rate 1933-2015")
 
 ````
+
+While we can see that the mortality rate is declining, this hides a lot of variation in mortality rates at specific ages.  To look at this in a little more detail, we'll calculate the Age Specific Mortality Rate.
+
+````{r}
+
+ASMRdata <- dplyr::select(population, Year, Age, Total1, Total2)
+ASMRdata$Mortalitycount <- mortalitycount$Total
+
+````
+
+Now that we have a dataset with both population by age and number of deaths by age, we can calculate an age specific mortality rate.
+
+````{r}
+
+ASMRdata$mortality_population <- ASMRdata$Mortalitycount/ASMRdata$Total1
+ASMRdata$ASMR <- ASMRdata$mortality_population*1000
+
+````
+
+Now let's graph the Age Specific Mortality Rate.
+
+````{r}
+
+ggplot(data = ASMRdata, aes(x = Age, y = ASMR, color=Year)) + geom_line(aes(group=Year)) + ggtitle("US ASMR 1933-2015")
+
+````
+
+Go ahead and knit this document to PDF and submit the PDF in the lab on Blackboard.
