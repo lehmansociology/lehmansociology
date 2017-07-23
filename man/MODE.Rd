@@ -15,4 +15,3 @@ This function calculates the mode for a dataframe, supporting multiple data type
 }
 \keyword{class}
 \keyword{mode}
-

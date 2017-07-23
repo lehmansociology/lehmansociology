@@ -12,4 +12,3 @@ This function calculates the mode for a dataframe, supporting multiple data type
 \keyword{melt}
 \keyword{mortality}
 \keyword{preprocess}
-

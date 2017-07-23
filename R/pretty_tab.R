@@ -1,10 +1,12 @@
 #' Print a crosstab nicely in PDF or HTML
 #'
-#' @keywords crosstab, pring
+#' @param ctab crossstab object as produced by lehmansociology::crosstab
+#'
+#' @keywords crosstab, print
 #' @export
 
 pretty_tab<-function(ctab){
-    library(pander)
+    require(pander)
     pander(ctab$tab, keep.line.breaks = TRUE, justify = "right")
 
 }

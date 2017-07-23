@@ -13,7 +13,7 @@
 
 
 print.crosstab <- function (ctab, ..., digits = NULL, quote = FALSE, right = FALSE,
-          row.names = FALSE)
+          row.names = FALSE, dnames)
 {
     title <- ctab[["title"]]
     ncases <- ctab[["n"]]
@@ -27,20 +27,18 @@ print.crosstab <- function (ctab, ..., digits = NULL, quote = FALSE, right = FAL
             "\n",
             sep = "")
     }
-    else if (n == 0L) {
+    else if (is.null(n) | n == 0L) {
         print.default(names(x), quote = FALSE)
-        cat(gettext("<0 rows> (or 0-length row.names)\n"))
+        cat(gettext("No rows present in table"))
     }
     else {
         m <- as.matrix(format.data.frame(x, digits = digits,
                                          na.encode = FALSE))
-        # if (!isTRUE(row.names))
-        #     dimnames(m)[[1L]] <- if (identical(row.names, FALSE))
-        #         rep.int("", n)
-        # else row.names
         if (title != ""){
             title<-cat(title, sep ="\n")
             title
+        } else {
+            print(ctab$formula)
         }
         print(m, ..., quote = quote, right = right)
     }

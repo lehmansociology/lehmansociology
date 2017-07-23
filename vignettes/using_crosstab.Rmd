@@ -31,7 +31,7 @@ use frequency().
 
 ```{r}
 
-crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex")
+crosstab(addhealth, row.vars = "happywschool", col.vars="sex")
 
 ```
 
@@ -70,10 +70,10 @@ the Total N row to show the percent in each column by adding
 
 ```{r}
 
-crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
-         format = "column_percent", row.margin.format = "percent",
-         title = "Feeling Happy with School by Gender", 
-         col.margin.format = "percent")
+ crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
+          format = "column_percent", row.margin.format = "percent",
+          title = "Feeling Happy with School by Gender", 
+          col.margin.format = "percent")
 
 ```
 
@@ -83,7 +83,7 @@ You can get a summary including Chi Square by using the summary function.
 
 result<- crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
          format = "column_percent", row.margin.format = "percent",
-         title = "Feeling Happy with School by Gender", 
+         title = "Feeling Happy with School by Gender",
          col.margin.format = "percent")
 
 summary(result)
