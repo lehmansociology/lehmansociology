@@ -35,13 +35,13 @@ We'll create a population pyramid for every 10 years up to 2010.  In the code be
 
 ````{r}
 
-populationPyramid(US DATA SET NAME, 1950, 'United States')
-populationPyramid(US DATA SET NAME, 1960, 'United States')
-populationPyramid(US DATA SET NAME, 1970, 'United States')
-populationPyramid(US DATA SET NAME, 1980, 'United States')
-populationPyramid(US DATA SET NAME, 1990, 'United States')
-populationPyramid(US DATA SET NAME, 2000, 'United States')
-populationPyramid(US DATA SET NAME, 2010, 'United States')
+populationPyramid(ENTER THE US DATA SET NAME, 1950, 'United States')
+populationPyramid(ENTER THE US DATA SET NAME, 1960, 'United States')
+populationPyramid(ENTER THE US DATA SET NAME, 1970, 'United States')
+populationPyramid(ENTER THE US DATA SET NAME, 1980, 'United States')
+populationPyramid(ENTER THE US DATA SET NAME, 1990, 'United States')
+populationPyramid(ENTER THE US DATA SET NAME, 2000, 'United States')
+populationPyramid(ENTER THE US DATA SET NAME, 2010, 'United States')
 
 ````
 
@@ -57,13 +57,14 @@ Now go ahead an fill in the dataset and years for Japan's population pyramids.  
 
 ````{r}
 
-populationPyramid(JAPAN DATASET NAME, YEAR, 'Japan')
-populationPyramid(JAPAN DATASET NAME, YEAR, 'Japan')
-populationPyramid(JAPAN DATASET NAME, YEAR, 'Japan')
-populationPyramid(JAPAN DATASET NAME, YEAR, 'Japan')
-populationPyramid(JAPAN DATASET NAME, YEAR, 'Japan')
-populationPyramid(JAPAN DATASET NAME, YEAR, 'Japan')
-populationPyramid(JAPAN DATASET NAME, YEAR, 'Japan')
+populationPyramid(ENTER THE JAPAN DATASET NAME, ENTER THE YEAR, 'Japan')
+populationPyramid(ENTER THE JAPAN DATASET NAME, ENTER THE YEAR, 'Japan')
+populationPyramid(ENTER THE JAPAN DATASET NAME, ENTER THE YEAR, 'Japan')
+populationPyramid(ENTER THE JAPAN DATASET NAME, ENTER THE YEAR, 'Japan')
+populationPyramid(ENTER THE JAPAN DATASET NAME, ENTER THE YEAR, 'Japan')
+populationPyramid(ENTER THE JAPAN DATASET NAME, ENTER THE YEAR, 'Japan')
+populationPyramid(ENTER THE JAPAN DATASET NAME, ENTER THE YEAR, 'Japan')
 
 ````
 
+Go ahead and knit to PDF.  Back in Blackboard we will analyze these population pyramids.
