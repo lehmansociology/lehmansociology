@@ -3,7 +3,7 @@ title: "International Migration"
 output: html_document
 ---
 
-In this lab, we will attempt to calculate annual net migration to the US from 1933 to 2014 using the population balancing equation.  End Population = Start Population + Natural Increase + Net Migration.  Natural increase is the result of births minus deaths.  Net migraiton is the result of immigration (also known an inmigration) minus emigration (also knows as outmigration).  Often this equation is used to calculated the change in a overall population over a period of time.  However, if you have all pieces of information except one, you can calculate that one missing piece.  In our case here, we have start and end populations for each year, as well as births and deaths.  We'll use this to calculate an estimate of net migration.  We'll start by loading our libraries.
+In this lab, we will attempt to calculate annual net migration to the US from 1933 to 2015 using the population balancing equation.  End Population = Start Population + Natural Increase + Net Migration.  Natural increase is the result of births minus deaths.  Net migraiton is the result of immigration (also known an inmigration) minus emigration (also knows as outmigration).  Often this equation is used to calculated the change in a overall population over a period of time.  However, if you have all pieces of information except one, you can calculate that one missing piece.  In our case here, we have start and end populations for each year, as well as births and deaths.  We'll use this to calculate an estimate of net migration.  We'll start by loading our libraries.
  
 ```{r, echo=FALSE, message=FALSE}
 # Load your libraries here
@@ -14,7 +14,7 @@ library('ggplot2')
 
 ```
 
-As with the previous labs, we'll import the population of the USA from the Human Mortality Database for years 1933 to 2014 into RStudio.  Enter in your username and password information for mortality.org as before.
+As with the previous labs, we'll import the population of the USA from the Human Mortality Database for years 1933 to 2015 into RStudio.  Enter in your username and password information for mortality.org as before.
 
 ````{r}
 
@@ -36,7 +36,7 @@ migration_by_year <- dplyr::rename(migration_by_year, Pop_T2=Total2)
 
 ````
 
-You may recognize this chunk from the fertility lab.  Here we are importing and formatting the data on births for each year 1933 to 2014.
+You may recognize this chunk from the fertility lab.  Here we are importing and formatting the data on births for each year 1933 to 2015.
 
 ````{r}
 
@@ -48,7 +48,7 @@ births_by_year <- dplyr::rename(births_by_year, Births=Total)
 
 ````
 
-You may recognize this chunk from the mortality lab.  Here we are importing and formatting the data on deaths for each year 1933 to 2014.
+You may recognize this chunk from the mortality lab.  Here we are importing and formatting the data on deaths for each year 1933 to 2015.
 
 ````{r}
 
@@ -93,7 +93,7 @@ Now let's graph the net migration variable.  Go ahead and run the code below.
 ggplot(migration_by_year, aes(x=Year, y=Net_Migration, ymax=4000000)) + 
   scale_y_continuous(breaks=c(-2000000, 0, 2000000, 4000000), labels=c("-2M", "0","2M","4M")) +
   geom_line() + 
-  ggtitle("US Net Migration 1933-2014 (in Millions)")
+  ggtitle("US Net Migration 1933-2015 (in Millions)")
 
 ````
 
