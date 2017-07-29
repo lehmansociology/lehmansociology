@@ -61,7 +61,7 @@ Now, we'll plot the annual mortality rates.  You'll need to fill in the death ra
 
 ````{r}
 
-ggplot(deathdata, aes(x=Year, y=mortalityrate)) + geom_line() + ggtitle("US Death Rate 1933-2015")
+ggplot(mortalitydata, aes(x=Year, y=mortalityrate)) + geom_line() + ggtitle("US Death Rate 1933-2015")
 
 ````
 
