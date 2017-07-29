@@ -14,7 +14,7 @@ library('printr')
 
 ```
 
-Similar to what we did in the internal migration lab, we'll start by creating geographies.  What this does is tell R which states we want data for.  Then we pull the data from the ACS.  Enter in the year 2014 in lines 31 and 32 where prompted to tell the ACS we want data for the year 2014.
+Similar to what we did in the internal migration lab, we'll start by creating geographies.  What this does is tell R which states we want data for.  Then we pull the data from the ACS.  Enter in the year 2015 in lines 31 and 32 where prompted to tell the ACS we want data for the year 2015.
 
 ````{r}
 
@@ -28,10 +28,10 @@ kentucky <- geo.make(state = "KY")
 
 selectedstates <- california + florida + newyork + wyoming + westvirginia + kentucky
 
-race2014 <- acs.fetch(geography = selectedstates, table.number = "B02001", 
-                      endyear = YEAR, col.names = "pretty")
+race2015 <- acs.fetch(geography = selectedstates, table.number = "B02001", 
+                      endyear = ENTER YEAR HERE, col.names = "pretty")
 HispanicLatino <- acs.fetch(geography = selectedstates, table.number = "B03002",
-                            endyear = YEAR, col.names = "pretty")
+                            endyear = ENTER YEAR HERE, col.names = "pretty")
 
 ````
 
@@ -39,11 +39,11 @@ The formatting of the variable names are a bit messy when we first pull them fro
 
 ````{r}
 
-race2014.names <- acs.colnames(race2014)
-new.names <- stringr::str_sub(race2014.names, start = 7)
-acs.colnames(race2014) <- new.names
+race2015.names <- acs.colnames(race2015)
+new.names <- stringr::str_sub(race2015.names, start = 7)
+acs.colnames(race2015) <- new.names
 
-race <- as.data.frame(estimate(race2014))
+race <- as.data.frame(estimate(race2015))
 
 HispanicLatino.names <- acs.colnames(HispanicLatino)
 new1.names <- stringr::str_sub(HispanicLatino.names, start = 29)
