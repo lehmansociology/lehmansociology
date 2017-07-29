@@ -3,7 +3,7 @@ title: "Growth Rates Lab"
 output: html_document
 ---
 
-In this lab we'll explore the growth rates of the US and Japan, as well as the expected time to double the population.  As always, we'll start with loading out libraries.
+In this lab we'll explore the growth rates of the US and Japan, as well as the expected time to double the population.  As always, we'll start with loading our libraries.
  
 ```{r, echo=FALSE, message=FALSE}
 # Load your libraries here
@@ -41,9 +41,9 @@ Now let's plot the growth rate.  Fill in the name of the dataset where our varia
 
 ````{r}
 
-ggplot(DATASET NAME HERE, aes(x = X VARIABLE HERE, y = Y VARIABLE HERE)) +
+ggplot(ENTER THE DATASET NAME HERE, aes(x = ENTER THE X VARIABLE HERE, y = ENTER THE Y VARIABLE HERE)) +
   geom_line() + 
-  ggtitle("US Growth Rate 1950-2014") +
+  ggtitle("US Growth Rate 1950-2015") +
   expand_limits(y = 0)
 
 ````
@@ -54,9 +54,9 @@ Growth rates are not a very intuitive measure, so instead it can be helpful to l
 
 total_pop_by_year_USA$DoublingTime <- 69.3/total_pop_by_year_USA$GrowthRate
 
-ggplot(DATASET NAME HERE, aes(x = X VARIABLE HERE, y = Y VARIABLE HERE)) +
+ggplot(ENTER THE DATASET NAME HERE, aes(x = ENTER THE X VARIABLE HERE, y = ENTER THE Y VARIABLE HERE)) +
   geom_line() + 
-  ggtitle("US Doubling Time 1950-2014") +
+  ggtitle("US Doubling Time 1950-2015") +
   expand_limits(y = 0)
 
 ````
