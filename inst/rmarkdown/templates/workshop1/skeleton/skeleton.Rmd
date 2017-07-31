@@ -1,0 +1,241 @@
+---
+title: "Analysis of My Name"
+author: "Change to your name"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+In this notebook we will analyze the distribution of a name over time.  
+We will also learn about the importance of using *reproducable research* which means that your 
+research should be documented in a way that allows anyone else to repeat exactly what you did.
+
+Type your answers to the questions right in this notebook.
+
+For the United States the best data on baby names comes from the Social Security Administration because 
+almost every US citizen applies for a social security number. Visit the [baby names website] (https://www.ssa.gov/oact/babynames/index.html).   
+
+Try exploring your name on the website by looking at different time periods and states.  
+
+##### What did you discover?
+
+
+
+### Is the website good enough for reproducable research?
+
+The social security site is fun and easy to use but it has some limitations.  
+First, it only includes the top 1000 names.  That is a lot of names, but not close to the real number of
+names out there. 
+Also making comparisons (such as between two names or the same name over decades) is not very easy. 
+Finally, if someone had to reproduce the exact same analysis as you did there are lots of ways 
+it could go wrong, from misspelling the names to making a mistake in one of the selections.
+
+## Now let's start a reproducable analysis.
+
+### About the data.
+Here is a link to the [background information about the baby names data] (https://www.ssa.gov/OACT/babynames/background.html). 
+Some key points to note are that to protect privacy of people with unusual names only names that are used 
+at least 5 times in a year are included in the data. 
+
+If your name does not appear please pick a different name (suggestion: use a different 
+spelling or use the name of a family member or friend of a similar age to you).
+
+We are going to use a data set from the R package called babynames. The author has already downloaded 
+the full data for you and stored it in R data frames.
+
+### Starting our reproducible analysis
+
+The first thing we will do is to load the babynames package and look at the first few records of two 
+of the data frames. Click on the green arrow on the right to run the code. 
+
+```{r}
+
+library(babynames)
+head(babynames)
+head(applicants)
+
+```
+You should see two listings.
+
+##### What are the column names in the two data sets?
+(List them out. These are the name right across the top.)
+
+
+In the babynames data set the `n` represents the number of applications in that year for that name 
+and sex.  But what does prop mean?  
+
+The variable prop represents the proportion of all applicants of that sex in that year that had that name.
+If we look in the applicants data frame the variable `n_all` tells us the total number of applicants.
+
+There were 97604 female applicants born in 1880.  
+Out of those 7065 were named Mary.  
+The proportion is found by dividing 7065 by 97604.     
+
+We can use R to do the calculation for us. Press the green arrow.
+
+```{r}
+# Mary
+7065/97604
+```
+
+Does it match what is in the prop column? (Note that the displayed results round the last digit and that 
+is fine).
+
+Below do the same calculation for Anna and Minnie
+
+```{r}
+# Anna
+
+# Minnie
+
+```
+
+
+In social research we almost always use proportions (or their cousins, percents) rather than raw numbers. 
+Using R we would not do the calculations for each individual name, instead we would use the data for the entire
+column of names and the entire column for year.   If we added n_all to the babynames data frame the calculation
+would look like this:
+
+```{}
+babynames$prop <- babynames$n/applicants$n_all
+
+```
+That's exactly what the people who made the babynames data set did for us.
+
+### Make a prediction
+
+Some sociologists have hypothesized that in some time periods the name of a celebrity, leader or other famous
+person will become very popular for a time.  Is your name associated with anyone like that? (You could check
+Google or Wikipedia to get ideas about this.)  
+For example, perhaps the name Malia became popular in 2008 when Barack Obama, who has a daughter of that name,
+was elected president.  Do you  think your name would be particularly popular in a certain year because of a famous person 
+of event? What year or years?   
+
+Another possibility is that a name becomes _unpopular_ because it is associated with someone who is famous for 
+negative reasons or with some kind of negative characteristics.  For example the name Monica might have decreased
+in popularity due to the Clinton scandal in the mid 1980s. Is there a time period when you expect that your name
+would have become _less_ popular?
+
+
+Another hypothesis might be that names that are associated with ethnic groups will go up in popularity when
+that group grows.  Would that be a factor for your name? When would you expect your name to be popular
+based on ethnicity?  
+
+Finally, what year were you born in?  Do you think your name might have been a popular name that year for
+any reason at all? Some sociologists would hypothesis that there are underlying cycles of popularity. If
+your parents chose your name, maybe a lot of others did too.  So the hypothesis would be that your name
+was at or near its peak poularity the year you were born.
+
+
+Overall, how do you think the presence of your name over time will vary? 
+Why do you think that?
+
+
+
+Now let's make a line graph looking at your data.
+
+First we will create a variable to represent the name you want to analyze. This will make it easier 
+if you want to analyze other names.
+Put your name inside the quotation marks:  " "  next to `name_to_analyze`.
+Put F or M inside the quotation marks for `sex_to_analyze`.
+
+```{r}
+
+name_to_analyze <- ""
+sex_to_analyze <- ""
+name_to_analyze
+sex_to_analyze
+```
+
+Get just the data on your name, so filter out all of the other names.
+Notice how this code relates the variable names (name, sex)  to the specific values you want to
+analyze (name_to_analyze, sex_to_analyze).
+
+Notice that in compute languages "==" is generally used to mean "has the same value" or "equal to."   
+
+```{r}
+library(dplyr)
+my_name_data <- filter(babynames, name == name_to_analyze, sex == sex_to_analyze)
+head(my_name_data)
+tail(my_name_data)
+```
+
+Now let's make a line graph.  Try just running it as is, but then fix the title and change the color.
+
+
+```{r}
+library(ggplot2)
+
+ggplot(data=my_name_data, aes(x=year, y= prop)) +
+  geom_line(color = "blue")  +
+  labs(
+      title = "Figure 1: Proportion of __ babies given the name __ over time", 
+      x = "Year",
+      y ="Proportion",
+      caption = "Source: R babynames package version of data from the Social Security Administration"
+  )
+
+
+```
+
+#### Describe the graph
+
+
+
+
+####  Were any of your predictions supported?
+
+Was your name high in popularity in years where it was associated with a celebrity, in years when your
+ethnic group was a relatively large part of the population, or in your birth year?
+
+
+### Follow up
+
+Now pick another name for the same sex that you think will have the same pattern as the first 
+name you used.
+
+#### Why do you think it will have the same pattern?
+
+
+
+```{r}
+
+second_name_to_analyze<-""
+
+second_name_to_analyze
+
+```
+
+This time we will filter for both names. Notice that the | symbol is used for "or". 
+
+```{r}
+
+my_name_data<- filter(babynames, name == name_to_analyze | name == second_name_to_analyze , sex == sex_to_analyze)
+head(my_name_data)
+tail(my_name_data)
+```
+
+Now let's make a graph with lines for both names.  Make sure to update the title.
+Notice that we've added the group option in the first line and then the linetype aesthetic 
+in the second line so we can tell which data goes with which name.
+
+```{r}
+
+ggplot(data=my_name_data, aes(x=year, y= prop, group = name)) +
+  geom_line(color = "red", aes(linetype=name))  +
+  labs(
+      title = "Figure 2: Proportion of __  babies given the names ___ and ___ over time", 
+      x = "Year",
+      y ="Proportion",
+      caption = "Source: R babynames package version of data from the Social Security Administration"
+  )
+
+
+```
+
+#### How do the lines compare to each other? Was your prediction supported?
+
+
+
+
+
