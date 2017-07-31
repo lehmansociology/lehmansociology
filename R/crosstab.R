@@ -29,17 +29,24 @@ crosstab<-function(data, formula = NULL,
 
     if (!is.null(formula)){
         formula_variables <- all.vars(formula)
-        formula_row <- formula_variables[1]
-        formula_column <- formula_variables[2:length(formula_variables)]
+        formula_row <- ifelse(length(formula) == 3 & formula[[3]] == 1,  formula_variables[1], as.character(formula[[2]]))
 
-        if(row.vars == ""){
-            row.vars <- formula_row
+        if (formula_row == 1 ){
+            formula_column <- formula_variables[1:length(formula_variables)]
         } else {
+            formula_column <- formula_variables[2:length(formula_variables)]
+        }
+
+        # We need to combine the formula variables with any additional variables and also handle formulas with only one variable.
+        if(row.vars == "" && formula_row != 1 ){
+            row.vars <- formula_row
+        } else if (row.vars != "" && formula_row != 1) {
             row.vars <- c(formula_row, row.vars)
         }
-        if (col.vars == ""){
+
+        if (col.vars == "" && !is.na(formula_column)){
             col.vars <- formula_column
-        } else {
+        } else if (col.vars != "" && !is.na(formula_column)) {
             col.vars <- c(formula_column, col.vars)
         }
     }
@@ -53,7 +60,8 @@ crosstab<-function(data, formula = NULL,
         return("No variables were specified")
     }
 
-    if (nvars == 1) {
+    if (nvars == 1 && col.vars == "") {
+        # In this case for now we are just returing the one column frequency table
         onedtable <- lehmansociology::frequency(data[factorsToUse])
         return(onedtable)
     }
@@ -75,15 +83,24 @@ crosstab<-function(data, formula = NULL,
 
     # Now process everything as though it is a two way table.
     tabn<-margin.table(tabf)
-    margin.row.f<-margin.table(tabf,1)
-    margin.row.p<-prop.table(margin.row.f)
-    margin.col.f<-margin.table(tabf,2)
-    margin.col.p<-prop.table(margin.col.f)
+
+    margin.row.f <- margin.table(tabf,1)
+    margin.row.p <- prop.table(margin.row.f)
+
+    if (row.vars != ""){
+         margin.col.f <-  margin.table(tabf,2)
+         margin.col.p <-  prop.table(margin.col.f)
+    } else {
+        margin.col.f <- margin.table(tabf,1)
+        margin.col.p <- rep(1, times = length(tabf))
+    }
+
     margins<-list(row.freq = margin.row.f,
                   row.prop = margin.row.p,
                   col.freq = margin.col.f,
                   col.prop = margin.col.p)
 
+    # This controls the display in the individual cells.
     if (format == "column_percent" | format == "col_percent"){
         tab<-round(prop.table(tabf, 2)*100, 1)
     } else if (format == "row_percent"){
@@ -91,11 +108,18 @@ crosstab<-function(data, formula = NULL,
     } else if (format == "total_percent"){
         tab<-round(100*tabf/sum(tabf), 1)
     }
-    # Change to a data frame to make it more flexible
-    tab<-as.data.frame.matrix(tab)
-    for(i in c(1:ncol(tab))) {
+
+    # Change to a data frame matrix to make it more flexible
+    if (length(dim(tab)) !=  1) {
+        tab<-as.data.frame.matrix(tab)
+    } else {
+        tab <- as.data.frame(t(as.matrix(tab)))
+        row.names(tab) <- "N"
+    }
+     for(i in c(1:ncol(tab))) {
         tab[,i] <- as.character(tab[,i])
     }
+
     tab <- add_marginals(tab, tabn, row.margin.format, col.margin.format, margins)
 
      crosstab<-list(tabf=tabf,
@@ -117,11 +141,34 @@ crosstab<-function(data, formula = NULL,
 
 add_marginals <- function(tab, tabn,  row.margin.format, col.margin.format, margins){
 
+    # Handle one row table. These are horizontal single variable tables. Handling is partially for educational purposes.
+    if (dim(tab)[1] == 1){
+        if (row.margin.format == "percent") {
+
+                marginal.row <- as.vector(t(round(100*margins$row.prop, 1)))
+
+                tab <- rbind(tab, marginal.row)
+                row.names(tab)[2] <- "Row Percent"
+
+        }
+        if (col.margin.format == "percent") {
+            # This should always be a row of 100s
+            cm<-as.character(round(100*margins$col.prop, 1))
+            tab <- rbind(tab, cm)
+
+            row.names(tab)[nrow(tab)]<-"Column Percent"
+
+        }
+        return(tab)
+    }
+
     if (row.margin.format != "none") {
         if (row.margin.format == 'percent'){
-            tab$Total <- round(100*margins$row.prop, 1)
+
+                tab$Total <- round(100*margins$row.prop, 1)
+
             names(tab)[names(tab)=="Total"] <- "Percent"
-            tab$Percent <- as.character(tab$Percent)
+            #tab$Percent <- as.character(tab$Percent)
 
         } else {
             tab$Total <- margins$row.freq
@@ -130,21 +177,27 @@ add_marginals <- function(tab, tabn,  row.margin.format, col.margin.format, marg
 
     }
 
+    # The column margins go horizontally along the bottom
     if (col.margin.format != "none") {
+
         if (col.margin.format == 'percent'){
             cm<-as.character(round(100*margins$col.prop, 1))
-            rn<-"Row Percent"
-        } else {
+            rn<- "Row Percent"
+
+        } else  {
             cm<-margins$col.freq
             rn<-"Total N"
         }
      if (row.margin.format != "none"){
             cm<-c(cm, tabn)
+     }
+
+
+            tab<-rbind(tab,cm)
+
+        if (exists("rn")){
+            rownames(tab)[nrow(tab)]<-rn
         }
-
-        tab<-rbind(tab,cm)
-
-        rownames(tab)[nrow(tab)]<-rn
     }
 
     tab
@@ -174,7 +227,7 @@ preprocess_multidimensional_tables <- function(tab, row.vars, col.vars, pretty.p
     if (length(row.vars) > 1){
         tab$rowvars <- paste(tab[,1], tab[,length(row.vars)], sep = " ")
     } else {
-        tab$rowvars <- with(tab,tab[,row.vars])
+        tab$rowvars <- with(tab, tab[,row.vars])
     }
 
     names(dimnames(tab))<-list(rname, cname)
