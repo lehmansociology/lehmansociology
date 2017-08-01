@@ -12,4 +12,3 @@ This function uses ggplot to make a population pyramid from mortality.org data.
 \keyword{graph}
 \keyword{population}
 \keyword{pyramid}
-

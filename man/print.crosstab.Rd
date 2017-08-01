@@ -5,7 +5,7 @@
 \title{Print crosstab results from crosstab()}
 \usage{
 \method{print}{crosstab}(ctab, ..., digits = NULL, quote = FALSE,
-  right = FALSE, row.names = FALSE)
+  right = FALSE, row.names = FALSE, dnames)
 }
 \arguments{
 \item{quote}{indicates if the string values should be returned enclosed in quotation marks.}

@@ -6,6 +6,6 @@
 
 pretty_freq<-function(freqtable){
     require(pander)
-    pander(frequency$table)
+    pander(freqtable$table)
 
 }
