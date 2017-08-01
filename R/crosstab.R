@@ -75,24 +75,24 @@ crosstab<-function(data, formula = NULL,
 
     form <- as.formula(paste(" ~", paste(factorsToUse, collapse="+"), sep=""))
 
-    tab <- tabf <- xtabs( form, data = data)
+    tab <- xtabs( form, data = data)
 
     if (length(factorsToUse) > 2) {
        tab <- preprocess_multidimensional_tables(tab, row.vars, col.vars, pretty.print, nvars)
     }
 
     # Now process everything as though it is a two way table.
-    tabn<-margin.table(tabf)
+    tabn<-margin.table(tab)
 
-    margin.row.f <- margin.table(tabf,1)
+    margin.row.f <- margin.table(tab,1)
     margin.row.p <- prop.table(margin.row.f)
 
     if (row.vars != ""){
-         margin.col.f <-  margin.table(tabf,2)
+         margin.col.f <-  margin.table(tab,2)
          margin.col.p <-  prop.table(margin.col.f)
     } else {
-        margin.col.f <- margin.table(tabf,1)
-        margin.col.p <- rep(1, times = length(tabf))
+        margin.col.f <- margin.table(tab,1)
+        margin.col.p <- rep(1, times = length(tab))
     }
 
     margins<-list(row.freq = margin.row.f,
@@ -102,11 +102,11 @@ crosstab<-function(data, formula = NULL,
 
     # This controls the display in the individual cells.
     if (format == "column_percent" | format == "col_percent"){
-        tab<-round(prop.table(tabf, 2)*100, 1)
+        tab<-round(prop.table(tab, 2)*100, 1)
     } else if (format == "row_percent"){
-        tab<-round(prop.table(tabf, 1)*100, 1)
+        tab<-round(prop.table(tab, 1)*100, 1)
     } else if (format == "total_percent"){
-        tab<-round(100*tabf/sum(tabf), 1)
+        tab<-round(100*tabf/sum(tab), 1)
     }
 
     # Change to a data frame matrix to make it more flexible
@@ -122,7 +122,7 @@ crosstab<-function(data, formula = NULL,
 
     tab <- add_marginals(tab, tabn, row.margin.format, col.margin.format, margins)
 
-     crosstab<-list(tabf=tabf,
+     crosstab<-list(
                    tab = tab,
                    n = tabn,
                    title = title,
@@ -217,7 +217,9 @@ preprocess_multidimensional_tables <- function(tab, row.vars, col.vars, pretty.p
     # Merge the labels for the column variables into a single label with line breaks.
     if (length(col.vars) > 1  ) {
         septouse = ifelse(pretty.print, "\\\n", " ")
-        tab$colvars <-with(tab, paste(tab[,length(row.vars)+1],tab[,nvars], sep = septouse))
+        tab$colvars <- with(tab, paste(tab[,length(row.vars)+1],tab[,nvars], sep = septouse))
+        # Preserve the order
+        tab_levels <- unique(tab$colvars)
 
     } else {
         tab$colvars <-with(tab,tab[,length(row.vars) +1])
@@ -230,8 +232,10 @@ preprocess_multidimensional_tables <- function(tab, row.vars, col.vars, pretty.p
         tab$rowvars <- with(tab, tab[,row.vars])
     }
 
-    names(dimnames(tab))<-list(rname, cname)
     form <- as.formula(paste0("Freq ~ rowvars + colvars"))
-    tabf<-tab<-xtabs(form, tab)
+    tab<-xtabs(Freq ~ rowvars + as.ordered(colvars), data = tab)
+    names(dimnames(tab))<-list(rname, cname)
+    tab <- tab[,tab_levels]
 
+    tab
 }
