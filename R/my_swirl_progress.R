@@ -6,7 +6,7 @@
 my_swirl_progress<-function(){
 
     swirlname<-get_swirl_name()
-    results<-list.files(path=paste0("/usr/local/lib/R/site-library/swirl_user_data/",swirlname), recursive = TRUE)
+    results<-list.files(path=paste0("/usr/lib64/R/site-library/swirl_user_data/",swirlname), recursive = TRUE)
 
     started <-as.numeric(!grepl("done", results) & !grepl("swlog", results))
     finished<-as.numeric(grepl("done", results))
