@@ -20,12 +20,13 @@ Imports:
     maps,
     methods,
     googlesheets,
-    HMDHFDplus
+    HMDHFDplus (>= 1.1.8)
 Suggests:
     printr,
     aws.s3,
     pander
 Remotes:
     yihui/printr
+    timriffe/TR1/TR1/HMDHFDplus
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
