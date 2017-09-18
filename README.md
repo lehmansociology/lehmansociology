@@ -1,6 +1,4 @@
 # lehmansociology
-Code for SOC 345 at Lehman College
+Code for sociology at Lehman College
 
-We are creating a list of materials for SOC 345 (Quantitative Analysis of Sociological Data) at Lehman College. 
-
-This repository includes templates, datasets, some custom functions and documentation. 
+This package contains shared material for students, faculty and courses in sociology at Lehman College.

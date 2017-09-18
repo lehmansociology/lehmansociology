@@ -56,7 +56,7 @@ frequencies instead of percents in the total column change the
 row.margin.format to "freq".
 
 
-```{r}
+```
 
 crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
          format = "total_percent", row.margin.format = "freq")
@@ -68,7 +68,7 @@ the Total N row to show the percent in each column by adding
 ` col.margin.format="percent" `  or eliminate that row by using ` "none" `.
 
 
-```{r}
+```
 
  crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
           format = "column_percent", row.margin.format = "percent",
@@ -79,7 +79,7 @@ the Total N row to show the percent in each column by adding
 
 You can get a summary including Chi Square by using the summary function.
 
-```{r}
+```
 
 result<- crosstab(data = addhealth, row.vars = "happywschool", col.vars="sex",
          format = "column_percent", row.margin.format = "percent",
@@ -96,7 +96,7 @@ you have multiple lines, but
 once you knit it will look nicer. Of course you can change many options on this, such as justification
 and whether to use linebreaks. Overall, it is a more professional approach to displaying your results.
 Notice that you need to add the $tab when using `pander()` to print.
-```{r}
+```
 
 library(pander)
 t<-crosstab(addhealth, row.vars = "happywschool", col.vars = c("sex", "raceeth"), pretty.print = TRUE)
