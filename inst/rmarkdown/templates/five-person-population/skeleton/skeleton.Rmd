@@ -1,0 +1,241 @@
+---
+title: 'Samples of a tiny population'
+author: ''
+output:
+  pdf_document: default
+  html_document: default
+---
+
+This template is going to explore sampling distributions. 
+Make sure you write down the definitions of all highlighted terms.
+ 
+```{r, echo=FALSE, message=FALSE}
+# Load your libraries here
+
+library('lehmansociology')
+library('ggplot2')
+library('gtools')
+
+```
+
+Let's set up our tiny population
+
+````{r}
+#type your code here
+age <- c(20, 21, 22, 23, 24)
+
+````
+
+Let's plot this population data.
+
+```{r}
+ggplot(as.data.frame(age), aes(x = age)) +
+     geom_histogram(binwidth = 1)
+
+```
+This is called a **uniform distribution** because all of the values of age have the same heights. 
+
+
+Let's also get the mean, standard deviation and sample variance of age. Also let's get the population variance by multiplying
+the sample variance by (n-1)/n   where n is 5, the number of observations in our data.
+
+```{r}
+
+
+
+```
+
+
+
+Now let's  get all of the samples of size 2.
+Notice that repeats.allowed is set to TRUE.  This is the same as setting `replacement = TRUE` in other functions.
+The `n` parameter gives the initial size of the population (5)  and the `r` indicates how many observations to select.
+
+```{r}
+all_samples_size_2 <- 
+    gtools::permutations(n=length(age), r = 2,
+                     v=age, repeats.allowed = TRUE)
+
+all_samples_size_2
+
+```
+
+Now let's take all 25 of the sample means.  Notice that the rows are **samples** and the columns are people.
+The samples are our observations. 
+Because of how the data are set up in rows, we have to use a new function `rowMeans()`.
+
+```{r}
+all_samples_means_2 <- rowMeans(all_samples_size_2)
+all_samples_means_2
+```
+
+This list of 25 means is the **sampling distribution of sample means for size 2 **
+
+So now the list of 25 means is our dataset.   
+
+Now let's look at the mean, variance and standard deviation of those means.
+
+```{r}
+
+mean(all_samples_means_2)
+var(all_samples_means_2)
+sd(all_samples_means_2)
+
+```
+
+### How to the mean, variance and standard deviation of the sample means compare to the mean, variance and standard deviation of the original data?
+
+
+Now let's repeat the whole process for sample size of 3.  Remember this time there will be 125, which is 5*5*5.
+```{r}
+all_samples_size_3 <- 
+    gtools::permutations(n=length(age), r = 3,
+                     v=age, repeats.allowed = TRUE)
+
+all_samples_means_3 <- rowMeans(all_samples_size_3)
+all_samples_means_3
+
+# Using our data set of all means
+mean(all_samples_means_3)
+var(all_samples_means_3)
+sd(all_samples_means_3)
+```
+We might as well finish up with 4 and 5. 
+
+### How many samples of size 4 will there be?
+Show your calculation strategy.
+
+### How many samples of size 5 will there be?
+Show your calculation strategy.
+
+```{r}
+all_samples_size_4 <- 
+    gtools::permutations(n=length(age), r = 4,
+                     v=age, repeats.allowed = TRUE)
+
+all_samples_means_4 <- rowMeans(all_samples_size_4)
+all_samples_means_4
+
+# Using our data set of all means
+mean(all_samples_means_4)
+var(all_samples_means_4)
+sd(all_samples_means_4)
+```
+
+Set the last one up yourself.
+
+```{r}
+
+
+
+
+
+
+
+
+```
+
+### What happens to the mean of the sampling distribution as sample size gets larger?
+
+
+
+
+### What happens to the variance and standard deviation of the sampling distribution as sample size gets larger?
+
+
+
+Let's look more closely at how the ***standard error*** (special name for the standard deviation of a sampling distribution) changes as we increase sample size.
+We can do this two ways, with numbers or graphically.
+
+```{r}
+#Change from 2 to 3
+sd(all_samples_means_2) - sd(all_samples_means_3)
+
+#Change from 3 to 4
+sd(all_samples_means_3) - sd(all_samples_means_4)
+
+#Change from 4 to 5
+sd(all_samples_means_4) - sd(all_samples_means_5)
+
+```
+
+
+### What do you notice about how quickly the standard error changes?
+
+
+### In which comparison is the change in standard error the biggest?
+
+
+### What is a big benefit of increasing sample size?
+
+
+
+
+```{r}
+
+ggplot(as.data.frame(all_samples_means_2), aes(x = all_samples_means_2)) +
+     geom_histogram(binwidth = .5)
+
+ggplot(as.data.frame(all_samples_means_3), aes(x = all_samples_means_3)) +
+     geom_histogram(binwidth = .33)
+
+ggplot(as.data.frame(all_samples_means_4), aes(x = all_samples_means_4)) +
+     geom_histogram(binwidth = .25)
+ggplot(as.data.frame(all_samples_means_5), aes(x = all_samples_means_5)) +
+     geom_histogram(binwidth = .2)
+
+
+```
+
+### What do the graphs show about how the sampling distributions change as sample size gets larger?
+
+
+
+### This makes a plot of a normal distribution with a mean of 0. 
+
+```{r}
+
+ggplot(data.frame(x = c(-5, 5)), aes(x)) + stat_function(fun = dnorm)
+
+```
+
+## How do our histograms compare to the normal distribution?
+
+
+
+# Central Limit theorem
+
+This is a really important result in statistics.
+
+1. The mean of the sampling distribution of the means will equal the population mean.
+
+2. As sample size gets larger, the sampling distribution will go toward having a normal
+distribution.
+
+3.  As sample size gets larger the standard error gets smaller, 
+proportionate to $\sqrt{n}$  
+
+
+What this means.  
+
+1. With random sampling, on average we expect the sample mean will 
+equal the population mean.  But we don't expect that to happen very often.
+
+2. Under random sampling, most sample means will be fairly close to the population mean.
+
+3. Bigger samples are better, but because of "proportionate to $\sqrt{n}$" 
+the biggest changes happen  when we increase small samples to somewhat
+bigger samples.
+
+4. Because the sampling distribution is normal for big samples, we can
+use the Empirical Rule and other rules from the normal distribution
+to say certain things.  For example  we can say that 95% of all sample means 
+will be within 1.96 (or roughly 2) standard errors of the population mean. Also 99% 
+of all sample means will be within 2.56 standard errors of the population
+mean. And (from the empirical rule) 99.7% will be within 3 standard errors
+of the population mean. 
+
+This is really powerful.  This is used for significance tests and for
+confidence intervals both of which you will see in articles.
+
+
