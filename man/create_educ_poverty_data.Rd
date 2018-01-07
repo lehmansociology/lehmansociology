@@ -12,4 +12,3 @@ This function creates a county level education and poverty data set.
 \keyword{data}
 \keyword{education}
 \keyword{poverty}
-

@@ -14,4 +14,3 @@ Note that this uses the unbiased estimates of variance and standard deviation.
 variation(iris$Sepal.Petal)
 }
 \keyword{variation}
-

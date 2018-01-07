@@ -11,4 +11,3 @@ This function converts a character representation of a number that contains a co
 }
 \keyword{data}
 \keyword{read}
-

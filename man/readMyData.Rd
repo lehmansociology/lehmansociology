@@ -11,4 +11,3 @@ This function reads a webchip style dataset
 }
 \keyword{Freq}
 \keyword{data}
-
