@@ -26,7 +26,7 @@ Suggests:
     aws.s3,
     pander
 Remotes:
-    yihui/printr
+    yihui/printr,
     timriffe/TR1/TR1/HMDHFDplus
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
