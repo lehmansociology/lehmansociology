@@ -19,7 +19,7 @@ Imports:
     magrittr,
     maps,
     methods,
-    googlesheets,
+    googlesheets4,
     HMDHFDplus (>= 1.1.8)
 Suggests:
     printr,
